@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2018-present Sonatype, Inc. All rights reserved.
+
+    This program is licensed to you under the Apache License Version 2.0,
+    and you may not use this file except in compliance with the Apache License Version 2.0.
+    You may obtain a copy of the Apache License Version 2.0 at http://www.apache.org/licenses/LICENSE-2.0.
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the Apache License Version 2.0 is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
+
+-->
+<groups xmlns="http://www.isdc.ro/wro">
+    <group name="service-all">
+        <group-ref>jquery</group-ref>
+        <group-ref>bootstrap</group-ref>
+        <group-ref>fontawesome</group-ref>
+        <group-ref>service</group-ref>
+    </group>
+
+    <!-- prefer to use pre-magnified from vendor; otherwise may result in very unexpected behavior -->
+
+    <group name="jquery">
+        <js minimize="false">/jquery/jquery.min.js</js>
+    </group>
+
+    <group name="bootstrap">
+        <css minimize="false">/bootstrap/css/bootstrap.min.css</css>
+        <js minimize="false">/bootstrap/js/bootstrap.bundle.min.js</js>
+    </group>
+
+    <group name="fontawesome">
+        <css minimize="false">/fontawesome/css/fontawesome-all.min.css</css>
+    </group>
+
+    <group name="service">
+        <css>/service.css</css>
+        <js>/service.js</js>
+    </group>
+</groups>

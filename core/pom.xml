@@ -51,6 +51,30 @@
     </dependency>
 
     <dependency>
+      <groupId>org.webjars</groupId>
+      <artifactId>jquery</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.webjars</groupId>
+      <artifactId>bootstrap</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <!--<dependency>-->
+    <!--<groupId>org.webjars</groupId>-->
+    <!--<artifactId>font-awesome</artifactId>-->
+    <!--<scope>provided</scope>-->
+    <!--</dependency>-->
+
+    <dependency>
+      <groupId>org.sonatype.goodies.dropwizard</groupId>
+      <artifactId>dropwizard-support-fontawesome</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
       <groupId>org.sonatype.goodies</groupId>
       <artifactId>goodies-testsupport</artifactId>
       <scope>test</scope>
@@ -68,5 +92,85 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <target>
+                <!-- TODO: could consider removing this, mostly here for compression, but wro4j can read from class-path -->
+
+                <!--suppress MavenModelInspection -->
+                <unzip src="${org.webjars:jquery:jar}"
+                       dest="${project.build.outputDirectory}/assets/jquery">
+                  <patternset>
+                    <include name="META-INF/resources/webjars/jquery/*/jquery*"/>
+                  </patternset>
+                  <cutdirsmapper dirs="5"/>
+                </unzip>
+
+                <!--suppress MavenModelInspection -->
+                <unzip src="${org.webjars:bootstrap:jar}"
+                       dest="${project.build.outputDirectory}/assets/bootstrap">
+                  <patternset>
+                    <include name="META-INF/resources/webjars/bootstrap/*/css/*"/>
+                    <include name="META-INF/resources/webjars/bootstrap/*/js/*"/>
+                    <exclude name="**/*.gz"/>
+                  </patternset>
+                  <cutdirsmapper dirs="5"/>
+                </unzip>
+
+                <!--suppress MavenModelInspection -->
+                <unzip src="${org.sonatype.goodies.dropwizard:dropwizard-support-fontawesome:jar}"
+                       dest="${project.build.outputDirectory}/assets/fontawesome">
+                  <patternset>
+                    <include name="META-INF/resources/webjars/font-awesome/*/web-fonts-with-css/css/*"/>
+                    <include name="META-INF/resources/webjars/font-awesome/*/web-fonts-with-css/webfonts/*"/>
+                    <exclude name="**/*.gz"/>
+                  </patternset>
+                  <cutdirsmapper dirs="6"/>
+                </unzip>
+              </target>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>ro.isdc.wro4j</groupId>
+        <artifactId>wro4j-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>compile</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <wroManagerFactory>ro.isdc.wro.maven.plugin.manager.factory.ConfigurableWroManagerFactory
+              </wroManagerFactory>
+              <wroFile>${project.basedir}/src/main/config/wro.xml</wroFile>
+              <extraConfigFile>${project.basedir}/src/main/config/wro.properties</extraConfigFile>
+              <targetGroups>service-all</targetGroups>
+              <minimize>true</minimize>
+              <destinationFolder>${project.build.outputDirectory}/assets</destinationFolder>
+              <ignoreMissingResources>false</ignoreMissingResources>
+              <contextFolder>
+                ${project.basedir}/src/main/resources/assets,
+                ${project.build.outputDirectory}/assets
+              </contextFolder>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>
