@@ -18,6 +18,7 @@ import org.sonatype.goodies.dropwizard.ApplicationSupport;
 import org.sonatype.goodies.dropwizard.swagger.SwaggerConfiguration;
 import org.sonatype.goodies.dropwizard.swagger.SwaggerCustomizer;
 import org.sonatype.goodies.dropwizard.view.InjectableViewBundle;
+import org.sonatype.goodies.grafeas.internal.DatabaseCustomizer;
 import org.sonatype.goodies.grafeas.internal.ObjectMapperFactory;
 
 import io.dropwizard.assets.AssetsBundle;
@@ -54,6 +55,9 @@ public class GrafeasApplication
 
     // customize object-mapper
     bootstrap.setObjectMapper(ObjectMapperFactory.create());
+
+    // configure database
+    addCustomizer(new DatabaseCustomizer());
 
     // enable asset support
     bootstrap.addBundle(new AssetsBundle("/assets", "/assets", null, "assets"));
