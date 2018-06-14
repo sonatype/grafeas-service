@@ -33,6 +33,11 @@ import io.dropwizard.setup.Bootstrap;
 public class GrafeasApplication
     extends ApplicationSupport<GrafeasConfiguration>
 {
+  @Override
+  public String getName() {
+    return "grafeas";
+  }
+
   /**
    * Pre-injection and dynamic component detection initialization.
    */
