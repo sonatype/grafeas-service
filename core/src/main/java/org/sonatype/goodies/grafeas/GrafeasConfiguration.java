@@ -19,16 +19,16 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.sonatype.goodies.dropwizard.swagger.SwaggerConfiguration;
+import org.sonatype.goodies.grafeas.internal.db.DatabaseConfiguration;
 import org.sonatype.goodies.grafeas.site.SiteConfiguration;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableMap;
 import io.dropwizard.Configuration;
-import io.dropwizard.db.DataSourceFactory;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
- * ???
+ * Grafeas configuration.
  *
  * @since ???
  */
@@ -38,14 +38,14 @@ public class GrafeasConfiguration
   @Valid
   @NonNull
   @JsonProperty("database")
-  private DataSourceFactory dataSourceFactory = new DataSourceFactory();
+  private DatabaseConfiguration databaseConfiguration = new DatabaseConfiguration();
 
-  public DataSourceFactory getDataSourceFactory() {
-    return dataSourceFactory;
+  public DatabaseConfiguration getDatabaseConfiguration() {
+    return databaseConfiguration;
   }
 
-  public void setDataSourceFactory(final DataSourceFactory dataSourceFactory) {
-    this.dataSourceFactory = dataSourceFactory;
+  public void setDatabaseConfiguration(final DatabaseConfiguration databaseConfiguration) {
+    this.databaseConfiguration = databaseConfiguration;
   }
 
   // SEE https://freemarker.apache.org/docs/api/freemarker/template/Configuration.html#setSetting-java.lang.String-java.lang.String-

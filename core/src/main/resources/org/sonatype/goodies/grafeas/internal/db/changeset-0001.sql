@@ -2,7 +2,7 @@
 
 --changeset jdillon:grafeas-initial-schema
 
-// SEE: https://github.com/grafeas/grafeas/blob/master/samples/server/go-server/api/server/storage/queries.go
+--SEE: https://github.com/grafeas/grafeas/blob/master/samples/server/go-server/api/server/storage/queries.go
 
 CREATE TABLE projects (
   id IDENTITY PRIMARY KEY,
