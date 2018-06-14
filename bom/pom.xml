@@ -41,7 +41,25 @@
 
       <dependency>
         <groupId>org.sonatype.goodies.grafeas</groupId>
+        <artifactId>grafeas-service-api</artifactId>
+        <version>1-SNAPSHOT</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.sonatype.goodies.grafeas</groupId>
         <artifactId>grafeas-service-core</artifactId>
+        <version>1-SNAPSHOT</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.sonatype.goodies.grafeas</groupId>
+        <artifactId>grafeas-service-client</artifactId>
+        <version>1-SNAPSHOT</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.sonatype.goodies.grafeas</groupId>
+        <artifactId>grafeas-service-assembly</artifactId>
         <version>1-SNAPSHOT</version>
       </dependency>
     </dependencies>

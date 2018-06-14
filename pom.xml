@@ -64,8 +64,11 @@
 
   <modules>
     <module>bom</module>
+    <module>api</module>
+    <module>client</module>
     <module>core</module>
     <module>assembly</module>
+    <module>testsuite</module>
   </modules>
 
   <build>

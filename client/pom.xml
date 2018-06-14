@@ -23,7 +23,7 @@
     <version>1-SNAPSHOT</version>
   </parent>
 
-  <artifactId>grafeas-service-core</artifactId>
+  <artifactId>grafeas-service-client</artifactId>
   <name>${project.groupId}:${project.artifactId}</name>
   <packaging>jar</packaging>
 
@@ -41,13 +41,8 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.sonatype.goodies.dropwizard</groupId>
-      <artifactId>dropwizard-support-core</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.sonatype.goodies.dropwizard</groupId>
-      <artifactId>dropwizard-support-swagger</artifactId>
+      <groupId>org.sonatype.goodies.grafeas</groupId>
+      <artifactId>grafeas-service-api</artifactId>
     </dependency>
 
     <dependency>
