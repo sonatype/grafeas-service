@@ -17,7 +17,7 @@ import javax.inject.Named;
 import javax.inject.Provider;
 import javax.inject.Singleton;
 
-import org.sonatype.goodies.grafeas.internal.db.JdbiProvider;
+import org.sonatype.goodies.grafeas.internal.db.DatabaseAccess;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -33,15 +33,15 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class ProjectsDaoProvider
     implements Provider<ProjectsDao>
 {
-  private final JdbiProvider jdbiProvider;
+  private final DatabaseAccess databaseAccess;
 
   @Inject
-  public ProjectsDaoProvider(final JdbiProvider jdbiProvider) {
-    this.jdbiProvider = checkNotNull(jdbiProvider);
+  public ProjectsDaoProvider(final DatabaseAccess databaseAccess) {
+    this.databaseAccess = checkNotNull(databaseAccess);
   }
 
   @Override
   public ProjectsDao get() {
-    return jdbiProvider.get().onDemand(ProjectsDao.class);
+    return databaseAccess.get().onDemand(ProjectsDao.class);
   }
 }

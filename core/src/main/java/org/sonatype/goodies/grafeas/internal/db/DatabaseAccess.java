@@ -27,25 +27,23 @@ import org.slf4j.LoggerFactory;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-// FIXME: not a great name, should pick something better
-
 /**
- * Provides the primary {@link Jdbi} singleton for the database.
+ * Provides access to the primary database.
  *
  * @since ???
  */
 @Named
 @Singleton
-public class JdbiProvider
+public class DatabaseAccess
 {
-  private static final Logger log = LoggerFactory.getLogger(JdbiProvider.class);
+  private static final Logger log = LoggerFactory.getLogger(DatabaseAccess.class);
 
   private final Environment environment;
 
   private final GrafeasConfiguration configuration;
 
   @Inject
-  public JdbiProvider(final Environment environment, final GrafeasConfiguration configuration) {
+  public DatabaseAccess(final Environment environment, final GrafeasConfiguration configuration) {
     this.environment = checkNotNull(environment);
     this.configuration = checkNotNull(configuration);
   }
@@ -64,6 +62,8 @@ public class JdbiProvider
       }
     };
 
-    return jdbiFactory.build(environment, databaseConfiguration.getDataSourceFactory(), "database");
+    Jdbi result = jdbiFactory.build(environment, databaseConfiguration.getDataSourceFactory(), "database");
+    log.debug("Created: {}", result);
+    return result;
   }
 }

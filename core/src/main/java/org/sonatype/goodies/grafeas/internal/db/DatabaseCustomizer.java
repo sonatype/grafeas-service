@@ -103,7 +103,7 @@ public class DatabaseCustomizer
     }
 
     // ensure the jdbi instance singleton is registered
-    Jdbi jdbi = application.getInstance(JdbiProvider.class).get();
+    Jdbi jdbi = application.getInstance(DatabaseAccess.class).get();
     // TODO: sanity check
   }
 }
