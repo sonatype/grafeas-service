@@ -14,7 +14,6 @@ package org.sonatype.goodies.grafeas.internal.db;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import org.sonatype.goodies.grafeas.GrafeasConfiguration;
@@ -28,6 +27,8 @@ import org.slf4j.LoggerFactory;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+// FIXME: not a great name, should pick something better
+
 /**
  * Provides the primary {@link Jdbi} singleton for the database.
  *
@@ -36,7 +37,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 @Named
 @Singleton
 public class JdbiProvider
-    implements Provider<Jdbi>
 {
   private static final Logger log = LoggerFactory.getLogger(JdbiProvider.class);
 
@@ -50,7 +50,6 @@ public class JdbiProvider
     this.configuration = checkNotNull(configuration);
   }
 
-  @Override
   public Jdbi get() {
     DatabaseConfiguration databaseConfiguration = configuration.getDatabaseConfiguration();
 

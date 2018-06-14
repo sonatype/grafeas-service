@@ -20,6 +20,7 @@ import org.sonatype.goodies.grafeas.GrafeasConfiguration;
 
 import io.dropwizard.db.ManagedDataSource;
 import io.dropwizard.db.PooledDataSourceFactory;
+import io.dropwizard.jdbi3.bundles.JdbiExceptionsBundle;
 import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
@@ -66,6 +67,9 @@ public class DatabaseCustomizer
         return config.getDatabaseConfiguration().getDataSourceFactory();
       }
     });
+
+    // add handling of JDBI exceptions
+    bootstrap.addBundle(new JdbiExceptionsBundle());
   }
 
   @Override
