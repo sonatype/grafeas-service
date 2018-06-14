@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * ???
+ * Provides the primary {@link Jdbi} singleton for the database.
  *
  * @since ???
  */
@@ -53,10 +53,18 @@ public class JdbiProvider
   @Override
   public Jdbi get() {
     DatabaseConfiguration databaseConfiguration = configuration.getDatabaseConfiguration();
-    JdbiFactory jdbiFactory = new JdbiFactory();
-    Jdbi jdbi = jdbiFactory.build(environment, databaseConfiguration.getDataSourceFactory(), "database");
-    jdbi.installPlugin(new H2DatabasePlugin());
-    log.debug("JDBI: {}", jdbi);
-    return jdbi;
+
+    JdbiFactory jdbiFactory = new JdbiFactory()
+    {
+      @Override
+      protected void configure(final Jdbi jdbi) {
+        super.configure(jdbi);
+
+        // FIXME: install h2 plugin, probably want to make this aware if the data-source is actually h2 or not?
+        jdbi.installPlugin(new H2DatabasePlugin());
+      }
+    };
+
+    return jdbiFactory.build(environment, databaseConfiguration.getDataSourceFactory(), "database");
   }
 }

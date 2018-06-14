@@ -13,19 +13,16 @@
 package org.sonatype.goodies.grafeas.internal.db;
 
 import java.sql.Connection;
-import java.util.List;
 
 import org.sonatype.goodies.dropwizard.ApplicationCustomizer;
 import org.sonatype.goodies.grafeas.GrafeasApplication;
 import org.sonatype.goodies.grafeas.GrafeasConfiguration;
 
-import com.google.inject.Module;
 import io.dropwizard.db.ManagedDataSource;
 import io.dropwizard.db.PooledDataSourceFactory;
 import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
-import jersey.repackaged.com.google.common.collect.ImmutableList;
 import liquibase.Contexts;
 import liquibase.LabelExpression;
 import liquibase.Liquibase;
@@ -78,6 +75,7 @@ public class DatabaseCustomizer
   {
     DatabaseConfiguration databaseConfiguration = config.getDatabaseConfiguration();
 
+    // maybe run migration
     if (databaseConfiguration.isMigrate()) {
       log.info("Applying database migrations");
       PooledDataSourceFactory dataSourceFactory = databaseConfiguration.getDataSourceFactory();
@@ -98,5 +96,8 @@ public class DatabaseCustomizer
         dataSource.stop();
       }
     }
+
+    // ensure the jdbi instance singleton is registered
+    application.getInstance(JdbiProvider.class).get();
   }
 }
