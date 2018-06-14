@@ -21,6 +21,8 @@ import org.sonatype.goodies.grafeas.internal.db.JdbiProvider;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+// TODO: this may be better off realized as a ProjectsService
+
 /**
  * {@link ProjectsDao} provider.
  *

@@ -13,6 +13,7 @@
 package org.sonatype.goodies.grafeas.internal.api.v1alpha1;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
@@ -58,7 +59,7 @@ public class ProjectsResource
                               @Nullable final String pageToken)
   {
     // TODO: bridge filter/page poop to dao
-    return dao().browse();
+    return dao().browse().stream().map(ProjectEntity::asApi).collect(Collectors.toList());
   }
 
   @Override
@@ -66,11 +67,11 @@ public class ProjectsResource
   public Project read(final String name) {
     checkNotNull(name);
     log.debug("Find: {}", name);
-    Project project = dao().read(name);
+    ProjectEntity project = dao().read(name);
     if (project == null) {
       throw new WebApplicationException(Status.NOT_FOUND);
     }
-    return project;
+    return project.asApi();
   }
 
   @Override

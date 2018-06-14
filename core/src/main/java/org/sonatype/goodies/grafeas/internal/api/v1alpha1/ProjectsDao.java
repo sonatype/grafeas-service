@@ -16,8 +16,6 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import org.sonatype.goodies.grafeas.api.v1alpha1.Project;
-
 import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
 import org.jdbi.v3.sqlobject.customizer.Bind;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
@@ -27,19 +25,20 @@ import org.jdbi.v3.sqlobject.statement.SqlUpdate;
  * Projects data-access object.
  *
  * @since ???
+ * @see ProjectEntity
  */
 public interface ProjectsDao
 {
   // FIXME: need to expose/handling cursor details for #browse
 
   @SqlQuery("SELECT * FROM projects")
-  @RegisterBeanMapper(Project.class)
-  List<Project> browse();
+  @RegisterBeanMapper(ProjectEntity.class)
+  List<ProjectEntity> browse();
 
   @SqlQuery("SELECT * FROM projects WHERE name = :name")
-  @RegisterBeanMapper(Project.class)
+  @RegisterBeanMapper(ProjectEntity.class)
   @Nullable
-  Project read(@Bind("name") String name);
+  ProjectEntity read(@Bind("name") String name);
 
   // no edit
 
