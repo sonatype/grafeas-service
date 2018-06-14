@@ -14,4 +14,5 @@
 -->
 # Goodies: Grafeas Service
 
-TODO
+Implementation of [Grafeas](https://grafeas.io/) as a Java micro-service.
+
