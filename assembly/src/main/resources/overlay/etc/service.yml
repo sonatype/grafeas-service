@@ -1,0 +1,26 @@
+---
+server:
+  type: default
+  applicationContextPath: /
+
+  applicationConnectors:
+    - type: http
+      port: 8080
+
+  adminConnectors:
+    - type: http
+      port: 8081
+
+  requestLog:
+    appenders:
+      - type: file
+        currentLogFilename: "${SERVICE_LOGDIR:-log}/request.log"
+        archivedLogFilenamePattern: "${SERVICE_LOGDIR:-log}/request-%d.log.gz"
+
+viewRenderers:
+  freemarker:
+    strict_syntax: yes
+    whitespace_stripping: yes
+    url_escaping_charset: UTF-8
+#    template_exception_handler: rethrow
+    template_exception_handler: html_debug

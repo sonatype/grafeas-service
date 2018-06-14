@@ -23,28 +23,32 @@
     <version>1-SNAPSHOT</version>
   </parent>
 
-  <artifactId>grafeas-service-bom</artifactId>
+  <artifactId>grafeas-service-core</artifactId>
   <name>${project.groupId}:${project.artifactId}</name>
-  <packaging>pom</packaging>
+  <packaging>jar</packaging>
 
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>org.sonatype.goodies.dropwizard</groupId>
-        <artifactId>dropwizard-support-bom</artifactId>
+        <groupId>org.sonatype.goodies.grafeas</groupId>
+        <artifactId>grafeas-service-bom</artifactId>
         <type>pom</type>
         <scope>import</scope>
         <version>1-SNAPSHOT</version>
       </dependency>
-
-      <!-- INTERNAL -->
-
-      <dependency>
-        <groupId>org.sonatype.goodies.grafeas</groupId>
-        <artifactId>grafeas-service-core</artifactId>
-        <version>1-SNAPSHOT</version>
-      </dependency>
     </dependencies>
   </dependencyManagement>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.sonatype.goodies.dropwizard</groupId>
+      <artifactId>dropwizard-support-core</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.sonatype.goodies.dropwizard</groupId>
+      <artifactId>dropwizard-support-swagger</artifactId>
+    </dependency>
+  </dependencies>
 
 </project>
