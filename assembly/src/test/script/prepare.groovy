@@ -10,27 +10,21 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
-$(function() {
-  $(document).ready(function() {
-    // SEE: layout.ftl <@head>
-    var app = window.app;
-    console.log("App:", app);
+//
+// Helper to prepare service for execution in IDEA
+//
 
-    // initialize all tooltips
-    $('[data-toggle="tooltip"]').tooltip({
-      // delay showing, hiding tooltips slightly
-      delay: {show: 1000, hide: 250}
-    });
+def basedir = new File('.').canonicalFile
+println basedir
 
-    // custom handling for dropdown button tooltips
-    var dropdown = $('.dropdown-tooltip');
-    dropdown.tooltip({
-      // delay showing, hiding tooltips slightly
-      delay: {show: 1000, hide: 250},
-      trigger: 'hover'
-    });
-    dropdown.on('click', function() {
-      $(this).tooltip('hide');
-    });
-  });
-});
+def servicedir = new File(basedir, 'target/service')
+println servicedir
+
+def mkdir = { name ->
+  def dir = new File(servicedir, name)
+  dir.mkdirs()
+  println dir
+}
+
+mkdir 'tmp'
+mkdir 'log'

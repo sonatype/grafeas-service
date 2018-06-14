@@ -10,27 +10,38 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
-$(function() {
-  $(document).ready(function() {
-    // SEE: layout.ftl <@head>
-    var app = window.app;
-    console.log("App:", app);
+package org.sonatype.goodies.grafeas.site;
 
-    // initialize all tooltips
-    $('[data-toggle="tooltip"]').tooltip({
-      // delay showing, hiding tooltips slightly
-      delay: {show: 1000, hide: 250}
-    });
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-    // custom handling for dropdown button tooltips
-    var dropdown = $('.dropdown-tooltip');
-    dropdown.tooltip({
-      // delay showing, hiding tooltips slightly
-      delay: {show: 1000, hide: 250},
-      trigger: 'hover'
-    });
-    dropdown.on('click', function() {
-      $(this).tooltip('hide');
-    });
-  });
-});
+/**
+ * Site configuration.
+ *
+ * @since ???
+ */
+public class SiteConfiguration
+{
+  public enum ResourceMode
+  {
+    /**
+     * Uses uncompressed CSS and Javascript resources for development.
+     */
+    DEV,
+
+    /**
+     * Uses compressed CSS and Javascript resources suitable for optimized production usage.
+     */
+    PROD
+  }
+
+  @JsonProperty
+  private ResourceMode resourceMode = ResourceMode.PROD;
+
+  public ResourceMode getResourceMode() {
+    return resourceMode;
+  }
+
+  public void setResourceMode(ResourceMode resourceMode) {
+    this.resourceMode = resourceMode;
+  }
+}

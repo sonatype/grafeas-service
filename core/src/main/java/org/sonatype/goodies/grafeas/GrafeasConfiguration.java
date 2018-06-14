@@ -18,6 +18,7 @@ import java.util.Map;
 import javax.validation.constraints.NotNull;
 
 import org.sonatype.goodies.dropwizard.swagger.SwaggerConfiguration;
+import org.sonatype.goodies.grafeas.site.SiteConfiguration;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableMap;
@@ -48,6 +49,18 @@ public class GrafeasConfiguration
       builder.put(entry.getKey(), ImmutableMap.copyOf(entry.getValue()));
     }
     this.viewRenderersConfiguration = builder.build();
+  }
+
+  @NotNull
+  @JsonProperty("site")
+  private SiteConfiguration siteConfiguration = new SiteConfiguration();
+
+  public SiteConfiguration getSiteConfiguration() {
+    return siteConfiguration;
+  }
+
+  public void setSiteConfiguration(final SiteConfiguration siteConfiguration) {
+    this.siteConfiguration = siteConfiguration;
   }
 
   @NotNull

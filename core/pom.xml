@@ -46,6 +46,11 @@
     </dependency>
 
     <dependency>
+      <groupId>io.dropwizard</groupId>
+      <artifactId>dropwizard-views-freemarker</artifactId>
+    </dependency>
+
+    <dependency>
       <groupId>org.sonatype.goodies.dropwizard</groupId>
       <artifactId>dropwizard-support-swagger</artifactId>
     </dependency>

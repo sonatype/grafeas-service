@@ -10,4 +10,118 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
-/* TODO */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  min-height: 100vh;
+
+  /* use proxima-nova for the main site webfont */
+  font-family: "Proxima Nova", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+}
+
+wrapper {
+  min-height: 100vh;
+}
+
+main {
+  /* adjust body for navbar fixed-top */
+  margin-top: 96px;
+  flex: 1;
+}
+
+.flex-fill {
+  flex: 1 1 auto;
+}
+
+.monospace {
+  font-family: monospace;
+}
+
+.navbar-brand {
+  /* use proxima-nova thin for branding */
+  font-family: 'Proxima Nova Thin', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+}
+
+.welcome-brand {
+  /* use proxima-nova thin for branding */
+  font-family: 'Proxima Nova Thin', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+}
+
+.bg-black {
+  background-color: #000000 !important;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.dropdown-tooltip {
+  /* custom handling for dropdown tooltips */
+}
+
+/* FontAwesome webfonts */
+
+/*noinspection CssUnknownTarget*/
+@font-face {
+  font-family: 'Font Awesome 5 Brands';
+  font-style: normal;
+  font-weight: normal;
+  src: url("fontawesome/webfonts/fa-brands-400.eot");
+  src: url("fontawesome/webfonts/fa-brands-400.eot?#iefix") format("embedded-opentype"),
+  url("fontawesome/webfonts/fa-brands-400.woff2") format("woff2"),
+  url("fontawesome/webfonts/fa-brands-400.woff") format("woff"),
+  url("fontawesome/webfonts/fa-brands-400.ttf") format("truetype"),
+  url("fontawesome/webfonts/fa-brands-400.svg#fontawesome") format("svg");
+}
+
+.fab {
+  /*noinspection CssNoGenericFontName*/
+  font-family: 'Font Awesome 5 Brands';
+}
+
+/*noinspection CssUnknownTarget*/
+@font-face {
+  font-family: 'Font Awesome 5 Free';
+  font-style: normal;
+  font-weight: 400;
+  src: url("fontawesome/webfonts/fa-regular-400.eot");
+  src: url("fontawesome/webfonts/fa-regular-400.eot?#iefix") format("embedded-opentype"),
+  url("fontawesome/webfonts/fa-regular-400.woff2") format("woff2"),
+  url("fontawesome/webfonts/fa-regular-400.woff") format("woff"),
+  url("fontawesome/webfonts/fa-regular-400.ttf") format("truetype"),
+  url("fontawesome/webfonts/fa-regular-400.svg#fontawesome") format("svg");
+}
+
+.far {
+  /*noinspection CssNoGenericFontName*/
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 400;
+}
+
+/*noinspection CssUnknownTarget*/
+@font-face {
+  font-family: 'Font Awesome 5 Free';
+  font-style: normal;
+  font-weight: 900;
+  src: url("fontawesome/webfonts/fa-solid-900.eot");
+  src: url("fontawesome/webfonts/fa-solid-900.eot?#iefix") format("embedded-opentype"),
+  url("fontawesome/webfonts/fa-solid-900.woff2") format("woff2"),
+  url("fontawesome/webfonts/fa-solid-900.woff") format("woff"),
+  url("fontawesome/webfonts/fa-solid-900.ttf") format("truetype"),
+  url("fontawesome/webfonts/fa-solid-900.svg#fontawesome") format("svg");
+}
+
+.fa,
+.fas {
+  /*noinspection CssNoGenericFontName*/
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+}
+
+/** adjust swagger-ui which has some conflicts with bootstrap css classes */
+#swagger-ui [class^="col"] {
+  width: initial;
+}
