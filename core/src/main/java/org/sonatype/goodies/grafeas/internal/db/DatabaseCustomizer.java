@@ -30,6 +30,7 @@ import liquibase.database.Database;
 import liquibase.database.DatabaseFactory;
 import liquibase.database.jvm.JdbcConnection;
 import liquibase.resource.ClassLoaderResourceAccessor;
+import org.jdbi.v3.core.Jdbi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -98,6 +99,7 @@ public class DatabaseCustomizer
     }
 
     // ensure the jdbi instance singleton is registered
-    application.getInstance(JdbiProvider.class).get();
+    Jdbi jdbi = application.getInstance(JdbiProvider.class).get();
+    // TODO: sanity check
   }
 }
