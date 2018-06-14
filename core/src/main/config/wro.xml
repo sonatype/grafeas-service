@@ -14,30 +14,30 @@
 
 -->
 <groups xmlns="http://www.isdc.ro/wro">
-    <group name="service-all">
-        <group-ref>jquery</group-ref>
-        <group-ref>bootstrap</group-ref>
-        <group-ref>fontawesome</group-ref>
-        <group-ref>service</group-ref>
-    </group>
+  <group name="service-all">
+    <group-ref>jquery</group-ref>
+    <group-ref>bootstrap</group-ref>
+    <group-ref>fontawesome</group-ref>
+    <group-ref>service</group-ref>
+  </group>
 
-    <!-- prefer to use pre-magnified from vendor; otherwise may result in very unexpected behavior -->
+  <!-- prefer to use pre-magnified from vendor; otherwise may result in very unexpected behavior -->
 
-    <group name="jquery">
-        <js minimize="false">/jquery/jquery.min.js</js>
-    </group>
+  <group name="jquery">
+    <js minimize="false">/jquery/jquery.min.js</js>
+  </group>
 
-    <group name="bootstrap">
-        <css minimize="false">/bootstrap/css/bootstrap.min.css</css>
-        <js minimize="false">/bootstrap/js/bootstrap.bundle.min.js</js>
-    </group>
+  <group name="bootstrap">
+    <css minimize="false">/bootstrap/css/bootstrap.min.css</css>
+    <js minimize="false">/bootstrap/js/bootstrap.bundle.min.js</js>
+  </group>
 
-    <group name="fontawesome">
-        <css minimize="false">/fontawesome/css/fontawesome-all.min.css</css>
-    </group>
+  <group name="fontawesome">
+    <css minimize="false">/fontawesome/css/fontawesome-all.min.css</css>
+  </group>
 
-    <group name="service">
-        <css>/service.css</css>
-        <js>/service.js</js>
-    </group>
+  <group name="service">
+    <css>/service.css</css>
+    <js>/service.js</js>
+  </group>
 </groups>
