@@ -52,7 +52,6 @@ public class SiteResource
     return new SiteViewSupport(template);
   }
 
-
   @GET
   public View welcome() {
     return new SiteViewSupport("welcome.ftl");
