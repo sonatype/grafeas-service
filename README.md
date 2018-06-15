@@ -18,4 +18,11 @@ Implementation of [Grafeas](https://grafeas.io/) as a Java micro-service.
 
 ## References
 
+### HTTP PATCH
+
+* https://github.com/jersey/jersey/tree/master/examples/http-patch
 * http://kingsfleet.blogspot.com/2014/02/transparent-patch-support-in-jax-rs-20.html
+* https://github.com/java-json-tools/json-patch
+* http://brianoneill.blogspot.com/2011/11/patch-methods-on-jax-rs.html
+* https://github.com/tbugrara/dropwizard-patch
+* https://stackoverflow.com/questions/17897171/how-to-have-a-patch-annotation-for-jax-rs

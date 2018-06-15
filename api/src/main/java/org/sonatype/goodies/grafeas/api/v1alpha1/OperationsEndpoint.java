@@ -36,81 +36,69 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 // SEE: https://github.com/grafeas/grafeas/blob/master/v1alpha1/proto/grafeas.proto
 
 /**
- * Occurrences endpoint.
+ * Operations endpoint.
  *
  * @since ???
  */
 @Path("/v1alpha1/projects")
-@Api(value = "Manage project occurrences")
-public interface OccurrencesEndpoint
+@Api(value = "Manage project operations")
+public interface OperationsEndpoint
 {
   // TODO: browse response; response is a list + a next_page_token?
 
   @GET
-  @Path("{project}/occurrences")
+  @Path("{project}/operations")
   @Produces(APPLICATION_JSON)
-  @ApiOperation(value = "Browse project occurrences")
+  @ApiOperation(value = "Browse project operations")
   @ApiResponses({
-      @ApiResponse(code = 200, message = "Occurrences")
+      @ApiResponse(code = 200, message = "Operations")
   })
-  List<Occurrence> browse(@PathParam("project") String project,
-                          @QueryParam("filter") @Nullable String filter,
-                          @QueryParam("page_size") @Nullable Integer pageSize,
-                          @QueryParam("page_token") @Nullable String pageToken);
+  List<Operation> browse(@PathParam("project") String project,
+                         @QueryParam("filter") @Nullable String filter,
+                         @QueryParam("page_size") @Nullable Integer pageSize,
+                         @QueryParam("page_token") @Nullable String pageToken);
 
   @GET
-  @Path("{project}/occurrences/{name}")
+  @Path("{project}/operations/{name}")
   @Produces(APPLICATION_JSON)
-  @ApiOperation(value = "Read project occurrence")
+  @ApiOperation(value = "Read project operation")
   @ApiResponses({
-      @ApiResponse(code = 200, message = "Occurrence"),
-      @ApiResponse(code = 404, message = "Occurrences not found")
+      @ApiResponse(code = 200, message = "Operation"),
+      @ApiResponse(code = 404, message = "Operation not found")
   })
-  Occurrence read(@PathParam("project") String project, @PathParam("name") String name);
+  Operation read(@PathParam("project") String project, @PathParam("name") String name);
 
   // FIXME: jax-rs 2.0 does not support HTTP PATCH :-\
 
   //@PATCH
   @PUT
-  @Path("{project}/occurrences/{name}")
+  @Path("{project}/operations/{name}")
   @Consumes(APPLICATION_JSON)
   @Produces(APPLICATION_JSON)
-  @ApiOperation(value = "Edit project occurrence")
+  @ApiOperation(value = "Edit project operation")
   @ApiResponses({
-      @ApiResponse(code = 200, message = "Occurrence edited"),
-      @ApiResponse(code = 404, message = "Occurrence not found")
+      @ApiResponse(code = 200, message = "Operation edited"),
+      @ApiResponse(code = 404, message = "Operation not found")
   })
-  Occurrence edit(@PathParam("project") String project, @PathParam("name") String name, Occurrence occurrence);
+  Operation edit(@PathParam("project") String project, @PathParam("name") String name, Note note);
 
   @POST
-  @Path("{project}/occurrences")
+  @Path("{project}/operations")
   @Consumes(APPLICATION_JSON)
   @Produces(APPLICATION_JSON)
-  @ApiOperation(value = "Add occurrence to project")
+  @ApiOperation(value = "Add operation to project")
   @ApiResponses({
-      @ApiResponse(code = 201, message = "Occurrence added")
+      @ApiResponse(code = 201, message = "Operation added")
   })
-  Occurrence add(@PathParam("project") String project, Occurrence occurrence);
+  Operation add(@PathParam("project") String project, Note note);
 
   @DELETE
-  @Path("{project}/occurrences/{name}")
+  @Path("{project}/operations/{name}")
   @Produces(APPLICATION_JSON)
-  @ApiOperation(value = "Delete project occurrence")
+  @ApiOperation(value = "Delete project operation")
   @ApiResponses({
-      @ApiResponse(code = 204, message = "Occurrence deleted"),
-      @ApiResponse(code = 404, message = "Occurrence not found")
+      @ApiResponse(code = 204, message = "Operation deleted"),
+      @ApiResponse(code = 404, message = "Operation not found")
   })
   void delete(@PathParam("project") String project, @PathParam("name") String name);
-
-  // FIXME: for some reason the path is 'notes' but the protobuf spec returns a single note
-
-  @GET
-  @Path("{project}/occurrences/{name}/notes")
-  @Produces(APPLICATION_JSON)
-  @ApiOperation(value = "Read note attached to occurrence")
-  @ApiResponses({
-      @ApiResponse(code = 200, message = "Note"),
-      @ApiResponse(code = 404, message = "Occurrence not found")
-  })
-  Note readNote(@PathParam("project") String project, @PathParam("name") String name);
 }

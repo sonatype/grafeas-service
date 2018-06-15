@@ -24,6 +24,12 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 // SEE: https://github.com/grafeas/grafeas/blob/master/v1alpha1/docs/GrafeasProjectsApi.md
@@ -35,12 +41,17 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
  * @since ???
  */
 @Path("/v1alpha1/projects")
+@Api(value = "Manage projects")
 public interface ProjectsEndpoint
 {
   // TODO: browse response; ListProjectsResponse is a list + a next_page_token?
 
   @GET
   @Produces(APPLICATION_JSON)
+  @ApiOperation(value = "Browse projects")
+  @ApiResponses({
+      @ApiResponse(code = 200, message = "Projects")
+  })
   List<Project> browse(@QueryParam("filter") @Nullable String filter,
                        @QueryParam("page_size") @Nullable Integer pageSize,
                        @QueryParam("page_token") @Nullable String pageToken);
@@ -49,15 +60,29 @@ public interface ProjectsEndpoint
   @Path("{name}")
   @Produces(APPLICATION_JSON)
   @Nullable
-  Project read(@PathParam("name") String name);
+  @ApiOperation(value = "Read project")
+  @ApiResponses({
+      @ApiResponse(code = 200, message = "Project"),
+      @ApiResponse(code = 404, message = "Project not found")
+  })
+  Project read(@PathParam("name") @ApiParam("Project name") String name);
 
   // no edit
 
   @POST
   @Consumes(APPLICATION_JSON)
+  @ApiOperation(value = "Add project")
+  @ApiResponses({
+      @ApiResponse(code = 201, message = "Project added")
+  })
   void add(Project project);
 
   @DELETE
   @Path("{name}")
-  void delete(@PathParam("name") String name);
+  @ApiOperation(value = "Delete project")
+  @ApiResponses({
+      @ApiResponse(code = 204, message = "Project deleted"),
+      @ApiResponse(code = 404, message = "Project not found")
+  })
+  void delete(@PathParam("name") @ApiParam("Project name") String name);
 }

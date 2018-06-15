@@ -65,4 +65,22 @@ public class SiteResource
   public View index() {
     return welcome();
   }
+
+  @GET
+  @Path("about")
+  public View about() {
+    return view("about.ftl");
+  }
+
+  @GET
+  @Path("contact")
+  public View contact() {
+    return view("contact.ftl");
+  }
+
+  @GET
+  @Path("rest")
+  public View rest() {
+    return view("rest.ftl");
+  }
 }

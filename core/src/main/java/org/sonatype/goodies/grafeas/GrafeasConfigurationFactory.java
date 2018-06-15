@@ -57,6 +57,7 @@ public class GrafeasConfigurationFactory
     // customize swagger configuration
     SwaggerConfiguration swagger = config.getSwaggerConfiguration();
     swagger.setTitle("Sonatype Grafeas REST API");
+    // FIXME: this may not be appropriate if more than one version is eventually supported (ie v1alpha1 and v1beta1)?
     swagger.setVersion("v1alpha");
     swagger.setDescription("RESTful Application Programming Interface");
   }

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
+<#--
 
     Copyright (c) 2018-present Sonatype, Inc. All rights reserved.
 
@@ -13,13 +12,25 @@
     See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
 
 -->
+<#-- @ftlvariable name="" type="org.sonatype.goodies.grafeas.site.SiteViewSupport" -->
+<#include "common/common.ftl">
+<!DOCTYPE html>
+<html lang="en">
+<#assign page_title="Contact"/>
+<@head title="${page_title}"/>
+<@page>
+<div class="row">
+  <div class="col">
+    <h1><i class="far fa-envelope"></i> ${page_title}</h1>
+    <p class="lead text-muted">
+      ${loremIpsum(10)}
+    </p>
 
-<databaseChangeLog
-    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
-
-  <include file="org/sonatype/goodies/grafeas/internal/db/changelog.xml"/>
-
-</databaseChangeLog>
+    <h2>Feedback</h2>
+    <p>
+      ${loremIpsum(15)}
+    </p>
+  </div>
+</div>
+</@page>
+</html>

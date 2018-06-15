@@ -36,81 +36,79 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 // SEE: https://github.com/grafeas/grafeas/blob/master/v1alpha1/proto/grafeas.proto
 
 /**
- * Occurrences endpoint.
+ * Notes endpoint.
  *
  * @since ???
  */
 @Path("/v1alpha1/projects")
-@Api(value = "Manage project occurrences")
-public interface OccurrencesEndpoint
+@Api(value = "Manage project notes")
+public interface NotesEndpoint
 {
   // TODO: browse response; response is a list + a next_page_token?
 
   @GET
-  @Path("{project}/occurrences")
+  @Path("{project}/notes")
   @Produces(APPLICATION_JSON)
-  @ApiOperation(value = "Browse project occurrences")
+  @ApiOperation(value = "Browse project notes")
   @ApiResponses({
-      @ApiResponse(code = 200, message = "Occurrences")
+      @ApiResponse(code = 200, message = "Notes")
   })
-  List<Occurrence> browse(@PathParam("project") String project,
-                          @QueryParam("filter") @Nullable String filter,
-                          @QueryParam("page_size") @Nullable Integer pageSize,
-                          @QueryParam("page_token") @Nullable String pageToken);
+  List<Note> browse(@PathParam("project") String project,
+                    @QueryParam("filter") @Nullable String filter,
+                    @QueryParam("page_size") @Nullable Integer pageSize,
+                    @QueryParam("page_token") @Nullable String pageToken);
 
   @GET
-  @Path("{project}/occurrences/{name}")
+  @Path("{project}/notes/{name}")
   @Produces(APPLICATION_JSON)
-  @ApiOperation(value = "Read project occurrence")
+  @ApiOperation(value = "Read project note")
   @ApiResponses({
-      @ApiResponse(code = 200, message = "Occurrence"),
-      @ApiResponse(code = 404, message = "Occurrences not found")
+      @ApiResponse(code = 200, message = "Note"),
+      @ApiResponse(code = 404, message = "Note not found")
   })
-  Occurrence read(@PathParam("project") String project, @PathParam("name") String name);
+  Note read(@PathParam("project") String project, @PathParam("name") String name);
 
   // FIXME: jax-rs 2.0 does not support HTTP PATCH :-\
 
   //@PATCH
   @PUT
-  @Path("{project}/occurrences/{name}")
+  @Path("{project}/notes/{name}")
   @Consumes(APPLICATION_JSON)
   @Produces(APPLICATION_JSON)
-  @ApiOperation(value = "Edit project occurrence")
+  @ApiOperation(value = "Edit project note")
   @ApiResponses({
-      @ApiResponse(code = 200, message = "Occurrence edited"),
-      @ApiResponse(code = 404, message = "Occurrence not found")
+      @ApiResponse(code = 200, message = "Note edited"),
+      @ApiResponse(code = 404, message = "Note not found")
   })
-  Occurrence edit(@PathParam("project") String project, @PathParam("name") String name, Occurrence occurrence);
+  Note edit(@PathParam("project") String project, @PathParam("name") String name, Note note);
 
   @POST
-  @Path("{project}/occurrences")
+  @Path("{project}/notes")
   @Consumes(APPLICATION_JSON)
   @Produces(APPLICATION_JSON)
-  @ApiOperation(value = "Add occurrence to project")
+  @ApiOperation(value = "Add note to project")
   @ApiResponses({
-      @ApiResponse(code = 201, message = "Occurrence added")
+      @ApiResponse(code = 201, message = "Note added")
   })
-  Occurrence add(@PathParam("project") String project, Occurrence occurrence);
+  Note add(@PathParam("project") String project, Note note);
 
   @DELETE
-  @Path("{project}/occurrences/{name}")
+  @Path("{project}/notes/{name}")
   @Produces(APPLICATION_JSON)
-  @ApiOperation(value = "Delete project occurrence")
+  @ApiOperation(value = "Delete project note")
   @ApiResponses({
-      @ApiResponse(code = 204, message = "Occurrence deleted"),
-      @ApiResponse(code = 404, message = "Occurrence not found")
+      @ApiResponse(code = 204, message = "Note deleted"),
+      @ApiResponse(code = 404, message = "Note not found")
   })
   void delete(@PathParam("project") String project, @PathParam("name") String name);
 
-  // FIXME: for some reason the path is 'notes' but the protobuf spec returns a single note
-
   @GET
-  @Path("{project}/occurrences/{name}/notes")
+  @Path("{project}/notes/{name}/occurrences")
   @Produces(APPLICATION_JSON)
-  @ApiOperation(value = "Read note attached to occurrence")
+  @ApiOperation(value = "Browse occurrences referencing project note")
   @ApiResponses({
-      @ApiResponse(code = 200, message = "Note"),
-      @ApiResponse(code = 404, message = "Occurrence not found")
+      @ApiResponse(code = 200, message = "Occurrences"),
+      @ApiResponse(code = 404, message = "Note not found")
   })
-  Note readNote(@PathParam("project") String project, @PathParam("name") String name);
+  List<Occurrence> readOccurrences(@PathParam("project") String project, @PathParam("name") String name);
 }
