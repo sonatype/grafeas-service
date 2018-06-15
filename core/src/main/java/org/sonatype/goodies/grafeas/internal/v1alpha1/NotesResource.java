@@ -95,9 +95,11 @@ public class NotesResource
     checkNotNull(note);
     log.debug("Create: {} -> {}", project, note);
 
-    // FIXME:
+    // FIXME: convert to entity, return api model from created entity
 
-    dao().add(new NoteEntity());
+    long id = dao().add(new NoteEntity());
+    log.debug("Created: {}", id);
+
     return note;
   }
 

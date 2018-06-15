@@ -18,6 +18,7 @@ import javax.annotation.Nullable;
 
 import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
 import org.jdbi.v3.sqlobject.customizer.Bind;
+import org.jdbi.v3.sqlobject.statement.GetGeneratedKeys;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 
@@ -42,7 +43,8 @@ public interface ProjectsDao
   // no edit
 
   @SqlUpdate("INSERT INTO projects (name) VALUES (:name)")
-  void add(@Bind("name") String name);
+  @GetGeneratedKeys("id")
+  long add(@Bind("name") String name);
 
   @SqlUpdate("DELETE FROM projects WHERE name = :name")
   void delete(@Bind("name") String name);

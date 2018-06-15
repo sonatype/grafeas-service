@@ -81,7 +81,8 @@ public class ProjectsResource
     checkNotNull(project);
 
     log.debug("Create: {}", project);
-    dao().add(project.getName());
+    long id = dao().add(project.getName());
+    log.debug("Created: {}", id);
   }
 
   @Override

@@ -19,6 +19,7 @@ import javax.annotation.Nullable;
 import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
 import org.jdbi.v3.sqlobject.customizer.Bind;
 import org.jdbi.v3.sqlobject.customizer.BindBean;
+import org.jdbi.v3.sqlobject.statement.GetGeneratedKeys;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 
@@ -46,7 +47,8 @@ public interface NotesDao
   //void edit(@BindBean NoteEntity note);
 
   @SqlUpdate("INSERT INTO notes (project_name, note_name, data) VALUES (:projectName, :noteName, :data)")
-  void add(@BindBean NoteEntity note);
+  @GetGeneratedKeys("id")
+  long add(@BindBean NoteEntity note);
 
   @SqlUpdate("DELETE FROM notes WHERE project_name = :project AND name = :name")
   void delete(@Bind("project") String project, @Bind("name") String name);
