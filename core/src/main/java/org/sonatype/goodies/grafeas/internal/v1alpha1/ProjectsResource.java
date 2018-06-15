@@ -66,8 +66,10 @@ public class ProjectsResource
   @Nullable
   public Project read(final String name) {
     checkNotNull(name);
+
     log.debug("Find: {}", name);
     ProjectEntity project = dao().read(name);
+    log.debug("Found: {}", project);
     if (project == null) {
       throw new WebApplicationException(Status.NOT_FOUND);
     }
@@ -77,6 +79,7 @@ public class ProjectsResource
   @Override
   public void add(final Project project) {
     checkNotNull(project);
+
     log.debug("Create: {}", project);
     dao().add(project.getName());
   }
@@ -84,6 +87,7 @@ public class ProjectsResource
   @Override
   public void delete(final String name) {
     checkNotNull(name);
+
     log.debug("Delete: {}", name);
     dao().delete(name);
   }

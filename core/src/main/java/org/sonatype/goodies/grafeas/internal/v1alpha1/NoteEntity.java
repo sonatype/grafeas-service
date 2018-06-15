@@ -13,25 +13,31 @@
 package org.sonatype.goodies.grafeas.internal.v1alpha1;
 
 import java.io.Serializable;
-import java.util.Objects;
 
-import org.sonatype.goodies.grafeas.api.v1alpha1.Project;
+import org.sonatype.goodies.grafeas.api.v1alpha1.Note;
 
 import com.google.common.base.MoreObjects;
+import org.jdbi.v3.core.mapper.reflect.ColumnName;
 
 /**
- * {@link Project} entity.
+ * {@link Note} entity.
  *
  * @since ???
  */
-public class ProjectEntity
+public class NoteEntity
     implements Serializable
 {
   private static final long serialVersionUID = 1L;
 
   private Long id;
 
-  private String name;
+  @ColumnName("project_name")
+  private String projectName;
+
+  @ColumnName("note_name")
+  private String noteName;
+
+  private String data;
 
   public Long getId() {
     return id;
@@ -41,28 +47,45 @@ public class ProjectEntity
     this.id = id;
   }
 
-  public String getName() {
-    return name;
+  public String getProjectName() {
+    return projectName;
   }
 
-  public void setName(final String name) {
-    this.name = name;
+  public void setProjectName(final String projectName) {
+    this.projectName = projectName;
+  }
+
+  public String getNoteName() {
+    return noteName;
+  }
+
+  public void setNoteName(final String noteName) {
+    this.noteName = noteName;
+  }
+
+  public String getData() {
+    return data;
+  }
+
+  public void setData(final String data) {
+    this.data = data;
   }
 
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this)
         .add("id", id)
-        .add("name", name)
+        .add("projectName", projectName)
+        .add("noteName", noteName)
+        .add("data", data)
         .toString();
   }
 
   /**
    * Convert entity to API model.
    */
-  public Project asApi() {
-    Project result = new Project();
-    result.setName(name);
-    return result;
+  public Note asApi() {
+    // FIXME:
+    return new Note();
   }
 }

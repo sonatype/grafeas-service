@@ -18,32 +18,36 @@ import javax.annotation.Nullable;
 
 import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
 import org.jdbi.v3.sqlobject.customizer.Bind;
+import org.jdbi.v3.sqlobject.customizer.BindBean;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 
 /**
- * {@link ProjectEntity} data-access object.
+ * {@link NoteEntity} data-access object.
  *
  * @since ???
  */
-public interface ProjectsDao
+public interface NotesDao
 {
   // FIXME: need to expose/handling cursor details for #browse
 
-  @SqlQuery("SELECT * FROM projects")
-  @RegisterBeanMapper(ProjectEntity.class)
-  List<ProjectEntity> browse();
+  @SqlQuery("SELECT * FROM notes WHERE project_name = :project")
+  @RegisterBeanMapper(NoteEntity.class)
+  List<NoteEntity> browse(@Bind("project") String project);
 
-  @SqlQuery("SELECT * FROM projects WHERE name = :name")
-  @RegisterBeanMapper(ProjectEntity.class)
+  @SqlQuery("SELECT * FROM notes WHERE project_name = :project AND name = :name")
+  @RegisterBeanMapper(NoteEntity.class)
   @Nullable
-  ProjectEntity read(@Bind("name") String name);
+  NoteEntity read(@Bind("project") String project, @Bind("name") String name);
 
-  // no edit
+  // FIXME: need to figure out how edit works
 
-  @SqlUpdate("INSERT INTO projects (name) VALUES (:name)")
-  void add(@Bind("name") String name);
+  //@SqlUpdate("INSERT INTO notes (project_name, note_name, data) VALUES (:projectName, :noteName, :data)")
+  //void edit(@BindBean NoteEntity note);
 
-  @SqlUpdate("DELETE FROM projects WHERE name = :name")
-  void delete(@Bind("name") String name);
+  @SqlUpdate("INSERT INTO notes (project_name, note_name, data) VALUES (:projectName, :noteName, :data)")
+  void add(@BindBean NoteEntity note);
+
+  @SqlUpdate("DELETE FROM notes WHERE project_name = :project AND name = :name")
+  void delete(@Bind("project") String project, @Bind("name") String name);
 }

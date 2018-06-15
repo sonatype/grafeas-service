@@ -15,7 +15,9 @@ package org.sonatype.goodies.grafeas.internal.v1alpha1;
 import java.util.List;
 
 import javax.annotation.Nullable;
+import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Provider;
 import javax.inject.Singleton;
 import javax.ws.rs.Path;
 
@@ -25,6 +27,8 @@ import org.sonatype.goodies.grafeas.api.v1alpha1.NotesEndpoint;
 import org.sonatype.goodies.grafeas.api.v1alpha1.Occurrence;
 import org.sonatype.goodies.grafeas.api.v1alpha1.Operation;
 import org.sonatype.goodies.grafeas.api.v1alpha1.OperationsEndpoint;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * {@link OperationsEndpoint} resource.
@@ -38,6 +42,17 @@ public class OperationsResource
     extends ResourceSupport
     implements OperationsEndpoint
 {
+  //private final Provider<OperationsDao> operationsDao;
+  //
+  //@Inject
+  //public OperationsResource(final Provider<OperationsDao> operationsDao) {
+  //  this.operationsDao = checkNotNull(operationsDao);
+  //}
+  //
+  //private OperationsDao dao() {
+  //  return operationsDao.get();
+  //}
+
   @Override
   public List<Operation> browse(final String project,
                                 @Nullable final String filter,

@@ -22,24 +22,24 @@ import org.sonatype.goodies.grafeas.internal.db.DatabaseAccess;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * {@link ProjectsDao} provider.
+ * {@link NotesDao} provider.
  *
  * @since ???
  */
 @Named
 @Singleton
-public class ProjectsDaoProvider
-    implements Provider<ProjectsDao>
+public class NotesDaoProvider
+    implements Provider<NotesDao>
 {
   private final DatabaseAccess databaseAccess;
 
   @Inject
-  public ProjectsDaoProvider(final DatabaseAccess databaseAccess) {
+  public NotesDaoProvider(final DatabaseAccess databaseAccess) {
     this.databaseAccess = checkNotNull(databaseAccess);
   }
 
   @Override
-  public ProjectsDao get() {
-    return databaseAccess.get().onDemand(ProjectsDao.class);
+  public NotesDao get() {
+    return databaseAccess.get().onDemand(NotesDao.class);
   }
 }

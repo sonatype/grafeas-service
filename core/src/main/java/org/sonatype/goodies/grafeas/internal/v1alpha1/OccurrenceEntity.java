@@ -13,25 +13,34 @@
 package org.sonatype.goodies.grafeas.internal.v1alpha1;
 
 import java.io.Serializable;
-import java.util.Objects;
 
-import org.sonatype.goodies.grafeas.api.v1alpha1.Project;
+import org.sonatype.goodies.grafeas.api.v1alpha1.Occurrence;
 
 import com.google.common.base.MoreObjects;
+import org.jdbi.v3.core.mapper.reflect.ColumnName;
 
 /**
- * {@link Project} entity.
+ * {@link Occurrence} entity.
  *
  * @since ???
  */
-public class ProjectEntity
+public class OccurrenceEntity
     implements Serializable
 {
   private static final long serialVersionUID = 1L;
 
   private Long id;
 
-  private String name;
+  @ColumnName("project_name")
+  private String projectName;
+
+  @ColumnName("occurrence_name")
+  private String occurrenceName;
+
+  @ColumnName("note_id")
+  private Long noteId;
+
+  private String data;
 
   public Long getId() {
     return id;
@@ -41,28 +50,54 @@ public class ProjectEntity
     this.id = id;
   }
 
-  public String getName() {
-    return name;
+  public String getProjectName() {
+    return projectName;
   }
 
-  public void setName(final String name) {
-    this.name = name;
+  public void setProjectName(final String projectName) {
+    this.projectName = projectName;
+  }
+
+  public String getOccurrenceName() {
+    return occurrenceName;
+  }
+
+  public void setOccurrenceName(final String occurrenceName) {
+    this.occurrenceName = occurrenceName;
+  }
+
+  public Long getNoteId() {
+    return noteId;
+  }
+
+  public void setNoteId(final Long noteId) {
+    this.noteId = noteId;
+  }
+
+  public String getData() {
+    return data;
+  }
+
+  public void setData(final String data) {
+    this.data = data;
   }
 
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this)
         .add("id", id)
-        .add("name", name)
+        .add("projectName", projectName)
+        .add("occurrenceName", occurrenceName)
+        .add("noteId", noteId)
+        .add("data", data)
         .toString();
   }
 
   /**
    * Convert entity to API model.
    */
-  public Project asApi() {
-    Project result = new Project();
-    result.setName(name);
-    return result;
+  public Occurrence asApi() {
+    // FIXME:
+    return new Occurrence();
   }
 }

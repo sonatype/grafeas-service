@@ -15,7 +15,9 @@ package org.sonatype.goodies.grafeas.internal.v1alpha1;
 import java.util.List;
 
 import javax.annotation.Nullable;
+import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Provider;
 import javax.inject.Singleton;
 import javax.ws.rs.Path;
 
@@ -23,8 +25,8 @@ import org.sonatype.goodies.dropwizard.jaxrs.ResourceSupport;
 import org.sonatype.goodies.grafeas.api.v1alpha1.Note;
 import org.sonatype.goodies.grafeas.api.v1alpha1.Occurrence;
 import org.sonatype.goodies.grafeas.api.v1alpha1.OccurrencesEndpoint;
-import org.sonatype.goodies.grafeas.api.v1alpha1.Operation;
-import org.sonatype.goodies.grafeas.api.v1alpha1.OperationsEndpoint;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * {@link OccurrencesEndpoint} resource.
@@ -38,6 +40,17 @@ public class OccurrencesResource
     extends ResourceSupport
     implements OccurrencesEndpoint
 {
+  //private final Provider<OccurrencesDao> occurrencesDao;
+  //
+  //@Inject
+  //public OccurrencesResource(final Provider<OccurrencesDao> occurrencesDao) {
+  //  this.occurrencesDao = checkNotNull(occurrencesDao);
+  //}
+  //
+  //private OccurrencesDao dao() {
+  //  return occurrencesDao.get();
+  //}
+
   @Override
   public List<Occurrence> browse(final String project,
                                  @Nullable final String filter,
