@@ -103,6 +103,7 @@
               <exclude>*.sh</exclude>
               <exclude>*.cmd</exclude>
               <exclude>references/**</exclude>
+              <exclude>api/src/main/resources/io/grafeas/grafeas.swagger.json</exclude>
             </excludes>
           </configuration>
         </plugin>

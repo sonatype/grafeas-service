@@ -50,10 +50,45 @@
       <artifactId>javax.ws.rs-api</artifactId>
     </dependency>
 
+    <!-- HACK: vvv: for now with all generated bits, this is required -->
+
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.glassfish.jersey.core</groupId>
+      <artifactId>jersey-client</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.glassfish.jersey.media</groupId>
+      <artifactId>jersey-media-json-jackson</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.glassfish.jersey.media</groupId>
+      <artifactId>jersey-media-multipart</artifactId>
+    </dependency>
+
+    <!-- HACK: ^^^^ -->
+
+    <dependency>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-jsr310</artifactId>
+    </dependency>
+
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-annotations</artifactId>
+      <optional>true</optional>
     </dependency>
+
+    <!--<dependency>-->
+      <!--<groupId>joda-time</groupId>-->
+      <!--<artifactId>joda-time</artifactId>-->
+    <!--</dependency>-->
 
     <dependency>
       <groupId>io.swagger</groupId>
@@ -73,4 +108,42 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>io.swagger</groupId>
+        <artifactId>swagger-codegen-maven-plugin</artifactId>
+        <version>2.3.1</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <!-- SEE: https://github.com/grafeas/grafeas/blob/master/v1alpha1/proto/grafeas.swagger.json -->
+              <inputSpec>${project.basedir}/src/main/resources/io/grafeas/grafeas.swagger.json</inputSpec>
+              <language>java</language>
+              <addCompileSourceRoot>true</addCompileSourceRoot>
+              <!-- generate jersey2 compatible outputs -->
+              <library>jersey2</library>
+              <configOptions>
+                <!-- encode dates with java8 native support -->
+                <dateLibrary>java8</dateLibrary>
+              </configOptions>
+              <generateModels>true</generateModels>
+              <!--<generateApis>false</generateApis>-->
+              <generateModelDocumentation>false</generateModelDocumentation>
+              <generateApiDocumentation>false</generateApiDocumentation>
+              <!--<generateSupportingFiles>false</generateSupportingFiles>-->
+              <modelPackage>io.grafeas.model</modelPackage>
+              <apiPackage>io.grafeas.api</apiPackage>
+              <invokerPackage>io.grafeas.invoker</invokerPackage>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
 </project>

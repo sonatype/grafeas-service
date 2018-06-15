@@ -13,14 +13,12 @@
 package org.sonatype.goodies.grafeas.internal.v1alpha1;
 
 import java.io.Serializable;
-import java.util.Objects;
-
-import org.sonatype.goodies.grafeas.api.v1alpha1.Project;
 
 import com.google.common.base.MoreObjects;
+import io.grafeas.model.ApiProject;
 
 /**
- * {@link Project} entity.
+ * {@link ApiProject} entity.
  *
  * @since ???
  */
@@ -60,8 +58,8 @@ public class ProjectEntity
   /**
    * Convert entity to API model.
    */
-  public Project asApi() {
-    Project result = new Project();
+  public ApiProject asApi() {
+    ApiProject result = new ApiProject();
     result.setName(name);
     return result;
   }

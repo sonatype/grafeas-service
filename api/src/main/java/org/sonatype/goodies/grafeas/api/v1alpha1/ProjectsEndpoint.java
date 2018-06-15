@@ -24,6 +24,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
+import io.grafeas.model.ApiProject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -52,9 +53,9 @@ public interface ProjectsEndpoint
   @ApiResponses({
       @ApiResponse(code = 200, message = "Projects")
   })
-  List<Project> browse(@QueryParam("filter") @Nullable String filter,
-                       @QueryParam("page_size") @Nullable Integer pageSize,
-                       @QueryParam("page_token") @Nullable String pageToken);
+  List<ApiProject> browse(@QueryParam("filter") @Nullable String filter,
+                          @QueryParam("page_size") @Nullable Integer pageSize,
+                          @QueryParam("page_token") @Nullable String pageToken);
 
   @GET
   @Path("{name}")
@@ -65,7 +66,7 @@ public interface ProjectsEndpoint
       @ApiResponse(code = 200, message = "Project"),
       @ApiResponse(code = 404, message = "Project not found")
   })
-  Project read(@PathParam("name") @ApiParam("Project name") String name);
+  ApiProject read(@PathParam("name") @ApiParam("Project name") String name);
 
   // no edit
 
@@ -75,7 +76,7 @@ public interface ProjectsEndpoint
   @ApiResponses({
       @ApiResponse(code = 201, message = "Project added")
   })
-  void add(Project project);
+  void add(ApiProject project);
 
   @DELETE
   @Path("{name}")
