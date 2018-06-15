@@ -26,7 +26,7 @@ import javax.ws.rs.QueryParam;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
-// SEE: https://github.com/grafeas/grafeas/blob/master/v1alpha1/docs/GrafeasProjectsApi.md
+// SEE: https://github.com/grafeas/grafeas/blob/master/v1alpha1/docs/GrafeasApi.md
 // SEE: https://github.com/grafeas/grafeas/blob/master/v1alpha1/proto/grafeas.proto
 
 /**
@@ -35,29 +35,38 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
  * @since ???
  */
 @Path("/v1alpha1/projects")
-public interface ProjectsEndpoint
+public interface OccurrencesEndpoint
 {
-  // TODO: browse response; ListProjectsResponse is a list + a next_page_token?
+  // TODO: browse response; ListOccurrencesResponse is a list + a next_page_token?
 
   @GET
+  @Path("{project}/occurrences")
   @Produces(APPLICATION_JSON)
-  List<Project> browse(@QueryParam("filter") @Nullable String filter,
-                       @QueryParam("page_size") @Nullable Integer pageSize,
-                       @QueryParam("page_token") @Nullable String pageToken);
+  List<Occurrence> browse(@PathParam("project") String project,
+                          @QueryParam("filter") @Nullable String filter,
+                          @QueryParam("page_size") @Nullable Integer pageSize,
+                          @QueryParam("page_token") @Nullable String pageToken);
 
   @GET
-  @Path("{name}")
+  @Path("{project}/occurrences/{name}")
   @Produces(APPLICATION_JSON)
-  @Nullable
-  Project read(@PathParam("name") String name);
+  Occurrence read(@PathParam("project") String project, @PathParam("name") String name);
 
-  // no edit
+  // FIXME: jax-rs 2.0 does not support HTTP PATCH :-\
+  //@PATCH
+  @Path("{project}/occurrences/{name}")
+  @Consumes(APPLICATION_JSON)
+  @Produces(APPLICATION_JSON)
+  Occurrence edit(@PathParam("project") String project, @PathParam("name") String name, Occurrence occurrence);
 
   @POST
+  @Path("{project}/occurrences")
   @Consumes(APPLICATION_JSON)
-  void add(Project project);
+  @Produces(APPLICATION_JSON)
+  Occurrence add(@PathParam("project") String project, Occurrence occurrence);
 
   @DELETE
-  @Path("{name}")
-  void delete(@PathParam("name") String name);
+  @Path("{project}/occurrences/{name}")
+  @Produces(APPLICATION_JSON)
+  void delete(@PathParam("project") String project, @PathParam("name") String name);
 }

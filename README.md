@@ -16,3 +16,6 @@
 
 Implementation of [Grafeas](https://grafeas.io/) as a Java micro-service.
 
+## References
+
+* http://kingsfleet.blogspot.com/2014/02/transparent-patch-support-in-jax-rs-20.html
