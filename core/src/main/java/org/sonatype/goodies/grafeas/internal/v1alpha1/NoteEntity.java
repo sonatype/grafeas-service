@@ -19,6 +19,8 @@ import org.sonatype.goodies.grafeas.api.v1alpha1.Note;
 import com.google.common.base.MoreObjects;
 import org.jdbi.v3.core.mapper.reflect.ColumnName;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * {@link Note} entity.
  *
@@ -28,6 +30,16 @@ public class NoteEntity
     implements Serializable
 {
   private static final long serialVersionUID = 1L;
+
+  public NoteEntity() {
+    // empty
+  }
+
+  public NoteEntity(final Note note) {
+    checkNotNull(note);
+
+    // TODO:
+  }
 
   private Long id;
 

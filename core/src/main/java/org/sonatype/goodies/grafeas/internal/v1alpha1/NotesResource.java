@@ -30,6 +30,7 @@ import org.sonatype.goodies.grafeas.api.v1alpha1.NotesEndpoint;
 import org.sonatype.goodies.grafeas.api.v1alpha1.Occurrence;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 /**
  * {@link NotesEndpoint} resource.
@@ -95,12 +96,12 @@ public class NotesResource
     checkNotNull(note);
     log.debug("Create: {} -> {}", project, note);
 
-    // FIXME: convert to entity, return api model from created entity
-
     long id = dao().add(new NoteEntity());
     log.debug("Created: {}", id);
 
-    return note;
+    NoteEntity entity = dao().read(id);
+    checkState(entity != null);
+    return entity.asApi();
   }
 
   @Override

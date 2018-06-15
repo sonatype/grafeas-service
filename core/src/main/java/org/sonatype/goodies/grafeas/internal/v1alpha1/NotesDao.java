@@ -36,6 +36,11 @@ public interface NotesDao
   @RegisterBeanMapper(NoteEntity.class)
   List<NoteEntity> browse(@Bind("project") String project);
 
+  @SqlQuery("SELECT * FROM notes WHERE id = :id")
+  @RegisterBeanMapper(NoteEntity.class)
+  @Nullable
+  NoteEntity read(@Bind("id") long id);
+
   @SqlQuery("SELECT * FROM notes WHERE project_name = :project AND name = :name")
   @RegisterBeanMapper(NoteEntity.class)
   @Nullable

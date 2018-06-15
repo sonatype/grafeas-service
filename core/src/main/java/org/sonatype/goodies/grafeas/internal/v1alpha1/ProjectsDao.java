@@ -35,6 +35,11 @@ public interface ProjectsDao
   @RegisterBeanMapper(ProjectEntity.class)
   List<ProjectEntity> browse();
 
+  @SqlQuery("SELECT * FROM projects WHERE id = :id")
+  @RegisterBeanMapper(ProjectEntity.class)
+  @Nullable
+  ProjectEntity read(@Bind("id") long id);
+
   @SqlQuery("SELECT * FROM projects WHERE name = :name")
   @RegisterBeanMapper(ProjectEntity.class)
   @Nullable
