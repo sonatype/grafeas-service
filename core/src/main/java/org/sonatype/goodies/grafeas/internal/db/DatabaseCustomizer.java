@@ -27,7 +27,6 @@ import io.dropwizard.db.ManagedDataSource;
 import io.dropwizard.db.PooledDataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.hibernate.SessionFactoryFactory;
-import io.dropwizard.jdbi3.bundles.JdbiExceptionsBundle;
 import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
@@ -39,7 +38,6 @@ import liquibase.database.DatabaseFactory;
 import liquibase.database.jvm.JdbcConnection;
 import liquibase.resource.ClassLoaderResourceAccessor;
 import org.hibernate.SessionFactory;
-import org.jdbi.v3.core.Jdbi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -93,9 +91,6 @@ public class DatabaseCustomizer
 
     // add hibernate support
     bootstrap.addBundle(hibernate);
-
-    // add handling of JDBI exceptions
-    bootstrap.addBundle(new JdbiExceptionsBundle());
   }
 
   @Override
@@ -104,6 +99,7 @@ public class DatabaseCustomizer
         new AbstractModule() {
           @Override
           protected void configure() {
+            // expose hibernate bundle to the application
             bind(SessionFactory.class).toInstance(hibernate.getSessionFactory());
           }
         }
@@ -139,9 +135,5 @@ public class DatabaseCustomizer
         dataSource.stop();
       }
     }
-
-    // ensure the jdbi instance singleton is registered
-    Jdbi jdbi = application.getInstance(DatabaseAccess.class).get();
-    // TODO: sanity check
   }
 }

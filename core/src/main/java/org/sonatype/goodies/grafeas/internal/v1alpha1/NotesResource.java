@@ -29,6 +29,8 @@ import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiListNoteOccurrencesRes
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiListNotesResponse;
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiNote;
 
+import org.hibernate.SessionFactory;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
@@ -44,15 +46,15 @@ public class NotesResource
     extends ResourceSupport
     implements NotesEndpoint
 {
-  private final DaoAccess daoAccess;
+  private final SessionFactory sessionFactory;
 
   @Inject
-  public NotesResource(final DaoAccess daoAccess) {
-    this.daoAccess = checkNotNull(daoAccess);
+  public NotesResource(final SessionFactory sessionFactory) {
+    this.sessionFactory = checkNotNull(sessionFactory);
   }
 
-  private NotesDao dao() {
-    return daoAccess.notes();
+  private NotesEntityDao dao() {
+    return new NotesEntityDao(sessionFactory);
   }
 
   @Override
@@ -61,7 +63,8 @@ public class NotesResource
                                      @Nullable final Integer pageSize,
                                      @Nullable final String pageToken)
   {
-    List<ApiNote> notes = dao().browse(project).stream().map(NoteEntity::asApi).collect(Collectors.toList());
+    List<ApiNote> notes = dao().browse(project, filter, pageSize, pageToken)
+        .stream().map(NoteEntity::asApi).collect(Collectors.toList());
     ApiListNotesResponse result = new ApiListNotesResponse();
     result.setNotes(notes);
     return result;
@@ -112,7 +115,8 @@ public class NotesResource
     checkNotNull(name);
 
     log.debug("Delete: {}/{}", project, name);
-    dao().delete(project, name);
+    NoteEntity entity = dao().read(project, name);
+    dao().delete(entity);
   }
 
   @Override

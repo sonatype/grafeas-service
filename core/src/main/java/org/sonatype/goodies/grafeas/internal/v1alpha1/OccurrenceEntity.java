@@ -17,7 +17,6 @@ import java.io.Serializable;
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiOccurrence;
 
 import com.google.common.base.MoreObjects;
-import org.jdbi.v3.core.mapper.reflect.ColumnName;
 
 /**
  * {@link ApiOccurrence} entity.
@@ -31,13 +30,13 @@ public class OccurrenceEntity
 
   private Long id;
 
-  @ColumnName("project_name")
+  //@ColumnName("project_name")
   private String projectName;
 
-  @ColumnName("occurrence_name")
+  //@ColumnName("occurrence_name")
   private String occurrenceName;
 
-  @ColumnName("note_id")
+  //@ColumnName("note_id")
   private Long noteId;
 
   private String data;

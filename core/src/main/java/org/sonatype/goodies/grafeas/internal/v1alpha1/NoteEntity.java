@@ -12,12 +12,16 @@
  */
 package org.sonatype.goodies.grafeas.internal.v1alpha1;
 
-import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiNote;
 
 import com.google.common.base.MoreObjects;
-import org.jdbi.v3.core.mapper.reflect.ColumnName;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -26,11 +30,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
  *
  * @since ???
  */
+@Entity
+@Table(name = "notes")
 public class NoteEntity
-    implements Serializable
 {
-  private static final long serialVersionUID = 1L;
-
   public NoteEntity() {
     // empty
   }
@@ -41,12 +44,14 @@ public class NoteEntity
     // TODO:
   }
 
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @ColumnName("project_name")
+  @Column(name = "project_name")
   private String projectName;
 
-  @ColumnName("note_name")
+  @Column(name = "note_name")
   private String noteName;
 
   private String data;

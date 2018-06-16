@@ -15,7 +15,6 @@ package org.sonatype.goodies.grafeas.internal.v1alpha1;
 import java.io.Serializable;
 
 import com.google.common.base.MoreObjects;
-import org.jdbi.v3.core.mapper.reflect.ColumnName;
 
 /**
  * Operation entity.
@@ -29,10 +28,10 @@ public class OperationEntity
 
   private Long id;
 
-  @ColumnName("project_name")
+  //@ColumnName("project_name")
   private String projectName;
 
-  @ColumnName("operation_name")
+  //@ColumnName("operation_name")
   private String operationName;
 
   private String data;
