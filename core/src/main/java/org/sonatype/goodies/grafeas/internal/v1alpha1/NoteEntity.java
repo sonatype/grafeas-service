@@ -14,15 +14,14 @@ package org.sonatype.goodies.grafeas.internal.v1alpha1;
 
 import java.io.Serializable;
 
-import org.sonatype.goodies.grafeas.api.v1alpha1.Note;
-
 import com.google.common.base.MoreObjects;
+import io.grafeas.model.ApiNote;
 import org.jdbi.v3.core.mapper.reflect.ColumnName;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * {@link Note} entity.
+ * {@link ApiNote} entity.
  *
  * @since ???
  */
@@ -35,7 +34,7 @@ public class NoteEntity
     // empty
   }
 
-  public NoteEntity(final Note note) {
+  public NoteEntity(final ApiNote note) {
     checkNotNull(note);
 
     // TODO:
@@ -96,8 +95,8 @@ public class NoteEntity
   /**
    * Convert entity to API model.
    */
-  public Note asApi() {
+  public ApiNote asApi() {
     // FIXME:
-    return new Note();
+    return new ApiNote();
   }
 }

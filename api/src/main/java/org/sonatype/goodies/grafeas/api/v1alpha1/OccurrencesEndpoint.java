@@ -12,8 +12,6 @@
  */
 package org.sonatype.goodies.grafeas.api.v1alpha1;
 
-import java.util.List;
-
 import javax.annotation.Nullable;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -25,6 +23,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
+import io.grafeas.model.ApiListOccurrencesResponse;
+import io.grafeas.model.ApiNote;
+import io.grafeas.model.ApiOccurrence;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -44,8 +45,6 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 @Api(value = "Manage project occurrences")
 public interface OccurrencesEndpoint
 {
-  // TODO: browse response; response is a list + a next_page_token?
-
   @GET
   @Path("{project}/occurrences")
   @Produces(APPLICATION_JSON)
@@ -53,10 +52,10 @@ public interface OccurrencesEndpoint
   @ApiResponses({
       @ApiResponse(code = 200, message = "Occurrences")
   })
-  List<Occurrence> browse(@PathParam("project") String project,
-                          @QueryParam("filter") @Nullable String filter,
-                          @QueryParam("page_size") @Nullable Integer pageSize,
-                          @QueryParam("page_token") @Nullable String pageToken);
+  ApiListOccurrencesResponse browse(@PathParam("project") String project,
+                                    @QueryParam("filter") @Nullable String filter,
+                                    @QueryParam("page_size") @Nullable Integer pageSize,
+                                    @QueryParam("page_token") @Nullable String pageToken);
 
   @GET
   @Path("{project}/occurrences/{name}")
@@ -66,7 +65,7 @@ public interface OccurrencesEndpoint
       @ApiResponse(code = 200, message = "Occurrence"),
       @ApiResponse(code = 404, message = "Occurrences not found")
   })
-  Occurrence read(@PathParam("project") String project, @PathParam("name") String name);
+  ApiOccurrence read(@PathParam("project") String project, @PathParam("name") String name);
 
   // FIXME: jax-rs 2.0 does not support HTTP PATCH :-\
 
@@ -80,7 +79,7 @@ public interface OccurrencesEndpoint
       @ApiResponse(code = 200, message = "Occurrence edited"),
       @ApiResponse(code = 404, message = "Occurrence not found")
   })
-  Occurrence edit(@PathParam("project") String project, @PathParam("name") String name, Occurrence occurrence);
+  ApiOccurrence edit(@PathParam("project") String project, @PathParam("name") String name, ApiOccurrence occurrence);
 
   @POST
   @Path("{project}/occurrences")
@@ -90,7 +89,7 @@ public interface OccurrencesEndpoint
   @ApiResponses({
       @ApiResponse(code = 201, message = "Occurrence added")
   })
-  Occurrence add(@PathParam("project") String project, Occurrence occurrence);
+  ApiOccurrence add(@PathParam("project") String project, ApiOccurrence occurrence);
 
   @DELETE
   @Path("{project}/occurrences/{name}")
@@ -112,5 +111,5 @@ public interface OccurrencesEndpoint
       @ApiResponse(code = 200, message = "Note"),
       @ApiResponse(code = 404, message = "Occurrence not found")
   })
-  Note readNote(@PathParam("project") String project, @PathParam("name") String name);
+  ApiNote readNote(@PathParam("project") String project, @PathParam("name") String name);
 }

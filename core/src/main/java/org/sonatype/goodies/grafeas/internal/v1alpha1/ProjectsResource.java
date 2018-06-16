@@ -27,6 +27,7 @@ import javax.ws.rs.core.Response.Status;
 import org.sonatype.goodies.dropwizard.jaxrs.ResourceSupport;
 import org.sonatype.goodies.grafeas.api.v1alpha1.ProjectsEndpoint;
 
+import io.grafeas.model.ApiListProjectsResponse;
 import io.grafeas.model.ApiProject;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -55,12 +56,15 @@ public class ProjectsResource
   }
 
   @Override
-  public List<ApiProject> browse(@Nullable final String filter,
-                                 @Nullable final Integer pageSize,
-                                 @Nullable final String pageToken)
+  public ApiListProjectsResponse browse(@Nullable final String filter,
+                                        @Nullable final Integer pageSize,
+                                        @Nullable final String pageToken)
   {
     // TODO: bridge filter/page poop to dao
-    return dao().browse().stream().map(ProjectEntity::asApi).collect(Collectors.toList());
+    List<ApiProject> projects = dao().browse().stream().map(ProjectEntity::asApi).collect(Collectors.toList());
+    ApiListProjectsResponse result = new ApiListProjectsResponse();
+    result.setProjects(projects);
+    return result;
   }
 
   @Override

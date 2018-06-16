@@ -25,9 +25,11 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response.Status;
 
 import org.sonatype.goodies.dropwizard.jaxrs.ResourceSupport;
-import org.sonatype.goodies.grafeas.api.v1alpha1.Note;
 import org.sonatype.goodies.grafeas.api.v1alpha1.NotesEndpoint;
-import org.sonatype.goodies.grafeas.api.v1alpha1.Occurrence;
+
+import io.grafeas.model.ApiListNoteOccurrencesResponse;
+import io.grafeas.model.ApiListNotesResponse;
+import io.grafeas.model.ApiNote;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
@@ -56,17 +58,19 @@ public class NotesResource
   }
 
   @Override
-  public List<Note> browse(final String project,
-                           @Nullable final String filter,
-                           @Nullable final Integer pageSize,
-                           @Nullable final String pageToken)
+  public ApiListNotesResponse browse(final String project,
+                                     @Nullable final String filter,
+                                     @Nullable final Integer pageSize,
+                                     @Nullable final String pageToken)
   {
-    // TODO: bridge filter/page poop to dao
-    return dao().browse(project).stream().map(NoteEntity::asApi).collect(Collectors.toList());
+    List<ApiNote> notes = dao().browse(project).stream().map(NoteEntity::asApi).collect(Collectors.toList());
+    ApiListNotesResponse result = new ApiListNotesResponse();
+    result.setNotes(notes);
+    return result;
   }
 
   @Override
-  public Note read(final String project, final String name) {
+  public ApiNote read(final String project, final String name) {
     checkNotNull(project);
     checkNotNull(name);
 
@@ -80,7 +84,7 @@ public class NotesResource
   }
 
   @Override
-  public Note edit(final String project, final String name, final Note note) {
+  public ApiNote edit(final String project, final String name, final ApiNote note) {
     checkNotNull(project);
     checkNotNull(name);
     checkNotNull(note);
@@ -91,7 +95,7 @@ public class NotesResource
   }
 
   @Override
-  public Note add(final String project, final Note note) {
+  public ApiNote add(final String project, final ApiNote note) {
     checkNotNull(project);
     checkNotNull(note);
     log.debug("Create: {} -> {}", project, note);
@@ -114,7 +118,7 @@ public class NotesResource
   }
 
   @Override
-  public List<Occurrence> readOccurrences(final String project, final String name) {
+  public ApiListNoteOccurrencesResponse readOccurrences(final String project, final String name) {
     checkNotNull(project);
     checkNotNull(name);
 

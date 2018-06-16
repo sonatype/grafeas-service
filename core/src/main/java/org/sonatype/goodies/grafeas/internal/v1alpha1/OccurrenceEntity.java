@@ -14,13 +14,12 @@ package org.sonatype.goodies.grafeas.internal.v1alpha1;
 
 import java.io.Serializable;
 
-import org.sonatype.goodies.grafeas.api.v1alpha1.Occurrence;
-
 import com.google.common.base.MoreObjects;
+import io.grafeas.model.ApiOccurrence;
 import org.jdbi.v3.core.mapper.reflect.ColumnName;
 
 /**
- * {@link Occurrence} entity.
+ * {@link ApiOccurrence} entity.
  *
  * @since ???
  */
@@ -96,8 +95,8 @@ public class OccurrenceEntity
   /**
    * Convert entity to API model.
    */
-  public Occurrence asApi() {
+  public ApiOccurrence asApi() {
     // FIXME:
-    return new Occurrence();
+    return new ApiOccurrence();
   }
 }

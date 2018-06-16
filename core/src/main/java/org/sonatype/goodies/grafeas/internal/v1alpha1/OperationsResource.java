@@ -12,23 +12,15 @@
  */
 package org.sonatype.goodies.grafeas.internal.v1alpha1;
 
-import java.util.List;
-
-import javax.annotation.Nullable;
-import javax.inject.Inject;
 import javax.inject.Named;
-import javax.inject.Provider;
 import javax.inject.Singleton;
 import javax.ws.rs.Path;
 
 import org.sonatype.goodies.dropwizard.jaxrs.ResourceSupport;
-import org.sonatype.goodies.grafeas.api.v1alpha1.Note;
-import org.sonatype.goodies.grafeas.api.v1alpha1.NotesEndpoint;
-import org.sonatype.goodies.grafeas.api.v1alpha1.Occurrence;
-import org.sonatype.goodies.grafeas.api.v1alpha1.Operation;
 import org.sonatype.goodies.grafeas.api.v1alpha1.OperationsEndpoint;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import io.grafeas.model.ApiCreateOperationRequest;
+import io.grafeas.model.LongrunningOperation;
 
 /**
  * {@link OperationsEndpoint} resource.
@@ -54,31 +46,7 @@ public class OperationsResource
   //}
 
   @Override
-  public List<Operation> browse(final String project,
-                                @Nullable final String filter,
-                                @Nullable final Integer pageSize,
-                                @Nullable final String pageToken)
-  {
+  public LongrunningOperation add(final String project, final ApiCreateOperationRequest request) {
     return null;
-  }
-
-  @Override
-  public Operation read(final String project, final String name) {
-    return null;
-  }
-
-  @Override
-  public Operation edit(final String project, final String name, final Note note) {
-    return null;
-  }
-
-  @Override
-  public Operation add(final String project, final Note note) {
-    return null;
-  }
-
-  @Override
-  public void delete(final String project, final String name) {
-
   }
 }

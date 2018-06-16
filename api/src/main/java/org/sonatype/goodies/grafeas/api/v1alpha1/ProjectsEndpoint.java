@@ -12,8 +12,6 @@
  */
 package org.sonatype.goodies.grafeas.api.v1alpha1;
 
-import java.util.List;
-
 import javax.annotation.Nullable;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -24,6 +22,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
+import io.grafeas.model.ApiListProjectsResponse;
 import io.grafeas.model.ApiProject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -45,17 +44,15 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 @Api(value = "Manage projects")
 public interface ProjectsEndpoint
 {
-  // TODO: browse response; ListProjectsResponse is a list + a next_page_token?
-
   @GET
   @Produces(APPLICATION_JSON)
   @ApiOperation(value = "Browse projects")
   @ApiResponses({
       @ApiResponse(code = 200, message = "Projects")
   })
-  List<ApiProject> browse(@QueryParam("filter") @Nullable String filter,
-                          @QueryParam("page_size") @Nullable Integer pageSize,
-                          @QueryParam("page_token") @Nullable String pageToken);
+  ApiListProjectsResponse browse(@QueryParam("filter") @Nullable String filter,
+                                 @QueryParam("page_size") @Nullable Integer pageSize,
+                                 @QueryParam("page_token") @Nullable String pageToken);
 
   @GET
   @Path("{name}")

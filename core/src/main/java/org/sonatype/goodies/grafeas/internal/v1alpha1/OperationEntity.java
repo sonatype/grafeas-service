@@ -14,13 +14,11 @@ package org.sonatype.goodies.grafeas.internal.v1alpha1;
 
 import java.io.Serializable;
 
-import org.sonatype.goodies.grafeas.api.v1alpha1.Operation;
-
 import com.google.common.base.MoreObjects;
 import org.jdbi.v3.core.mapper.reflect.ColumnName;
 
 /**
- * {@link Operation} entity.
+ * Operation entity.
  *
  * @since ???
  */
@@ -79,12 +77,5 @@ public class OperationEntity
         .add("operationName", operationName)
         .add("data", data)
         .toString();
-  }
-
-  /**
-   * Convert entity to API model.
-   */
-  public Operation asApi() {
-    return new Operation();
   }
 }

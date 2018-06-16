@@ -12,21 +12,17 @@
  */
 package org.sonatype.goodies.grafeas.internal.v1alpha1;
 
-import java.util.List;
-
 import javax.annotation.Nullable;
-import javax.inject.Inject;
 import javax.inject.Named;
-import javax.inject.Provider;
 import javax.inject.Singleton;
 import javax.ws.rs.Path;
 
 import org.sonatype.goodies.dropwizard.jaxrs.ResourceSupport;
-import org.sonatype.goodies.grafeas.api.v1alpha1.Note;
-import org.sonatype.goodies.grafeas.api.v1alpha1.Occurrence;
 import org.sonatype.goodies.grafeas.api.v1alpha1.OccurrencesEndpoint;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import io.grafeas.model.ApiListOccurrencesResponse;
+import io.grafeas.model.ApiNote;
+import io.grafeas.model.ApiOccurrence;
 
 /**
  * {@link OccurrencesEndpoint} resource.
@@ -52,26 +48,26 @@ public class OccurrencesResource
   //}
 
   @Override
-  public List<Occurrence> browse(final String project,
-                                 @Nullable final String filter,
-                                 @Nullable final Integer pageSize,
-                                 @Nullable final String pageToken)
+  public ApiListOccurrencesResponse browse(final String project,
+                                           @Nullable final String filter,
+                                           @Nullable final Integer pageSize,
+                                           @Nullable final String pageToken)
   {
     return null;
   }
 
   @Override
-  public Occurrence read(final String project, final String name) {
+  public ApiOccurrence read(final String project, final String name) {
     return null;
   }
 
   @Override
-  public Occurrence edit(final String project, final String name, final Occurrence occurrence) {
+  public ApiOccurrence edit(final String project, final String name, final ApiOccurrence occurrence) {
     return null;
   }
 
   @Override
-  public Occurrence add(final String project, final Occurrence occurrence) {
+  public ApiOccurrence add(final String project, final ApiOccurrence occurrence) {
     return null;
   }
 
@@ -81,7 +77,7 @@ public class OccurrencesResource
   }
 
   @Override
-  public Note readNote(final String project, final String name) {
+  public ApiNote readNote(final String project, final String name) {
     return null;
   }
 }
