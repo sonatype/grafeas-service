@@ -29,10 +29,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
  *
  * @since ???
  */
-public class NotesEntityDao
+public class NoteEntityDao
     extends AbstractDAO<NoteEntity>
 {
-  public NotesEntityDao(final SessionFactory sessionFactory) {
+  public NoteEntityDao(final SessionFactory sessionFactory) {
     super(sessionFactory);
   }
 

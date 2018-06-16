@@ -53,8 +53,8 @@ public class NotesResource
     this.sessionFactory = checkNotNull(sessionFactory);
   }
 
-  private NotesEntityDao dao() {
-    return new NotesEntityDao(sessionFactory);
+  private NoteEntityDao dao() {
+    return new NoteEntityDao(sessionFactory);
   }
 
   @Override
