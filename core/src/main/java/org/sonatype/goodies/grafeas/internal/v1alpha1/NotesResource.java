@@ -64,7 +64,7 @@ public class NotesResource
                                      @Nullable final String pageToken)
   {
     List<ApiNote> notes = dao().browse(project, filter, pageSize, pageToken)
-        .stream().map(NoteEntity::asApi).collect(Collectors.toList());
+        .stream().map(NoteEntity::toModel).collect(Collectors.toList());
     ApiListNotesResponse result = new ApiListNotesResponse();
     result.setNotes(notes);
     return result;
@@ -81,7 +81,7 @@ public class NotesResource
     if (entity == null) {
       throw new WebApplicationException(Status.NOT_FOUND);
     }
-    return entity.asApi();
+    return entity.toModel();
   }
 
   @Override
@@ -106,7 +106,7 @@ public class NotesResource
 
     NoteEntity entity = dao().read(id);
     checkState(entity != null);
-    return entity.asApi();
+    return entity.toModel();
   }
 
   @Override

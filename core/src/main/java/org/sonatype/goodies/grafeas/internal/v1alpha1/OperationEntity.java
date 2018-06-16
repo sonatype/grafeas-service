@@ -19,6 +19,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.sonatype.goodies.grafeas.internal.db.EntitySupport;
+
 import com.google.common.base.MoreObjects;
 
 /**
@@ -40,6 +42,8 @@ public class OperationEntity
 
   @Column(name = "operation_name")
   private String operationName;
+
+  // FIXME: resolve what the datatype is here ApiCreateOperationRequest or LongrunningOperation?
 
   private String data;
 
@@ -84,4 +88,6 @@ public class OperationEntity
         .add("data", data)
         .toString();
   }
+
+  // TODO: toModel
 }

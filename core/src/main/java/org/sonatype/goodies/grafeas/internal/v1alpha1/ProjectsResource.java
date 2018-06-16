@@ -65,7 +65,7 @@ public class ProjectsResource
     log.debug("Browse; filter: {}, page-size: {}, page-token: {}", filter, pageSize, pageToken);
 
     List<ApiProject> projects = dao().browse(filter, pageSize, pageToken)
-        .stream().map(ProjectEntity::asApi).collect(Collectors.toList());
+        .stream().map(ProjectEntity::toModel).collect(Collectors.toList());
     log.debug("Found: {} entities", projects.size());
 
     ApiListProjectsResponse result = new ApiListProjectsResponse();
@@ -87,7 +87,7 @@ public class ProjectsResource
       throw new WebApplicationException(Status.NOT_FOUND);
     }
 
-    return project.asApi();
+    return project.toModel();
   }
 
   @Override

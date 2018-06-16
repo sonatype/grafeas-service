@@ -13,6 +13,7 @@
 package org.sonatype.goodies.grafeas.internal.v1alpha1;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,6 +21,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiOccurrence;
+import org.sonatype.goodies.grafeas.internal.db.EntitySupport;
 
 import com.google.common.base.MoreObjects;
 
@@ -46,7 +48,8 @@ public class OccurrenceEntity
   @Column(name = "note_id")
   private Long noteId;
 
-  private String data;
+  @Convert(converter = ApiOccurrenceConverter.class)
+  private ApiOccurrence data;
 
   public Long getId() {
     return id;
@@ -80,11 +83,11 @@ public class OccurrenceEntity
     this.noteId = noteId;
   }
 
-  public String getData() {
+  public ApiOccurrence getData() {
     return data;
   }
 
-  public void setData(final String data) {
+  public void setData(final ApiOccurrence data) {
     this.data = data;
   }
 
@@ -100,10 +103,9 @@ public class OccurrenceEntity
   }
 
   /**
-   * Convert entity to API model.
+   * Convert entity to model.
    */
-  public ApiOccurrence asApi() {
-    // FIXME:
-    return new ApiOccurrence();
+  public ApiOccurrence toModel() {
+    return getData();
   }
 }
