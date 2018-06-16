@@ -14,7 +14,6 @@ package org.sonatype.goodies.grafeas.internal.v1alpha1;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import org.sonatype.goodies.grafeas.internal.db.DatabaseAccess;
@@ -22,24 +21,34 @@ import org.sonatype.goodies.grafeas.internal.db.DatabaseAccess;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * {@link ProjectsDao} provider.
+ * Data-access object accessor.
  *
  * @since ???
  */
 @Named
 @Singleton
-public class ProjectsDaoProvider
-    implements Provider<ProjectsDao>
+public class DaoAccess
 {
   private final DatabaseAccess databaseAccess;
 
   @Inject
-  public ProjectsDaoProvider(final DatabaseAccess databaseAccess) {
+  public DaoAccess(final DatabaseAccess databaseAccess) {
     this.databaseAccess = checkNotNull(databaseAccess);
   }
 
-  @Override
-  public ProjectsDao get() {
+  public ProjectsDao projects() {
     return databaseAccess.get().onDemand(ProjectsDao.class);
   }
+
+  public NotesDao notes() {
+    return databaseAccess.get().onDemand(NotesDao.class);
+  }
+
+  //public OccurrencesDao occurrences() {
+  //  return databaseAccess.get().onDemand(OccurrencesDao.class);
+  //}
+  //
+  //public OperationsDao operations() {
+  //  return databaseAccess.get().onDemand(OperationsDao.class);
+  //}
 }

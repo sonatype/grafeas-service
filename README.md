@@ -16,6 +16,10 @@
 
 Implementation of [Grafeas](https://grafeas.io/) as a Java micro-service.
 
+## TODO
+
+* Browse operations take a `filter` but its not defined afaict what that is, and ref-impl doesn't even look at it
+
 ## References
 
 ### HTTP PATCH

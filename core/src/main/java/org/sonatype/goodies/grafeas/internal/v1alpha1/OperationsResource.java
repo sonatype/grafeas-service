@@ -35,17 +35,6 @@ public class OperationsResource
     extends ResourceSupport
     implements OperationsEndpoint
 {
-  //private final Provider<OperationsDao> operationsDao;
-  //
-  //@Inject
-  //public OperationsResource(final Provider<OperationsDao> operationsDao) {
-  //  this.operationsDao = checkNotNull(operationsDao);
-  //}
-  //
-  //private OperationsDao dao() {
-  //  return operationsDao.get();
-  //}
-
   @Override
   public LongrunningOperation add(final String project, final ApiCreateOperationRequest request) {
     checkNotNull(project);

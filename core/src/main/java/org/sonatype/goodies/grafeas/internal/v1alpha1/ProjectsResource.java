@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.inject.Provider;
 import javax.inject.Singleton;
 import javax.ws.rs.Path;
 import javax.ws.rs.WebApplicationException;
@@ -43,15 +42,15 @@ public class ProjectsResource
     extends ResourceSupport
     implements ProjectsEndpoint
 {
-  private final Provider<ProjectsDao> projectsDao;
+  private final DaoAccess daoAccess;
 
   @Inject
-  public ProjectsResource(final Provider<ProjectsDao> projectsDao) {
-    this.projectsDao = checkNotNull(projectsDao);
+  public ProjectsResource(final DaoAccess daoAccess) {
+    this.daoAccess = checkNotNull(daoAccess);
   }
 
   private ProjectsDao dao() {
-    return projectsDao.get();
+    return daoAccess.projects();
   }
 
   @Override

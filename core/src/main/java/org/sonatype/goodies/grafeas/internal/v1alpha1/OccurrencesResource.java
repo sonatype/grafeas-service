@@ -35,17 +35,6 @@ public class OccurrencesResource
     extends ResourceSupport
     implements OccurrencesEndpoint
 {
-  //private final Provider<OccurrencesDao> occurrencesDao;
-  //
-  //@Inject
-  //public OccurrencesResource(final Provider<OccurrencesDao> occurrencesDao) {
-  //  this.occurrencesDao = checkNotNull(occurrencesDao);
-  //}
-  //
-  //private OccurrencesDao dao() {
-  //  return occurrencesDao.get();
-  //}
-
   @Override
   public ApiListOccurrencesResponse browse(final String project,
                                            @Nullable final String filter,

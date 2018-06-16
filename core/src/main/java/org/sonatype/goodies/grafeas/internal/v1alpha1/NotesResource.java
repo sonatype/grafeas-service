@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.inject.Provider;
 import javax.inject.Singleton;
 import javax.ws.rs.Path;
 import javax.ws.rs.WebApplicationException;
@@ -45,15 +44,15 @@ public class NotesResource
     extends ResourceSupport
     implements NotesEndpoint
 {
-  private final Provider<NotesDao> notesDao;
+  private final DaoAccess daoAccess;
 
   @Inject
-  public NotesResource(final Provider<NotesDao> notesDao) {
-    this.notesDao = checkNotNull(notesDao);
+  public NotesResource(final DaoAccess daoAccess) {
+    this.daoAccess = checkNotNull(daoAccess);
   }
 
   private NotesDao dao() {
-    return notesDao.get();
+    return daoAccess.notes();
   }
 
   @Override
