@@ -25,6 +25,7 @@ logging:
     org.apache.shiro.grafeas: DEBUG
     org.apache.shiro.dropwizard: DEBUG
     org.glassfish.jersey.logging.LoggingFeature: DEBUG
+    org.hibernate: WARN
 
   appenders:
     - type: console

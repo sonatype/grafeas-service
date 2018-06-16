@@ -13,13 +13,20 @@
 package org.sonatype.goodies.grafeas.internal.db;
 
 import java.sql.Connection;
+import java.util.List;
 
 import org.sonatype.goodies.dropwizard.ApplicationCustomizer;
 import org.sonatype.goodies.grafeas.GrafeasApplication;
 import org.sonatype.goodies.grafeas.GrafeasConfiguration;
+import org.sonatype.goodies.grafeas.internal.v1alpha1.ProjectEntity;
 
+import com.google.common.collect.ImmutableList;
+import com.google.inject.AbstractModule;
+import com.google.inject.Module;
 import io.dropwizard.db.ManagedDataSource;
 import io.dropwizard.db.PooledDataSourceFactory;
+import io.dropwizard.hibernate.HibernateBundle;
+import io.dropwizard.hibernate.SessionFactoryFactory;
 import io.dropwizard.jdbi3.bundles.JdbiExceptionsBundle;
 import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
@@ -31,6 +38,7 @@ import liquibase.database.Database;
 import liquibase.database.DatabaseFactory;
 import liquibase.database.jvm.JdbcConnection;
 import liquibase.resource.ClassLoaderResourceAccessor;
+import org.hibernate.SessionFactory;
 import org.jdbi.v3.core.Jdbi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,6 +54,21 @@ public class DatabaseCustomizer
   private static final String MIGRATIONS_FILE = "migrations.xml";
 
   private static final Logger log = LoggerFactory.getLogger(DatabaseCustomizer.class);
+
+  private final HibernateBundle<GrafeasConfiguration> hibernate;
+
+  public DatabaseCustomizer() {
+    ImmutableList<Class<?>> entities = ImmutableList.of(
+        ProjectEntity.class
+    );
+
+    hibernate = new HibernateBundle<GrafeasConfiguration>(entities, new SessionFactoryFactory()) {
+      @Override
+      public PooledDataSourceFactory getDataSourceFactory(final GrafeasConfiguration config) {
+        return config.getDatabaseConfiguration().getDataSourceFactory();
+      }
+    };
+  }
 
   @Override
   public void initialize(final Bootstrap<GrafeasConfiguration> bootstrap) {
@@ -68,8 +91,23 @@ public class DatabaseCustomizer
       }
     });
 
+    // add hibernate support
+    bootstrap.addBundle(hibernate);
+
     // add handling of JDBI exceptions
     bootstrap.addBundle(new JdbiExceptionsBundle());
+  }
+
+  @Override
+  public List<Module> modules(final GrafeasConfiguration config, final Environment environment) throws Exception {
+    return ImmutableList.of(
+        new AbstractModule() {
+          @Override
+          protected void configure() {
+            bind(SessionFactory.class).toInstance(hibernate.getSessionFactory());
+          }
+        }
+    );
   }
 
   @Override
