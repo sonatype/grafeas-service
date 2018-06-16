@@ -12,7 +12,12 @@
  */
 package org.sonatype.goodies.grafeas.internal.v1alpha1;
 
-import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 import com.google.common.base.MoreObjects;
 
@@ -21,17 +26,19 @@ import com.google.common.base.MoreObjects;
  *
  * @since ???
  */
+@Entity
+@Table(name="operations")
 public class OperationEntity
-    implements Serializable
+    extends EntitySupport
 {
-  private static final long serialVersionUID = 1L;
-
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  //@ColumnName("project_name")
+  @Column(name = "project_name")
   private String projectName;
 
-  //@ColumnName("operation_name")
+  @Column(name = "operation_name")
   private String operationName;
 
   private String data;

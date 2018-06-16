@@ -30,6 +30,7 @@ import com.google.common.base.MoreObjects;
 @Entity
 @Table(name = "projects")
 public class ProjectEntity
+  extends EntitySupport
 {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

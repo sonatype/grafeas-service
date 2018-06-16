@@ -12,7 +12,12 @@
  */
 package org.sonatype.goodies.grafeas.internal.v1alpha1;
 
-import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiOccurrence;
 
@@ -23,20 +28,22 @@ import com.google.common.base.MoreObjects;
  *
  * @since ???
  */
+@Entity
+@Table(name = "occurrences")
 public class OccurrenceEntity
-    implements Serializable
+    extends EntitySupport
 {
-  private static final long serialVersionUID = 1L;
-
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  //@ColumnName("project_name")
+  @Column(name = "project_name")
   private String projectName;
 
-  //@ColumnName("occurrence_name")
+  @Column(name = "occurrence_name")
   private String occurrenceName;
 
-  //@ColumnName("note_id")
+  @Column(name = "note_id")
   private Long noteId;
 
   private String data;

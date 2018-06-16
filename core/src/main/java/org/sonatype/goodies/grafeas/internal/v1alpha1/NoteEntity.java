@@ -33,6 +33,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 @Entity
 @Table(name = "notes")
 public class NoteEntity
+  extends EntitySupport
 {
   public NoteEntity() {
     // empty
