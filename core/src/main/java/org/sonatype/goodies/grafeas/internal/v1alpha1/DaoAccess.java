@@ -36,10 +36,6 @@ public class DaoAccess
     this.databaseAccess = checkNotNull(databaseAccess);
   }
 
-  public ProjectsDao projects() {
-    return databaseAccess.get().onDemand(ProjectsDao.class);
-  }
-
   public NotesDao notes() {
     return databaseAccess.get().onDemand(NotesDao.class);
   }
