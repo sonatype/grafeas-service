@@ -23,9 +23,10 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
-import io.grafeas.model.ApiListNoteOccurrencesResponse;
-import io.grafeas.model.ApiListNotesResponse;
-import io.grafeas.model.ApiNote;
+import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiListNoteOccurrencesResponse;
+import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiListNotesResponse;
+import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiNote;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;

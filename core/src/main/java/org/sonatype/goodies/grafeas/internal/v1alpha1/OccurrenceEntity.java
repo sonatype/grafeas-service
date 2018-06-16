@@ -14,8 +14,9 @@ package org.sonatype.goodies.grafeas.internal.v1alpha1;
 
 import java.io.Serializable;
 
+import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiOccurrence;
+
 import com.google.common.base.MoreObjects;
-import io.grafeas.model.ApiOccurrence;
 import org.jdbi.v3.core.mapper.reflect.ColumnName;
 
 /**

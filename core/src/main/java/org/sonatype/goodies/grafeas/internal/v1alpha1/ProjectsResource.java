@@ -26,9 +26,8 @@ import javax.ws.rs.core.Response.Status;
 
 import org.sonatype.goodies.dropwizard.jaxrs.ResourceSupport;
 import org.sonatype.goodies.grafeas.api.v1alpha1.ProjectsEndpoint;
-
-import io.grafeas.model.ApiListProjectsResponse;
-import io.grafeas.model.ApiProject;
+import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiListProjectsResponse;
+import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiProject;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 

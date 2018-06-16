@@ -19,10 +19,9 @@ import javax.ws.rs.Path;
 
 import org.sonatype.goodies.dropwizard.jaxrs.ResourceSupport;
 import org.sonatype.goodies.grafeas.api.v1alpha1.OccurrencesEndpoint;
-
-import io.grafeas.model.ApiListOccurrencesResponse;
-import io.grafeas.model.ApiNote;
-import io.grafeas.model.ApiOccurrence;
+import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiListOccurrencesResponse;
+import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiNote;
+import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiOccurrence;
 
 /**
  * {@link OccurrencesEndpoint} resource.

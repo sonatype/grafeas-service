@@ -18,8 +18,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-import io.grafeas.model.ApiCreateOperationRequest;
-import io.grafeas.model.LongrunningOperation;
+import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiCreateOperationRequest;
+import org.sonatype.goodies.grafeas.api.v1alpha1.model.LongrunningOperation;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;

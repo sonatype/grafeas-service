@@ -18,9 +18,10 @@ import javax.ws.rs.Path;
 
 import org.sonatype.goodies.dropwizard.jaxrs.ResourceSupport;
 import org.sonatype.goodies.grafeas.api.v1alpha1.OperationsEndpoint;
+import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiCreateOperationRequest;
+import org.sonatype.goodies.grafeas.api.v1alpha1.model.LongrunningOperation;
 
-import io.grafeas.model.ApiCreateOperationRequest;
-import io.grafeas.model.LongrunningOperation;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * {@link OperationsEndpoint} resource.
@@ -47,6 +48,10 @@ public class OperationsResource
 
   @Override
   public LongrunningOperation add(final String project, final ApiCreateOperationRequest request) {
+    checkNotNull(project);
+    checkNotNull(request);
+
+    // TODO:
     return null;
   }
 }

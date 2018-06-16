@@ -117,7 +117,7 @@
             </goals>
             <configuration>
               <!-- SEE: https://github.com/grafeas/grafeas/blob/master/v1alpha1/proto/grafeas.swagger.json -->
-              <inputSpec>${project.basedir}/src/main/resources/io/grafeas/grafeas.swagger.json</inputSpec>
+              <inputSpec>${project.basedir}/src/main/resources/io/grafeas/v1alpha1/grafeas.swagger.json</inputSpec>
               <language>java</language>
               <addCompileSourceRoot>true</addCompileSourceRoot>
               <!-- generate jersey2 compatible outputs -->
@@ -131,9 +131,9 @@
               <generateModelDocumentation>false</generateModelDocumentation>
               <generateApiDocumentation>false</generateApiDocumentation>
               <!--<generateSupportingFiles>false</generateSupportingFiles>-->
-              <modelPackage>io.grafeas.model</modelPackage>
-              <apiPackage>io.grafeas.api</apiPackage>
-              <invokerPackage>io.grafeas.invoker</invokerPackage>
+              <modelPackage>org.sonatype.goodies.grafeas.api.v1alpha1.model</modelPackage>
+              <apiPackage>io.grafeas.v1alpha1.api</apiPackage>
+              <invokerPackage>io.grafeas.v1alpha1.invoker</invokerPackage>
             </configuration>
           </execution>
         </executions>

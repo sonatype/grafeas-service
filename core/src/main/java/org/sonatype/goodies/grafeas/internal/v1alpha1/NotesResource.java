@@ -26,10 +26,9 @@ import javax.ws.rs.core.Response.Status;
 
 import org.sonatype.goodies.dropwizard.jaxrs.ResourceSupport;
 import org.sonatype.goodies.grafeas.api.v1alpha1.NotesEndpoint;
-
-import io.grafeas.model.ApiListNoteOccurrencesResponse;
-import io.grafeas.model.ApiListNotesResponse;
-import io.grafeas.model.ApiNote;
+import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiListNoteOccurrencesResponse;
+import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiListNotesResponse;
+import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiNote;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
