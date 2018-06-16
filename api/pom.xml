@@ -127,9 +127,11 @@
                 <dateLibrary>java8</dateLibrary>
               </configOptions>
               <generateModels>true</generateModels>
+              <generateModelTests>false</generateModelTests>
               <!--<generateApis>false</generateApis>-->
               <generateModelDocumentation>false</generateModelDocumentation>
               <generateApiDocumentation>false</generateApiDocumentation>
+              <generateApiTests>false</generateApiTests>
               <!--<generateSupportingFiles>false</generateSupportingFiles>-->
               <modelPackage>org.sonatype.goodies.grafeas.api.v1alpha1.model</modelPackage>
               <apiPackage>io.grafeas.v1alpha1.api</apiPackage>
