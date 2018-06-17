@@ -29,6 +29,7 @@ import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiListNoteOccurrencesRes
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiListNotesResponse;
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiNote;
 
+import io.dropwizard.hibernate.UnitOfWork;
 import org.hibernate.SessionFactory;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -57,6 +58,7 @@ public class NotesResource
     return new NoteEntityDao(sessionFactory);
   }
 
+  @UnitOfWork
   @Override
   public ApiListNotesResponse browse(final String project,
                                      @Nullable final String filter,
@@ -70,6 +72,7 @@ public class NotesResource
     return result;
   }
 
+  @UnitOfWork
   @Override
   public ApiNote read(final String project, final String name) {
     checkNotNull(project);

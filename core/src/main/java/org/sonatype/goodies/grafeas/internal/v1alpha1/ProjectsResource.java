@@ -74,7 +74,6 @@ public class ProjectsResource
   }
 
   @Override
-  @Nullable
   @UnitOfWork
   public ApiProject read(final String name) {
     checkNotNull(name);
