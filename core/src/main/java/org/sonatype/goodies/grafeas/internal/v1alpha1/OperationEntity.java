@@ -19,8 +19,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.sonatype.goodies.grafeas.internal.db.EntitySupport;
-
 import com.google.common.base.MoreObjects;
 
 /**
@@ -31,7 +29,6 @@ import com.google.common.base.MoreObjects;
 @Entity
 @Table(name="operations")
 public class OperationEntity
-    extends EntitySupport
 {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

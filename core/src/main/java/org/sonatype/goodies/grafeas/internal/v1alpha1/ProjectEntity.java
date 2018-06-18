@@ -20,7 +20,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiProject;
-import org.sonatype.goodies.grafeas.internal.db.EntitySupport;
 
 import com.google.common.base.MoreObjects;
 
@@ -32,7 +31,6 @@ import com.google.common.base.MoreObjects;
 @Entity
 @Table(name = "projects")
 public class ProjectEntity
-    extends EntitySupport
 {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

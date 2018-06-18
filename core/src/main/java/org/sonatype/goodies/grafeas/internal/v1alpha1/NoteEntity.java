@@ -26,7 +26,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiNote;
-import org.sonatype.goodies.grafeas.internal.db.EntitySupport;
 
 import com.google.common.base.MoreObjects;
 
@@ -38,7 +37,6 @@ import com.google.common.base.MoreObjects;
 @Entity
 @Table(name = "notes")
 public class NoteEntity
-    extends EntitySupport
 {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
