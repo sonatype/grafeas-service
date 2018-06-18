@@ -50,29 +50,11 @@
       <artifactId>javax.ws.rs-api</artifactId>
     </dependency>
 
-    <!-- HACK: vvv: for now with all generated bits, this is required; can eventually consider dropping -->
-
     <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-databind</artifactId>
+      <groupId>javax.validation</groupId>
+      <artifactId>validation-api</artifactId>
+      <optional>true</optional>
     </dependency>
-
-    <dependency>
-      <groupId>org.glassfish.jersey.core</groupId>
-      <artifactId>jersey-client</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.glassfish.jersey.media</groupId>
-      <artifactId>jersey-media-json-jackson</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.glassfish.jersey.media</groupId>
-      <artifactId>jersey-media-multipart</artifactId>
-    </dependency>
-
-    <!-- HACK: ^^^^ -->
 
     <dependency>
       <groupId>com.fasterxml.jackson.datatype</groupId>
@@ -119,23 +101,29 @@
               <!-- SEE: https://github.com/grafeas/grafeas/blob/master/v1alpha1/proto/grafeas.swagger.json -->
               <inputSpec>${project.basedir}/src/main/resources/io/grafeas/v1alpha1/grafeas.swagger.json</inputSpec>
               <language>java</language>
-              <addCompileSourceRoot>true</addCompileSourceRoot>
               <!-- generate jersey2 compatible outputs -->
               <library>jersey2</library>
+              <addCompileSourceRoot>true</addCompileSourceRoot>
               <configOptions>
                 <!-- encode dates with java8 native support -->
                 <dateLibrary>java8</dateLibrary>
+                <!-- models implement serializable -->
+                <serializableModel>true</serializableModel>
+                <!-- enable bean-validation annotations -->
+                <useBeanValidation>true</useBeanValidation>
               </configOptions>
               <generateModels>true</generateModels>
               <generateModelTests>false</generateModelTests>
-              <!--<generateApis>false</generateApis>-->
+              <generateApis>false</generateApis>
               <generateModelDocumentation>false</generateModelDocumentation>
               <generateApiDocumentation>false</generateApiDocumentation>
               <generateApiTests>false</generateApiTests>
-              <!--<generateSupportingFiles>false</generateSupportingFiles>-->
+              <generateSupportingFiles>false</generateSupportingFiles>
               <modelPackage>org.sonatype.goodies.grafeas.api.v1alpha1.model</modelPackage>
               <apiPackage>io.grafeas.v1alpha1.api</apiPackage>
               <invokerPackage>io.grafeas.v1alpha1.invoker</invokerPackage>
+              <!-- custom templates -->
+              <templateDirectory>${project.basedir}/src/main/swagger</templateDirectory>
             </configuration>
           </execution>
         </executions>

@@ -12,9 +12,15 @@
  */
 package org.sonatype.goodies.grafeas.internal.v1alpha1;
 
-import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiProject;
+import org.sonatype.goodies.grafeas.internal.db.EntitySupport;
 
 import com.google.common.base.MoreObjects;
 
@@ -23,13 +29,16 @@ import com.google.common.base.MoreObjects;
  *
  * @since ???
  */
+@Entity
+@Table(name = "projects")
 public class ProjectEntity
-    implements Serializable
+    extends EntitySupport
 {
-  private static final long serialVersionUID = 1L;
-
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @Column
   private String name;
 
   public Long getId() {
@@ -54,14 +63,5 @@ public class ProjectEntity
         .add("id", id)
         .add("name", name)
         .toString();
-  }
-
-  /**
-   * Convert entity to API model.
-   */
-  public ApiProject asApi() {
-    ApiProject result = new ApiProject();
-    result.setName(name);
-    return result;
   }
 }

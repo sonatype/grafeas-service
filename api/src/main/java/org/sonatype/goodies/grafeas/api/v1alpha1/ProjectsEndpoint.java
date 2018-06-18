@@ -58,7 +58,6 @@ public interface ProjectsEndpoint
   @GET
   @Path("{name}")
   @Produces(APPLICATION_JSON)
-  @Nullable
   @ApiOperation(value = "Read project")
   @ApiResponses({
       @ApiResponse(code = 200, message = "Project"),

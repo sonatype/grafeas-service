@@ -19,6 +19,9 @@ Implementation of [Grafeas](https://grafeas.io/) as a Java micro-service.
 ## TODO
 
 * Browse operations take a `filter` but its not defined afaict what that is, and ref-impl doesn't even look at it
+* Why is Swagger generating a "default" section?  Maybe due to use of intf + impls?
+* Swagger UI is not properly rendering details?  why?
+* Adjust isolation between REST <-> data; atm short-cut implementing logic in REST resources
 
 ## References
 

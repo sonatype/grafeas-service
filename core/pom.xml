@@ -47,7 +47,7 @@
 
     <dependency>
       <groupId>io.dropwizard</groupId>
-      <artifactId>dropwizard-jdbi3</artifactId>
+      <artifactId>dropwizard-hibernate</artifactId>
     </dependency>
 
     <dependency>

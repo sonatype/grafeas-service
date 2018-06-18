@@ -12,44 +12,42 @@
  */
 package org.sonatype.goodies.grafeas.internal.v1alpha1;
 
-import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiNote;
+import org.sonatype.goodies.grafeas.internal.db.EntitySupport;
 
 import com.google.common.base.MoreObjects;
-import org.jdbi.v3.core.mapper.reflect.ColumnName;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * {@link ApiNote} entity.
  *
  * @since ???
  */
+@Entity
+@Table(name = "notes")
 public class NoteEntity
-    implements Serializable
+    extends EntitySupport
 {
-  private static final long serialVersionUID = 1L;
-
-  public NoteEntity() {
-    // empty
-  }
-
-  public NoteEntity(final ApiNote note) {
-    checkNotNull(note);
-
-    // TODO:
-  }
-
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @ColumnName("project_name")
+  @Column(name = "project_name")
   private String projectName;
 
-  @ColumnName("note_name")
+  @Column(name = "note_name")
   private String noteName;
 
-  private String data;
+  @Column
+  @Convert(converter = ApiNoteConverter.class)
+  private ApiNote data;
 
   public Long getId() {
     return id;
@@ -75,11 +73,11 @@ public class NoteEntity
     this.noteName = noteName;
   }
 
-  public String getData() {
+  public ApiNote getData() {
     return data;
   }
 
-  public void setData(final String data) {
+  public void setData(final ApiNote data) {
     this.data = data;
   }
 
@@ -91,13 +89,5 @@ public class NoteEntity
         .add("noteName", noteName)
         .add("data", data)
         .toString();
-  }
-
-  /**
-   * Convert entity to API model.
-   */
-  public ApiNote asApi() {
-    // FIXME:
-    return new ApiNote();
   }
 }

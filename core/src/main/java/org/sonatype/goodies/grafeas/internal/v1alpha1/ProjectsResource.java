@@ -28,6 +28,9 @@ import org.sonatype.goodies.grafeas.api.v1alpha1.ProjectsEndpoint;
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiListProjectsResponse;
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiProject;
 
+import io.dropwizard.hibernate.UnitOfWork;
+import org.hibernate.SessionFactory;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -42,57 +45,76 @@ public class ProjectsResource
     extends ResourceSupport
     implements ProjectsEndpoint
 {
-  private final DaoAccess daoAccess;
+  private final SessionFactory sessionFactory;
 
   @Inject
-  public ProjectsResource(final DaoAccess daoAccess) {
-    this.daoAccess = checkNotNull(daoAccess);
+  public ProjectsResource(final SessionFactory sessionFactory) {
+    this.sessionFactory = checkNotNull(sessionFactory);
   }
 
-  private ProjectsDao dao() {
-    return daoAccess.projects();
+  private ProjectEntityDao dao() {
+    return new ProjectEntityDao(sessionFactory);
+  }
+
+  private ApiProject convert(final ProjectEntity entity) {
+    String name = entity.getName();
+    checkNotNull(name);
+    return new ApiProject().name(name);
   }
 
   @Override
+  @UnitOfWork
   public ApiListProjectsResponse browse(@Nullable final String filter,
                                         @Nullable final Integer pageSize,
                                         @Nullable final String pageToken)
   {
-    // TODO: bridge filter/page poop to dao
-    List<ApiProject> projects = dao().browse().stream().map(ProjectEntity::asApi).collect(Collectors.toList());
+    log.debug("Browse; filter: {}, page-size: {}, page-token: {}", filter, pageSize, pageToken);
+
+    List<ApiProject> projects = dao().browse(filter, pageSize, pageToken)
+        .stream().map(this::convert).collect(Collectors.toList());
+    log.debug("Found: {} entities", projects.size());
+
     ApiListProjectsResponse result = new ApiListProjectsResponse();
     result.setProjects(projects);
     return result;
   }
 
   @Override
-  @Nullable
+  @UnitOfWork
   public ApiProject read(final String name) {
     checkNotNull(name);
 
     log.debug("Find: {}", name);
-    ProjectEntity project = dao().read(name);
-    log.debug("Found: {}", project);
-    if (project == null) {
+    ProjectEntity entity = dao().read(name);
+
+    log.debug("Found: {}", entity);
+    if (entity == null) {
       throw new WebApplicationException(Status.NOT_FOUND);
     }
-    return project.asApi();
+
+    return convert(entity);
   }
 
   @Override
+  @UnitOfWork
   public void add(final ApiProject project) {
     checkNotNull(project);
 
     log.debug("Create: {}", project);
-    long id = dao().add(project.getName());
+    ProjectEntity entity = new ProjectEntity();
+    entity.setName(project.getName());
+    long id = dao().add(entity);
     log.debug("Created: {}", id);
   }
 
   @Override
+  @UnitOfWork
   public void delete(final String name) {
     checkNotNull(name);
 
     log.debug("Delete: {}", name);
-    dao().delete(name);
+    ProjectEntity entity = dao().read(name);
+    dao().delete(entity);
+    log.debug("Deleted");
   }
 }

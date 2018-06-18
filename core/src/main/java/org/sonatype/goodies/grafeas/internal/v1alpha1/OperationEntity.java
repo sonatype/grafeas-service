@@ -12,29 +12,40 @@
  */
 package org.sonatype.goodies.grafeas.internal.v1alpha1;
 
-import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.sonatype.goodies.grafeas.internal.db.EntitySupport;
 
 import com.google.common.base.MoreObjects;
-import org.jdbi.v3.core.mapper.reflect.ColumnName;
 
 /**
  * Operation entity.
  *
  * @since ???
  */
+@Entity
+@Table(name="operations")
 public class OperationEntity
-    implements Serializable
+    extends EntitySupport
 {
-  private static final long serialVersionUID = 1L;
-
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @ColumnName("project_name")
+  @Column(name = "project_name")
   private String projectName;
 
-  @ColumnName("operation_name")
+  @Column(name = "operation_name")
   private String operationName;
 
+  // FIXME: resolve what the datatype is here ApiCreateOperationRequest or LongrunningOperation?
+
+  @Column
   private String data;
 
   public Long getId() {

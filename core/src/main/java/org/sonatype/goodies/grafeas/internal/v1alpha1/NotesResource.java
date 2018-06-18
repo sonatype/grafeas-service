@@ -29,8 +29,10 @@ import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiListNoteOccurrencesRes
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiListNotesResponse;
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiNote;
 
+import io.dropwizard.hibernate.UnitOfWork;
+import org.hibernate.SessionFactory;
+
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
 
 /**
  * {@link NotesEndpoint} resource.
@@ -44,29 +46,38 @@ public class NotesResource
     extends ResourceSupport
     implements NotesEndpoint
 {
-  private final DaoAccess daoAccess;
+  private final SessionFactory sessionFactory;
 
   @Inject
-  public NotesResource(final DaoAccess daoAccess) {
-    this.daoAccess = checkNotNull(daoAccess);
+  public NotesResource(final SessionFactory sessionFactory) {
+    this.sessionFactory = checkNotNull(sessionFactory);
   }
 
-  private NotesDao dao() {
-    return daoAccess.notes();
+  private NoteEntityDao dao() {
+    return new NoteEntityDao(sessionFactory);
   }
 
+  private ApiNote convert(final NoteEntity entity) {
+    ApiNote model = entity.getData();
+    checkNotNull(model);
+    return model;
+  }
+
+  @UnitOfWork
   @Override
   public ApiListNotesResponse browse(final String project,
                                      @Nullable final String filter,
                                      @Nullable final Integer pageSize,
                                      @Nullable final String pageToken)
   {
-    List<ApiNote> notes = dao().browse(project).stream().map(NoteEntity::asApi).collect(Collectors.toList());
+    List<ApiNote> notes = dao().browse(project, filter, pageSize, pageToken)
+        .stream().map(this::convert).collect(Collectors.toList());
     ApiListNotesResponse result = new ApiListNotesResponse();
     result.setNotes(notes);
     return result;
   }
 
+  @UnitOfWork
   @Override
   public ApiNote read(final String project, final String name) {
     checkNotNull(project);
@@ -78,43 +89,66 @@ public class NotesResource
     if (entity == null) {
       throw new WebApplicationException(Status.NOT_FOUND);
     }
-    return entity.asApi();
+    return convert(entity);
   }
 
+  @UnitOfWork
   @Override
   public ApiNote edit(final String project, final String name, final ApiNote note) {
     checkNotNull(project);
     checkNotNull(name);
     checkNotNull(note);
+    log.debug("Edit: {}/{} -> {}", project, name, note);
 
-    // TODO:
+    // ensure note.name matches
+    if (!name.equals(note.getName())) {
+      throw new WebApplicationException(Status.BAD_REQUEST);
+    }
 
-    return null;
+    NoteEntity entity = dao().read(project, name);
+    checkNotNull(entity);
+
+    // FIXME: probably need to merge mutable fields here only
+    entity.setData(note);
+    entity = dao().edit(entity);
+    log.debug("Edited: {}", entity);
+
+    return convert(entity);
   }
 
+  @UnitOfWork
   @Override
   public ApiNote add(final String project, final ApiNote note) {
     checkNotNull(project);
     checkNotNull(note);
     log.debug("Create: {} -> {}", project, note);
 
-    long id = dao().add(new NoteEntity());
-    log.debug("Created: {}", id);
+    NoteEntity entity = new NoteEntity();
+    entity.setProjectName(project);
+    entity.setNoteName(note.getName());
+    entity.setData(note);
 
-    NoteEntity entity = dao().read(id);
-    checkState(entity != null);
-    return entity.asApi();
+    // TODO: verify project exists
+    // TODO: verify if operation-name is given that operation exists
+
+    entity = dao().add(entity);
+    log.debug("Created: {}", entity);
+
+    return convert(entity);
   }
 
+  @UnitOfWork
   @Override
   public void delete(final String project, final String name) {
     checkNotNull(project);
     checkNotNull(name);
 
     log.debug("Delete: {}/{}", project, name);
-    dao().delete(project, name);
+    NoteEntity entity = dao().read(project, name);
+    dao().delete(entity);
   }
 
+  @UnitOfWork
   @Override
   public ApiListNoteOccurrencesResponse readOccurrences(final String project, final String name) {
     checkNotNull(project);
