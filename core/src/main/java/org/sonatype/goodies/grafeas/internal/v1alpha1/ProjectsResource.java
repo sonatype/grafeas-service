@@ -59,9 +59,7 @@ public class ProjectsResource
   private ApiProject convert(final ProjectEntity entity) {
     String name = entity.getName();
     checkNotNull(name);
-    ApiProject project = new ApiProject();
-    project.setName(name);
-    return project;
+    return new ApiProject().name(name);
   }
 
   @Override

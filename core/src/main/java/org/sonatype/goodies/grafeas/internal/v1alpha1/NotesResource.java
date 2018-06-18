@@ -108,7 +108,7 @@ public class NotesResource
     NoteEntity entity = dao().read(project, name);
     checkNotNull(entity);
 
-    // FIXME: probably need to merge data here
+    // FIXME: probably need to merge mutable fields here only
     entity.setData(note);
     entity = dao().edit(entity);
     log.debug("Edited: {}", entity);
@@ -127,6 +127,9 @@ public class NotesResource
     entity.setProjectName(project);
     entity.setNoteName(note.getName());
     entity.setData(note);
+
+    // TODO: verify project exists
+    // TODO: verify if operation-name is given that operation exists
 
     entity = dao().add(entity);
     log.debug("Created: {}", entity);
