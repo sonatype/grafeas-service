@@ -15,9 +15,12 @@ package org.sonatype.goodies.grafeas.internal.v1alpha1;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiOccurrence;
@@ -45,8 +48,9 @@ public class OccurrenceEntity
   @Column(name = "occurrence_name")
   private String occurrenceName;
 
-  @Column(name = "note_id")
-  private Long noteId;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "note_id")
+  private NoteEntity note;
 
   @Column
   @Convert(converter = ApiOccurrenceConverter.class)
@@ -76,12 +80,12 @@ public class OccurrenceEntity
     this.occurrenceName = occurrenceName;
   }
 
-  public Long getNoteId() {
-    return noteId;
+  public NoteEntity getNote() {
+    return note;
   }
 
-  public void setNoteId(final Long noteId) {
-    this.noteId = noteId;
+  public void setNote(final NoteEntity note) {
+    this.note = note;
   }
 
   public ApiOccurrence getData() {
@@ -98,7 +102,7 @@ public class OccurrenceEntity
         .add("id", id)
         .add("projectName", projectName)
         .add("occurrenceName", occurrenceName)
-        .add("noteId", noteId)
+        .add("note", note)
         .add("data", data)
         .toString();
   }

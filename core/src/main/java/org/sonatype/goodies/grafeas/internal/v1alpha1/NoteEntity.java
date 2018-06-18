@@ -12,12 +12,17 @@
  */
 package org.sonatype.goodies.grafeas.internal.v1alpha1;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiNote;
@@ -49,6 +54,10 @@ public class NoteEntity
   @Convert(converter = ApiNoteConverter.class)
   private ApiNote data;
 
+  @OneToMany(fetch = FetchType.LAZY)
+  @JoinColumn(name = "note_id")
+  private List<OccurrenceEntity> occurrences;
+
   public Long getId() {
     return id;
   }
@@ -79,6 +88,10 @@ public class NoteEntity
 
   public void setData(final ApiNote data) {
     this.data = data;
+  }
+
+  public List<OccurrenceEntity> getOccurrences() {
+    return occurrences;
   }
 
   @Override

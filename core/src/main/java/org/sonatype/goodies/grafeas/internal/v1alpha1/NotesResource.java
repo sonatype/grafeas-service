@@ -179,7 +179,7 @@ public class NotesResource
       throw new WebApplicationException(Status.NOT_FOUND);
     }
 
-    List<ApiOccurrence> occurrences = occurrenceDao().browse(project, entity.getId())
+    List<ApiOccurrence> occurrences = entity.getOccurrences()
         .stream().map(this::convert).collect(Collectors.toList());
     ApiListNoteOccurrencesResponse result = new ApiListNoteOccurrencesResponse();
     result.setOccurrences(occurrences);

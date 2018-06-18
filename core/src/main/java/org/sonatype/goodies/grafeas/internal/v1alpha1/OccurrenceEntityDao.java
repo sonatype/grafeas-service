@@ -55,25 +55,6 @@ public class OccurrenceEntityDao
     return currentSession().createQuery(query).list();
   }
 
-  // FIXME: adjust naming
-
-  public List<OccurrenceEntity> browse(final String projectName, final Long noteId) {
-    checkNotNull(projectName);
-    checkNotNull(noteId);
-
-    CriteriaBuilder builder = currentSession().getCriteriaBuilder();
-    CriteriaQuery<OccurrenceEntity> query = builder.createQuery(OccurrenceEntity.class);
-    Root<OccurrenceEntity> root = query.from(OccurrenceEntity.class);
-    query.where(
-        builder.and(
-            builder.equal(root.get("projectName"), projectName),
-            builder.equal(root.get("noteId"), noteId)
-        )
-    );
-
-    return currentSession().createQuery(query).list();
-  }
-
   @Nullable
   public OccurrenceEntity read(final Long id) {
     checkNotNull(id);

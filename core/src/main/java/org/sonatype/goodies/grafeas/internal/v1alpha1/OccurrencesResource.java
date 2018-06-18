@@ -149,7 +149,7 @@ public class OccurrencesResource
     if (note == null) {
       throw new WebApplicationException("Invalid note", Status.BAD_REQUEST);
     }
-    entity.setNoteId(note.getId());
+    entity.setNote(note);
 
     // TODO: verify project exists
     // TODO: verify if operation-name is given that operation exists
@@ -184,9 +184,6 @@ public class OccurrencesResource
       throw new WebApplicationException(Status.NOT_FOUND);
     }
 
-    NoteEntity note = noteDao().read(entity.getId());
-    checkState(note != null);
-
-    return convert(note);
+    return convert(entity.getNote());
   }
 }

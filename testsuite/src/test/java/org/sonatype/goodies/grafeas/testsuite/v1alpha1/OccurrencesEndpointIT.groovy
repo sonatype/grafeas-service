@@ -62,7 +62,11 @@ class OccurrencesEndpointIT
     assert note2.name == note1.name
     assert note2.shortDescription == note1.shortDescription
 
-    def related = notes.readOccurrences('foo', 'note1')
-    log related
+    notes.readOccurrences('foo', 'note1').with { related ->
+      log related
+      related.occurrences.each {
+        log it
+      }
+    }
   }
 }
