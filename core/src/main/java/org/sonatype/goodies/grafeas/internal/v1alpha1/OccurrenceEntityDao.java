@@ -20,7 +20,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiNote;
+import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiOccurrence;
 
 import io.dropwizard.hibernate.AbstractDAO;
 import org.hibernate.SessionFactory;
@@ -28,77 +28,77 @@ import org.hibernate.SessionFactory;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * {@link NoteEntity} data-access object.
+ * {@link OccurrenceEntity} data-access object.
  *
  * @since ???
  */
-public class NoteEntityDao
-    extends AbstractDAO<NoteEntity>
+public class OccurrenceEntityDao
+    extends AbstractDAO<OccurrenceEntity>
 {
-  public NoteEntityDao(final SessionFactory sessionFactory) {
+  public OccurrenceEntityDao(final SessionFactory sessionFactory) {
     super(sessionFactory);
   }
 
-  public List<NoteEntity> browse(final String project,
-                                 @Nullable final String filter,
-                                 @Nullable final Integer pageSize,
-                                 @Nullable final String pageToken)
+  public List<OccurrenceEntity> browse(final String project,
+                                       @Nullable final String filter,
+                                       @Nullable final Integer pageSize,
+                                       @Nullable final String pageToken)
   {
     checkNotNull(project);
 
     // FIXME: add filter and browse support
 
     CriteriaBuilder builder = currentSession().getCriteriaBuilder();
-    CriteriaQuery<NoteEntity> query = builder.createQuery(NoteEntity.class);
-    query.from(NoteEntity.class);
+    CriteriaQuery<OccurrenceEntity> query = builder.createQuery(OccurrenceEntity.class);
+    query.from(OccurrenceEntity.class);
     return currentSession().createQuery(query).list();
   }
 
   @Nullable
-  public NoteEntity read(final Long id) {
+  public OccurrenceEntity read(final Long id) {
     checkNotNull(id);
 
     return get(id);
   }
 
   @Nullable
-  public NoteEntity read(final String project, final String name) {
+  public OccurrenceEntity read(final String project, final String name) {
     CriteriaBuilder builder = currentSession().getCriteriaBuilder();
-    CriteriaQuery<NoteEntity> query = builder.createQuery(NoteEntity.class);
-    Root<NoteEntity> root = query.from(NoteEntity.class);
+    CriteriaQuery<OccurrenceEntity> query = builder.createQuery(OccurrenceEntity.class);
+    Root<OccurrenceEntity> root = query.from(OccurrenceEntity.class);
     query.where(
         builder.and(
             builder.equal(root.get("projectName"), project),
-            builder.equal(root.get("noteName"), name)
+            builder.equal(root.get("occurrenceName"), name)
         )
     );
 
     return uniqueResult(query);
   }
 
-  public NoteEntity edit(final NoteEntity entity) {
+  public OccurrenceEntity edit(final OccurrenceEntity entity) {
     checkNotNull(entity);
 
     // adjust update-time
-    ApiNote model = entity.getData();
+    ApiOccurrence model = entity.getData();
     checkNotNull(model);
     model.setUpdateTime(OffsetDateTime.now());
 
     return persist(entity);
   }
 
-  public NoteEntity add(final NoteEntity entity) {
+  public OccurrenceEntity add(final OccurrenceEntity entity) {
     checkNotNull(entity);
 
     // adjust create-time
-    ApiNote model = entity.getData();
+    ApiOccurrence model = entity.getData();
     checkNotNull(model);
     model.setCreateTime(OffsetDateTime.now());
 
     return persist(entity);
   }
 
-  public void delete(final NoteEntity entity) {
+  public void delete(final OccurrenceEntity entity) {
     checkNotNull(entity);
 
     currentSession().delete(entity);

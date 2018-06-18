@@ -70,10 +70,12 @@ public class NotesResource
                                      @Nullable final Integer pageSize,
                                      @Nullable final String pageToken)
   {
-    List<ApiNote> notes = dao().browse(project, filter, pageSize, pageToken)
+    checkNotNull(project);
+
+    List<ApiNote> models = dao().browse(project, filter, pageSize, pageToken)
         .stream().map(this::convert).collect(Collectors.toList());
     ApiListNotesResponse result = new ApiListNotesResponse();
-    result.setNotes(notes);
+    result.setNotes(models);
     return result;
   }
 

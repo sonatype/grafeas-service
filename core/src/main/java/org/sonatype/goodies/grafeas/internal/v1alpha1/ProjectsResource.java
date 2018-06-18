@@ -70,12 +70,12 @@ public class ProjectsResource
   {
     log.debug("Browse; filter: {}, page-size: {}, page-token: {}", filter, pageSize, pageToken);
 
-    List<ApiProject> projects = dao().browse(filter, pageSize, pageToken)
+    List<ApiProject> models = dao().browse(filter, pageSize, pageToken)
         .stream().map(this::convert).collect(Collectors.toList());
-    log.debug("Found: {} entities", projects.size());
+    log.debug("Found: {} entities", models.size());
 
     ApiListProjectsResponse result = new ApiListProjectsResponse();
-    result.setProjects(projects);
+    result.setProjects(models);
     return result;
   }
 
