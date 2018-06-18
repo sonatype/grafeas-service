@@ -29,9 +29,11 @@ import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiListOccurrencesRespons
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiNote;
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiOccurrence;
 
+import io.dropwizard.hibernate.UnitOfWork;
 import org.hibernate.SessionFactory;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 /**
  * {@link OccurrencesEndpoint} resource.
@@ -56,12 +58,23 @@ public class OccurrencesResource
     return new OccurrenceEntityDao(sessionFactory);
   }
 
+  private NoteEntityDao noteDao() {
+    return new NoteEntityDao(sessionFactory);
+  }
+
   private ApiOccurrence convert(final OccurrenceEntity entity) {
     ApiOccurrence model = entity.getData();
     checkNotNull(model);
     return model;
   }
 
+  private ApiNote convert(final NoteEntity entity) {
+    ApiNote model = entity.getData();
+    checkNotNull(model);
+    return model;
+  }
+
+  @UnitOfWork
   @Override
   public ApiListOccurrencesResponse browse(final String project,
                                            @Nullable final String filter,
@@ -75,6 +88,7 @@ public class OccurrencesResource
     return result;
   }
 
+  @UnitOfWork
   @Override
   public ApiOccurrence read(final String project, final String name) {
     checkNotNull(project);
@@ -89,6 +103,7 @@ public class OccurrencesResource
     return convert(entity);
   }
 
+  @UnitOfWork
   @Override
   public ApiOccurrence edit(final String project, final String name, final ApiOccurrence occurrence) {
     checkNotNull(project);
@@ -98,7 +113,7 @@ public class OccurrencesResource
 
     // ensure note.name matches
     if (!name.equals(occurrence.getName())) {
-      throw new WebApplicationException(Status.BAD_REQUEST);
+      throw new WebApplicationException("Name mismatch", Status.BAD_REQUEST);
     }
 
     OccurrenceEntity entity = dao().read(project, name);
@@ -112,19 +127,31 @@ public class OccurrencesResource
     return convert(entity);
   }
 
+  @UnitOfWork
   @Override
   public ApiOccurrence add(final String project, final ApiOccurrence occurrence) {
     checkNotNull(project);
     checkNotNull(occurrence);
     log.debug("Create: {} -> {}", project, occurrence);
 
+    String name = occurrence.getName();
+    if (name == null) {
+      throw new WebApplicationException("Name required", Status.BAD_REQUEST);
+    }
+
     OccurrenceEntity entity = new OccurrenceEntity();
     entity.setProjectName(project);
-    entity.setOccurrenceName(occurrence.getName());
+    entity.setOccurrenceName(name);
     entity.setData(occurrence);
 
+    // look up and attach note
+    NoteEntity note = noteDao().read(project, occurrence.getNoteName());
+    if (note == null) {
+      throw new WebApplicationException("Invalid note", Status.BAD_REQUEST);
+    }
+    entity.setNoteId(note.getId());
+
     // TODO: verify project exists
-    // TODO: verify note exists
     // TODO: verify if operation-name is given that operation exists
 
     entity = dao().add(entity);
@@ -133,6 +160,7 @@ public class OccurrencesResource
     return convert(entity);
   }
 
+  @UnitOfWork
   @Override
   public void delete(final String project, final String name) {
     checkNotNull(project);
@@ -143,13 +171,22 @@ public class OccurrencesResource
     dao().delete(entity);
   }
 
+  @UnitOfWork
   @Override
   public ApiNote readNote(final String project, final String name) {
     checkNotNull(project);
     checkNotNull(name);
 
-    // TODO:
+    log.debug("Read note: {}/{}", project, name);
 
-    return null;
+    OccurrenceEntity entity = dao().read(project, name);
+    if (entity == null) {
+      throw new WebApplicationException(Status.NOT_FOUND);
+    }
+
+    NoteEntity note = noteDao().read(entity.getId());
+    checkState(note != null);
+
+    return convert(note);
   }
 }

@@ -21,8 +21,8 @@ CREATE TABLE occurrences (
   id IDENTITY PRIMARY KEY,
   project_name VARCHAR NOT NULL,
   occurrence_name VARCHAR NOT NULL,
-  data CLOB,
   note_id BIGINT NOT NULL,
+  data CLOB,
   UNIQUE (project_name, occurrence_name),
   FOREIGN KEY (note_id) REFERENCES notes(id)
 );

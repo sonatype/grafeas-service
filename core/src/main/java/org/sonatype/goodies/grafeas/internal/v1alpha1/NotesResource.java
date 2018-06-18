@@ -28,6 +28,7 @@ import org.sonatype.goodies.grafeas.api.v1alpha1.NotesEndpoint;
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiListNoteOccurrencesResponse;
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiListNotesResponse;
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiNote;
+import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiOccurrence;
 
 import io.dropwizard.hibernate.UnitOfWork;
 import org.hibernate.SessionFactory;
@@ -57,8 +58,18 @@ public class NotesResource
     return new NoteEntityDao(sessionFactory);
   }
 
+  private OccurrenceEntityDao occurrenceDao() {
+    return new OccurrenceEntityDao(sessionFactory);
+  }
+
   private ApiNote convert(final NoteEntity entity) {
     ApiNote model = entity.getData();
+    checkNotNull(model);
+    return model;
+  }
+
+  private ApiOccurrence convert(final OccurrenceEntity entity) {
+    ApiOccurrence model = entity.getData();
     checkNotNull(model);
     return model;
   }
@@ -104,7 +115,7 @@ public class NotesResource
 
     // ensure note.name matches
     if (!name.equals(note.getName())) {
-      throw new WebApplicationException(Status.BAD_REQUEST);
+      throw new WebApplicationException("Name mismatch", Status.BAD_REQUEST);
     }
 
     NoteEntity entity = dao().read(project, name);
@@ -125,9 +136,14 @@ public class NotesResource
     checkNotNull(note);
     log.debug("Create: {} -> {}", project, note);
 
+    String name = note.getName();
+    if (name == null) {
+      throw new WebApplicationException("Name required", Status.BAD_REQUEST);
+    }
+
     NoteEntity entity = new NoteEntity();
     entity.setProjectName(project);
-    entity.setNoteName(note.getName());
+    entity.setNoteName(name);
     entity.setData(note);
 
     // TODO: verify project exists
@@ -156,8 +172,18 @@ public class NotesResource
     checkNotNull(project);
     checkNotNull(name);
 
-    // TODO:
+    log.debug("Read occurrences: {}/{}", project, name);
 
-    return null;
+    NoteEntity entity = dao().read(project, name);
+    if (entity == null) {
+      throw new WebApplicationException(Status.NOT_FOUND);
+    }
+
+    List<ApiOccurrence> occurrences = occurrenceDao().browse(project, entity.getId())
+        .stream().map(this::convert).collect(Collectors.toList());
+    ApiListNoteOccurrencesResponse result = new ApiListNoteOccurrencesResponse();
+    result.setOccurrences(occurrences);
+
+    return result;
   }
 }
