@@ -51,6 +51,12 @@
     </dependency>
 
     <dependency>
+      <groupId>javax.validation</groupId>
+      <artifactId>validation-api</artifactId>
+      <optional>true</optional>
+    </dependency>
+
+    <dependency>
       <groupId>com.fasterxml.jackson.datatype</groupId>
       <artifactId>jackson-datatype-jsr310</artifactId>
     </dependency>
@@ -95,12 +101,16 @@
               <!-- SEE: https://github.com/grafeas/grafeas/blob/master/v1alpha1/proto/grafeas.swagger.json -->
               <inputSpec>${project.basedir}/src/main/resources/io/grafeas/v1alpha1/grafeas.swagger.json</inputSpec>
               <language>java</language>
-              <addCompileSourceRoot>true</addCompileSourceRoot>
               <!-- generate jersey2 compatible outputs -->
               <library>jersey2</library>
+              <addCompileSourceRoot>true</addCompileSourceRoot>
               <configOptions>
                 <!-- encode dates with java8 native support -->
                 <dateLibrary>java8</dateLibrary>
+                <!-- models implement serializable -->
+                <serializableModel>true</serializableModel>
+                <!-- enable bean-validation annotations -->
+                <useBeanValidation>true</useBeanValidation>
               </configOptions>
               <generateModels>true</generateModels>
               <generateModelTests>false</generateModelTests>
@@ -112,6 +122,8 @@
               <modelPackage>org.sonatype.goodies.grafeas.api.v1alpha1.model</modelPackage>
               <apiPackage>io.grafeas.v1alpha1.api</apiPackage>
               <invokerPackage>io.grafeas.v1alpha1.invoker</invokerPackage>
+              <!-- custom templates -->
+              <templateDirectory>${project.basedir}/src/main/swagger</templateDirectory>
             </configuration>
           </execution>
         </executions>
