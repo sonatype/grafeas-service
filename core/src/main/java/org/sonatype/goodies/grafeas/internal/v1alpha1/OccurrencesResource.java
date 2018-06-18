@@ -33,7 +33,6 @@ import io.dropwizard.hibernate.UnitOfWork;
 import org.hibernate.SessionFactory;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
 
 /**
  * {@link OccurrencesEndpoint} resource.
@@ -168,6 +167,9 @@ public class OccurrencesResource
 
     log.debug("Delete: {}/{}", project, name);
     OccurrenceEntity entity = dao().read(project, name);
+    if (entity == null) {
+      throw new WebApplicationException(Status.NOT_FOUND);
+    }
     dao().delete(entity);
   }
 

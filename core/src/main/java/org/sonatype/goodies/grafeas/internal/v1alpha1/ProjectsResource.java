@@ -114,6 +114,9 @@ public class ProjectsResource
 
     log.debug("Delete: {}", name);
     ProjectEntity entity = dao().read(name);
+    if (entity == null) {
+      throw new WebApplicationException(Status.NOT_FOUND);
+    }
     dao().delete(entity);
     log.debug("Deleted");
   }

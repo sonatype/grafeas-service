@@ -163,6 +163,9 @@ public class NotesResource
 
     log.debug("Delete: {}/{}", project, name);
     NoteEntity entity = dao().read(project, name);
+    if (entity == null) {
+      throw new WebApplicationException(Status.NOT_FOUND);
+    }
     dao().delete(entity);
   }
 

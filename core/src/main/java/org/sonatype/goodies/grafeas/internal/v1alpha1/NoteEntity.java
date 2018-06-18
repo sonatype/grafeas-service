@@ -60,10 +60,6 @@ public class NoteEntity
     return id;
   }
 
-  public void setId(final Long id) {
-    this.id = id;
-  }
-
   public String getProjectName() {
     return projectName;
   }
