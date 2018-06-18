@@ -50,10 +50,9 @@ class NotesEndpointIT
     def note2 = notes.read('foo', 'note1')
     log note2
 
-    def note3 = notes.edit('foo', 'note1', new ApiNote(
-        name: 'note1',
-        shortDescription: 'foo'
-    ))
+    note2.shortDescription = 'foo'
+    def note3 = notes.edit('foo', 'note1', note2)
+
     log note3
   }
 }

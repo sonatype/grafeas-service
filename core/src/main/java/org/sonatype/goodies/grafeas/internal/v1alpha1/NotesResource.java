@@ -108,6 +108,7 @@ public class NotesResource
     NoteEntity entity = dao().read(project, name);
     checkNotNull(entity);
 
+    // FIXME: probably need to merge data here
     entity.setData(note);
     entity = dao().edit(entity);
     log.debug("Edited: {}", entity);
