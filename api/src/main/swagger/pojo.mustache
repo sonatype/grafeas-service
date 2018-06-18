@@ -1,3 +1,6 @@
+{{! jdillon: customized toString }}
+import com.google.common.base.MoreObjects;
+
 /**
  * {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
  */{{#description}}
@@ -175,25 +178,12 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#parcela
 
 {{/supportJava6}}
 
+  {{! jdillon: customized toString }}
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class {{classname}} {\n");
-    {{#parent}}sb.append("    ").append(toIndentedString(super.toString())).append("\n");{{/parent}}
-    {{#vars}}sb.append("    {{name}}: ").append(toIndentedString({{name}})).append("\n");
-    {{/vars}}sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return MoreObjects.toStringHelper(this)
+      {{#vars}}.add("{{name}}", {{name}}){{/vars}}
+      .toString();
   }
 
   {{#parcelableModel}}
