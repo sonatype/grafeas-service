@@ -38,6 +38,18 @@ class ProjectsEndpointIT
   )
 
   @Test
+  void 'look up missing project'() {
+    def ep = dropwizard.endpoint(ProjectsEndpoint.class)
+    try {
+      ep.read("unique-${System.currentTimeMillis()}")
+      fail()
+    }
+    catch (EndpointException e) {
+      assertStatus(e.response, Status.NOT_FOUND)
+    }
+  }
+
+  @Test
   void 'create project'() {
     def ep = dropwizard.endpoint(ProjectsEndpoint.class)
 
