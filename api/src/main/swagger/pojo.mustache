@@ -1,6 +1,3 @@
-{{! jdillon: customized toString }}
-import com.google.common.base.MoreObjects;
-
 /**
  * {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
  */{{#description}}
@@ -181,7 +178,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#parcela
   {{! jdillon: customized toString }}
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper(this)
+    return com.google.common.base.MoreObjects.toStringHelper(this)
       {{#vars}}.add("{{name}}", {{name}}){{/vars}}
       .toString();
   }
