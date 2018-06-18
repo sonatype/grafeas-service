@@ -12,12 +12,15 @@
  */
 package org.sonatype.goodies.grafeas.internal.v1alpha1;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 import javax.annotation.Nullable;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+
+import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiNote;
 
 import io.dropwizard.hibernate.AbstractDAO;
 import org.hibernate.SessionFactory;
@@ -76,11 +79,21 @@ public class NoteEntityDao
   public NoteEntity edit(final NoteEntity entity) {
     checkNotNull(entity);
 
+    // adjust update-time
+    ApiNote model = entity.getData();
+    checkNotNull(model);
+    model.setUpdateTime(OffsetDateTime.now());
+
     return persist(entity);
   }
 
   public NoteEntity add(final NoteEntity entity) {
     checkNotNull(entity);
+
+    // adjust create-time
+    ApiNote model = entity.getData();
+    checkNotNull(model);
+    model.setCreateTime(OffsetDateTime.now());
 
     return persist(entity);
   }
