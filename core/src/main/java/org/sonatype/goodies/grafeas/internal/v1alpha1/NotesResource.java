@@ -33,7 +33,6 @@ import io.dropwizard.hibernate.UnitOfWork;
 import org.hibernate.SessionFactory;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
 
 /**
  * {@link NotesEndpoint} resource.
@@ -99,10 +98,21 @@ public class NotesResource
     checkNotNull(project);
     checkNotNull(name);
     checkNotNull(note);
+    log.debug("Edit: {}/{} -> {}", project, name, note);
 
-    // TODO:
+    // ensure note.name matches
+    if (!name.equals(note.getName())) {
+      throw new WebApplicationException(Status.BAD_REQUEST);
+    }
 
-    return null;
+    NoteEntity entity = dao().read(project, name);
+    checkNotNull(entity);
+
+    entity.setData(note);
+    entity = dao().edit(entity);
+    log.debug("Edited: {}", entity);
+
+    return convert(entity);
   }
 
   @UnitOfWork

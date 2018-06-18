@@ -73,20 +73,21 @@ public class NoteEntityDao
     return uniqueResult(query);
   }
 
-  // FIXME: need to figure out how edit works
+  public NoteEntity edit(final NoteEntity entity) {
+    checkNotNull(entity);
 
-  //@SqlUpdate("INSERT INTO notes (project_name, note_name, data) VALUES (:projectName, :noteName, :data)")
-  //void edit(@BindBean NoteEntity note);
-
-  public NoteEntity add(final NoteEntity note) {
-    checkNotNull(note);
-
-    return persist(note);
+    return persist(entity);
   }
 
-  public void delete(final NoteEntity note) {
-    checkNotNull(note);
+  public NoteEntity add(final NoteEntity entity) {
+    checkNotNull(entity);
 
-    currentSession().delete(note);;
+    return persist(entity);
+  }
+
+  public void delete(final NoteEntity entity) {
+    checkNotNull(entity);
+
+    currentSession().delete(entity);;
   }
 }

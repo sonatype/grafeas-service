@@ -10,44 +10,40 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
-package org.sonatype.goodies.grafeas.testsuite
+package org.sonatype.goodies.grafeas.testsuite.v1alpha1
 
+import org.sonatype.goodies.dropwizard.client.endpoint.EndpointFactory
 import org.sonatype.goodies.grafeas.GrafeasApplication
 import org.sonatype.goodies.grafeas.GrafeasConfiguration
-import org.sonatype.goodies.testsupport.TestSupport
 
 import groovy.transform.Memoized
-import io.dropwizard.testing.ResourceHelpers
+import io.dropwizard.testing.ConfigOverride
 import io.dropwizard.testing.junit.DropwizardAppRule
-import org.junit.ClassRule
 
 /**
- * Support for integration-tests.
+ * Support rule for endpoint tests.
  */
-abstract class TestsuiteSupportIT
-    extends TestSupport
+class EndpointSupportRule
+    extends DropwizardAppRule<GrafeasConfiguration>
 {
-  static {
-    System.setProperty('test.log.level', 'DEBUG')
+  EndpointSupportRule(final String configPath, final ConfigOverride... configOverrides) {
+    super(GrafeasApplication.class, configPath, configOverrides)
   }
-
-  // TODO: may need a way to allow sub-class to provide configuration file
-
-  @ClassRule
-  public static final DropwizardAppRule<GrafeasConfiguration> dropwizard = new DropwizardAppRule<>(
-      GrafeasApplication.class,
-      ResourceHelpers.resourceFilePath('service.yml')
-  )
 
   @Memoized
   URI getBaseUrl() {
     // trailing "/" is important
-    return URI.create("http://localhost:${dropwizard.localPort}/")
+    return URI.create("http://localhost:${localPort}/")
   }
 
   @Memoized
   URI getAdminUrl() {
     // trailing "/" is important
-    return URI.create("http://localhost:${dropwizard.adminPort}/")
+    return URI.create("http://localhost:${adminPort}/")
+  }
+
+  def <T> T endpoint(final Class<T> type) {
+    def target = client().target(baseUrl).path('api')
+    return EndpointFactory.create(type, target)
   }
 }

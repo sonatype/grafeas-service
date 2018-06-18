@@ -10,45 +10,36 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
-package org.sonatype.goodies.grafeas.testsuite
+package org.sonatype.goodies.grafeas.testsuite.v1alpha1
 
-import javax.ws.rs.client.Client
 import javax.ws.rs.core.Response.Status
 
 import org.sonatype.goodies.dropwizard.client.endpoint.EndpointException
-import org.sonatype.goodies.dropwizard.client.endpoint.EndpointFactory
-import org.sonatype.goodies.grafeas.api.v1alpha1.NotesEndpoint
 import org.sonatype.goodies.grafeas.api.v1alpha1.ProjectsEndpoint
-import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiNote
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiProject
+import org.sonatype.goodies.testsupport.TestSupport
 
-import org.junit.Before
+import io.dropwizard.testing.ResourceHelpers
+import org.junit.ClassRule
 import org.junit.Test
 
 import static org.junit.Assert.fail
 import static org.sonatype.goodies.grafeas.testsuite.ResponseAssert.assertStatus
 
 /**
- * Trials for v1alpha1.
+ * {@link ProjectsEndpoint} tests.
  */
-class V1alpha1Trial
-  extends TestsuiteSupportIT
+class ProjectsEndpointIT
+  extends TestSupport
 {
-  private Client client
-
-  @Before
-  void setUp() {
-    client = dropwizard.client()
-  }
-
-  private <T> T endpoint(final Class<T> type) {
-    def target = client.target(baseUrl).path('api')
-    return EndpointFactory.create(type, target)
-  }
+  @ClassRule
+  public static final EndpointSupportRule dropwizard = new EndpointSupportRule(
+      ResourceHelpers.resourceFilePath('service.yml')
+  )
 
   @Test
   void 'create project'() {
-    def ep = endpoint(ProjectsEndpoint.class)
+    def ep = dropwizard.endpoint(ProjectsEndpoint.class)
 
     def project1 = new ApiProject(
         name: 'foo'
@@ -77,23 +68,5 @@ class V1alpha1Trial
     catch (EndpointException e) {
       assertStatus(e.response, Status.NOT_FOUND)
     }
-  }
-
-  @Test
-  void 'create note'() {
-    def projects = endpoint(ProjectsEndpoint.class)
-    def notes = endpoint(NotesEndpoint.class)
-
-    projects.add(new ApiProject(
-        name: 'foo'
-    ))
-
-    def note1 = notes.add('foo', new ApiNote(
-        name: 'note1'
-    ))
-    log note1
-
-    def note2 = notes.read('foo', 'note1')
-    log note2
   }
 }
