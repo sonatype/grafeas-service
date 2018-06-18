@@ -21,6 +21,8 @@ import org.sonatype.goodies.grafeas.api.v1alpha1.OperationsEndpoint;
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiCreateOperationRequest;
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.LongrunningOperation;
 
+import io.dropwizard.hibernate.UnitOfWork;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -35,6 +37,7 @@ public class OperationsResource
     extends ResourceSupport
     implements OperationsEndpoint
 {
+  @UnitOfWork
   @Override
   public LongrunningOperation add(final String project, final ApiCreateOperationRequest request) {
     checkNotNull(project);
