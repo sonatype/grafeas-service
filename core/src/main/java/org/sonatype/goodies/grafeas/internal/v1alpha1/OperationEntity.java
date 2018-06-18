@@ -45,6 +45,7 @@ public class OperationEntity
 
   // FIXME: resolve what the datatype is here ApiCreateOperationRequest or LongrunningOperation?
 
+  @Column
   private String data;
 
   public Long getId() {
@@ -88,6 +89,4 @@ public class OperationEntity
         .add("data", data)
         .toString();
   }
-
-  // TODO: toModel
 }

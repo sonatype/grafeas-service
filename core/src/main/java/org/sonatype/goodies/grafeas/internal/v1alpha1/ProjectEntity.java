@@ -12,6 +12,7 @@
  */
 package org.sonatype.goodies.grafeas.internal.v1alpha1;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -37,6 +38,7 @@ public class ProjectEntity
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @Column
   private String name;
 
   public Long getId() {
@@ -61,14 +63,5 @@ public class ProjectEntity
         .add("id", id)
         .add("name", name)
         .toString();
-  }
-
-  /**
-   * Convert entity to model.
-   */
-  public ApiProject toModel() {
-    ApiProject result = new ApiProject();
-    result.setName(name);
-    return result;
   }
 }

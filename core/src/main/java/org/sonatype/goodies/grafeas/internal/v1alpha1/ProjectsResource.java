@@ -56,6 +56,14 @@ public class ProjectsResource
     return new ProjectEntityDao(sessionFactory);
   }
 
+  private ApiProject convert(final ProjectEntity entity) {
+    String name = entity.getName();
+    checkNotNull(name);
+    ApiProject project = new ApiProject();
+    project.setName(name);
+    return project;
+  }
+
   @Override
   @UnitOfWork
   public ApiListProjectsResponse browse(@Nullable final String filter,
@@ -65,7 +73,7 @@ public class ProjectsResource
     log.debug("Browse; filter: {}, page-size: {}, page-token: {}", filter, pageSize, pageToken);
 
     List<ApiProject> projects = dao().browse(filter, pageSize, pageToken)
-        .stream().map(ProjectEntity::toModel).collect(Collectors.toList());
+        .stream().map(this::convert).collect(Collectors.toList());
     log.debug("Found: {} entities", projects.size());
 
     ApiListProjectsResponse result = new ApiListProjectsResponse();
@@ -79,14 +87,14 @@ public class ProjectsResource
     checkNotNull(name);
 
     log.debug("Find: {}", name);
-    ProjectEntity project = dao().read(name);
+    ProjectEntity entity = dao().read(name);
 
-    log.debug("Found: {}", project);
-    if (project == null) {
+    log.debug("Found: {}", entity);
+    if (entity == null) {
       throw new WebApplicationException(Status.NOT_FOUND);
     }
 
-    return project.toModel();
+    return convert(entity);
   }
 
   @Override
@@ -98,7 +106,6 @@ public class ProjectsResource
     ProjectEntity entity = new ProjectEntity();
     entity.setName(project.getName());
     long id = dao().add(entity);
-
     log.debug("Created: {}", id);
   }
 

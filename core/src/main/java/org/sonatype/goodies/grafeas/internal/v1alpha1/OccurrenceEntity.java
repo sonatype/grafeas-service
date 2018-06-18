@@ -48,6 +48,7 @@ public class OccurrenceEntity
   @Column(name = "note_id")
   private Long noteId;
 
+  @Column
   @Convert(converter = ApiOccurrenceConverter.class)
   private ApiOccurrence data;
 
@@ -100,12 +101,5 @@ public class OccurrenceEntity
         .add("noteId", noteId)
         .add("data", data)
         .toString();
-  }
-
-  /**
-   * Convert entity to model.
-   */
-  public ApiOccurrence toModel() {
-    return getData();
   }
 }

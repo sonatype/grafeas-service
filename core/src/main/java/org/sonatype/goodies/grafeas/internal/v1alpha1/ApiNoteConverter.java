@@ -12,6 +12,8 @@
  */
 package org.sonatype.goodies.grafeas.internal.v1alpha1;
 
+import javax.persistence.Converter;
+
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiNote;
 import org.sonatype.goodies.grafeas.internal.db.JsonAttributeConverterSupport;
 
@@ -20,6 +22,7 @@ import org.sonatype.goodies.grafeas.internal.db.JsonAttributeConverterSupport;
  *
  * @since ???
  */
+@Converter
 public class ApiNoteConverter
     extends JsonAttributeConverterSupport<ApiNote>
 {

@@ -17,7 +17,9 @@ import javax.ws.rs.core.Response.Status
 
 import org.sonatype.goodies.dropwizard.client.endpoint.EndpointException
 import org.sonatype.goodies.dropwizard.client.endpoint.EndpointFactory
+import org.sonatype.goodies.grafeas.api.v1alpha1.NotesEndpoint
 import org.sonatype.goodies.grafeas.api.v1alpha1.ProjectsEndpoint
+import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiNote
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiProject
 
 import org.junit.Before
@@ -75,5 +77,23 @@ class V1alpha1Trial
     catch (EndpointException e) {
       assertStatus(e.response, Status.NOT_FOUND)
     }
+  }
+
+  @Test
+  void 'create note'() {
+    def projects = endpoint(ProjectsEndpoint.class)
+    def notes = endpoint(NotesEndpoint.class)
+
+    projects.add(new ApiProject(
+        name: 'foo'
+    ))
+
+    def note1 = notes.add('foo', new ApiNote(
+        name: 'note1'
+    ))
+    log note1
+
+    def note2 = notes.read('foo', 'note1')
+    log note2
   }
 }

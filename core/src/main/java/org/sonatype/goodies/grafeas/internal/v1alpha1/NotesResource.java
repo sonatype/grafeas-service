@@ -58,6 +58,12 @@ public class NotesResource
     return new NoteEntityDao(sessionFactory);
   }
 
+  private ApiNote convert(final NoteEntity entity) {
+    ApiNote model = entity.getData();
+    checkNotNull(model);
+    return model;
+  }
+
   @UnitOfWork
   @Override
   public ApiListNotesResponse browse(final String project,
@@ -66,7 +72,7 @@ public class NotesResource
                                      @Nullable final String pageToken)
   {
     List<ApiNote> notes = dao().browse(project, filter, pageSize, pageToken)
-        .stream().map(NoteEntity::toModel).collect(Collectors.toList());
+        .stream().map(this::convert).collect(Collectors.toList());
     ApiListNotesResponse result = new ApiListNotesResponse();
     result.setNotes(notes);
     return result;
@@ -84,9 +90,10 @@ public class NotesResource
     if (entity == null) {
       throw new WebApplicationException(Status.NOT_FOUND);
     }
-    return entity.toModel();
+    return convert(entity);
   }
 
+  @UnitOfWork
   @Override
   public ApiNote edit(final String project, final String name, final ApiNote note) {
     checkNotNull(project);
@@ -98,20 +105,25 @@ public class NotesResource
     return null;
   }
 
+  @UnitOfWork
   @Override
   public ApiNote add(final String project, final ApiNote note) {
     checkNotNull(project);
     checkNotNull(note);
     log.debug("Create: {} -> {}", project, note);
 
-    long id = dao().add(new NoteEntity());
-    log.debug("Created: {}", id);
+    NoteEntity entity = new NoteEntity();
+    entity.setProjectName(project);
+    entity.setNoteName(note.getName());
+    entity.setData(note);
 
-    NoteEntity entity = dao().read(id);
-    checkState(entity != null);
-    return entity.toModel();
+    entity = dao().add(entity);
+    log.debug("Created: {}", entity);
+
+    return convert(entity);
   }
 
+  @UnitOfWork
   @Override
   public void delete(final String project, final String name) {
     checkNotNull(project);
@@ -122,6 +134,7 @@ public class NotesResource
     dao().delete(entity);
   }
 
+  @UnitOfWork
   @Override
   public ApiListNoteOccurrencesResponse readOccurrences(final String project, final String name) {
     checkNotNull(project);

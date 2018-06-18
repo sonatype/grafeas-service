@@ -46,28 +46,29 @@ public abstract class JsonAttributeConverterSupport<T>
 
   @Override
   public String convertToDatabaseColumn(final T model) {
+    log.trace("Converting to column: {}", model);
     try {
-      log.trace("Converting: {}", model);
       String value = objectMapper.writeValueAsString(model);
       log.trace("Converted: {}", value);
+      return value;
     }
     catch (Exception e) {
-      log.error("Failed to convert: {}", model, e);
+      log.error("Failed to convert to String column: {}", model, e);
+      return null;
     }
-    return null;
   }
 
   @Override
   public T convertToEntityAttribute(final String value) {
+    log.trace("Converting to model: {}", value);
     try {
-      log.trace("Converting: {}", value);
       T model = objectMapper.readValue(value, type);
       log.trace("Converted: {}", model);
       return model;
     }
     catch (Exception e) {
-      log.error("Failed to convert: {}", value, e);
+      log.error("Failed to convert to {} model: {}", type.getSimpleName(), value, e);
+      return null;
     }
-    return null;
   }
 }

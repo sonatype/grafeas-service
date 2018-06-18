@@ -62,11 +62,11 @@ public class NoteEntityDao
   public NoteEntity read(final String project, final String name) {
     CriteriaBuilder builder = currentSession().getCriteriaBuilder();
     CriteriaQuery<NoteEntity> query = builder.createQuery(NoteEntity.class);
-    Root<ProjectEntity> root = query.from(ProjectEntity.class);
+    Root<NoteEntity> root = query.from(NoteEntity.class);
     query.where(
         builder.and(
-            builder.equal(root.get("project_name"), project),
-            builder.equal(root.get("note_name"), name)
+            builder.equal(root.get("projectName"), project),
+            builder.equal(root.get("noteName"), name)
         )
     );
 
@@ -78,11 +78,10 @@ public class NoteEntityDao
   //@SqlUpdate("INSERT INTO notes (project_name, note_name, data) VALUES (:projectName, :noteName, :data)")
   //void edit(@BindBean NoteEntity note);
 
-  public long add(final NoteEntity note) {
+  public NoteEntity add(final NoteEntity note) {
     checkNotNull(note);
 
-    NoteEntity created = persist(note);
-    return created.getId();
+    return persist(note);
   }
 
   public void delete(final NoteEntity note) {

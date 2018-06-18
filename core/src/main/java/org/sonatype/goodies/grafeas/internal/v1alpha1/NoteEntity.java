@@ -45,6 +45,7 @@ public class NoteEntity
   @Column(name = "note_name")
   private String noteName;
 
+  @Column
   @Convert(converter = ApiNoteConverter.class)
   private ApiNote data;
 
@@ -88,12 +89,5 @@ public class NoteEntity
         .add("noteName", noteName)
         .add("data", data)
         .toString();
-  }
-
-  /**
-   * Convert entity to model.
-   */
-  public ApiNote toModel() {
-    return getData();
   }
 }
