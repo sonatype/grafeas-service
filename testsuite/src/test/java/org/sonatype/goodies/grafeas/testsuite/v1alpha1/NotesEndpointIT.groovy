@@ -23,7 +23,7 @@ import org.junit.ClassRule
 import org.junit.Test
 
 /**
- * {@link NotesEndpoint} IT.
+ * {@link NotesEndpoint} tests.
  */
 class NotesEndpointIT
   extends TestSupport
