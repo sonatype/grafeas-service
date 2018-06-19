@@ -29,6 +29,12 @@
 
       <h2>Attributions</h2>
 
+      <h3>Grafeas</h3>
+      <p>
+        <@extlink "https://grafeas.io/", "Grafeas"/> is an open artifact metadata API to audit and govern your
+        software supply chain.
+      </p>
+
       <h3>Bootstrap</h3>
       <p>
         <@extlink "https://getbootstrap.com/", "Bootstrap"/> is an open source toolkit for developing with HTML,
