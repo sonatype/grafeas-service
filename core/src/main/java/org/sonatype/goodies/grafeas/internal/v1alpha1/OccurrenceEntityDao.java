@@ -56,14 +56,15 @@ public class OccurrenceEntityDao
   }
 
   @Nullable
-  public OccurrenceEntity read(final Long id) {
-    checkNotNull(id);
-
+  public OccurrenceEntity read(final long id) {
     return get(id);
   }
 
   @Nullable
   public OccurrenceEntity read(final String project, final String name) {
+    checkNotNull(project);
+    checkNotNull(name);
+
     CriteriaBuilder builder = currentSession().getCriteriaBuilder();
     CriteriaQuery<OccurrenceEntity> query = builder.createQuery(OccurrenceEntity.class);
     Root<OccurrenceEntity> root = query.from(OccurrenceEntity.class);

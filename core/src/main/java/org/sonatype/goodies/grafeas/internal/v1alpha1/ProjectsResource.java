@@ -81,8 +81,8 @@ public class ProjectsResource
     ProjectEntity entity = new ProjectEntity();
     entity.setName(project.getName());
 
-    long id = projectDao().add(entity);
-    log.debug("Created: {}", id);
+    ProjectEntity created = projectDao().add(entity);
+    log.debug("Created: {}", created);
   }
 
   @Override

@@ -55,14 +55,15 @@ public class NoteEntityDao
   }
 
   @Nullable
-  public NoteEntity read(final Long id) {
-    checkNotNull(id);
-
+  public NoteEntity read(final long id) {
     return get(id);
   }
 
   @Nullable
   public NoteEntity read(final String project, final String name) {
+    checkNotNull(project);
+    checkNotNull(name);
+
     CriteriaBuilder builder = currentSession().getCriteriaBuilder();
     CriteriaQuery<NoteEntity> query = builder.createQuery(NoteEntity.class);
     Root<NoteEntity> root = query.from(NoteEntity.class);

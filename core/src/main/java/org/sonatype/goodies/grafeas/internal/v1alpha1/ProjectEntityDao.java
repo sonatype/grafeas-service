@@ -49,9 +49,7 @@ public class ProjectEntityDao
   }
 
   @Nullable
-  public ProjectEntity read(final Long id) {
-    checkNotNull(id);
-
+  public ProjectEntity read(final long id) {
     return get(id);
   }
 
@@ -67,11 +65,10 @@ public class ProjectEntityDao
     return uniqueResult(query);
   }
 
-  public long add(final ProjectEntity entity) {
+  public ProjectEntity add(final ProjectEntity entity) {
     checkNotNull(entity);
 
-    ProjectEntity created = persist(entity);
-    return created.getId();
+    return persist(entity);
   }
 
   public void delete(final ProjectEntity entity) {
