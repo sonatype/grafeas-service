@@ -23,6 +23,8 @@ import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiProject;
 
 import com.google.common.base.MoreObjects;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * {@link ApiProject} entity.
  *
@@ -39,16 +41,21 @@ public class ProjectEntity
   @Column
   private String name;
 
+  @SuppressWarnings("unused")
+  public ProjectEntity() {
+    // empty
+  }
+
+  public ProjectEntity(final String name) {
+    this.name = checkNotNull(name);
+  }
+
   public Long getId() {
     return id;
   }
 
   public String getName() {
     return name;
-  }
-
-  public void setName(final String name) {
-    this.name = name;
   }
 
   @Override

@@ -118,10 +118,7 @@ public class NotesResource
 
     ensureProjectExists(projectName);
 
-    NoteEntity entity = new NoteEntity();
-    entity.setProjectName(projectName);
-    entity.setNoteName(name);
-    entity.setData(note);
+    NoteEntity entity = new NoteEntity(projectName, name, note);
 
     // TODO: verify if operation-name is given that operation exists
 

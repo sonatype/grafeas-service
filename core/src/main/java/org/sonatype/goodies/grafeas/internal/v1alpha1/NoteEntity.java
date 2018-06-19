@@ -29,6 +29,8 @@ import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiNote;
 
 import com.google.common.base.MoreObjects;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * {@link ApiNote} entity.
  *
@@ -60,6 +62,17 @@ public class NoteEntity
   @JoinColumn(name = "note_id")
   private List<OccurrenceEntity> occurrences;
 
+  @SuppressWarnings("unused")
+  public NoteEntity() {
+    // empty
+  }
+
+  public NoteEntity(final String projectName, final String noteName, final ApiNote data) {
+    this.projectName = checkNotNull(projectName);
+    this.noteName = checkNotNull(noteName);
+    this.data = checkNotNull(data);
+  }
+
   public Long getId() {
     return id;
   }
@@ -68,16 +81,8 @@ public class NoteEntity
     return projectName;
   }
 
-  public void setProjectName(final String projectName) {
-    this.projectName = projectName;
-  }
-
   public String getNoteName() {
     return noteName;
-  }
-
-  public void setNoteName(final String noteName) {
-    this.noteName = noteName;
   }
 
   public ApiNote getData() {

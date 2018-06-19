@@ -76,9 +76,7 @@ public class ProjectsResource
     checkNotNull(project);
     log.debug("Create: {}", project);
 
-    ProjectEntity entity = new ProjectEntity();
-    entity.setName(project.getName());
-
+    ProjectEntity entity = new ProjectEntity(project.getName());
     ProjectEntity created = projectDao().add(entity);
     log.debug("Created: {}", created);
   }

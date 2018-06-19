@@ -117,15 +117,11 @@ public class OccurrencesResource
 
     ensureProjectExists(projectName);
 
-    OccurrenceEntity entity = new OccurrenceEntity();
-    entity.setProjectName(projectName);
-    entity.setOccurrenceName(name);
-    entity.setData(occurrence);
-
-    // look up and attach note
+    // look up parent note
     NoteEntity note = noteDao().read(projectName, occurrence.getNoteName());
     checkRequest(note != null, "Invalid note");
-    entity.setNote(note);
+
+    OccurrenceEntity entity = new OccurrenceEntity(projectName, name, note, occurrence);
 
     // TODO: verify if operation-name is given that operation exists
 

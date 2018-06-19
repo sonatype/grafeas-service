@@ -27,6 +27,8 @@ import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiOccurrence;
 
 import com.google.common.base.MoreObjects;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * {@link ApiOccurrence} entity.
  *
@@ -54,6 +56,22 @@ public class OccurrenceEntity
   @Convert(converter = ApiOccurrenceConverter.class)
   private ApiOccurrence data;
 
+  @SuppressWarnings("unused")
+  public OccurrenceEntity() {
+    // empty
+  }
+
+  public OccurrenceEntity(final String projectName,
+                          final String occurrenceName,
+                          final NoteEntity note,
+                          final ApiOccurrence data)
+  {
+    this.projectName = checkNotNull(projectName);
+    this.occurrenceName = checkNotNull(occurrenceName);
+    this.note = checkNotNull(note);
+    this.data = checkNotNull(data);
+  }
+
   public Long getId() {
     return id;
   }
@@ -62,16 +80,8 @@ public class OccurrenceEntity
     return projectName;
   }
 
-  public void setProjectName(final String projectName) {
-    this.projectName = projectName;
-  }
-
   public String getOccurrenceName() {
     return occurrenceName;
-  }
-
-  public void setOccurrenceName(final String occurrenceName) {
-    this.occurrenceName = occurrenceName;
   }
 
   public NoteEntity getNote() {
