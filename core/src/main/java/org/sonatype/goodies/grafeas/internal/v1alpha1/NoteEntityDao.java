@@ -39,6 +39,9 @@ public class NoteEntityDao
     super(sessionFactory);
   }
 
+  /**
+   * Browse notes for project.
+   */
   public List<NoteEntity> browse(final String project,
                                  @Nullable final String filter,
                                  @Nullable final Integer pageSize,
@@ -54,11 +57,17 @@ public class NoteEntityDao
     return currentSession().createQuery(query).list();
   }
 
+  /**
+   * Read note for given entity identifier.
+   */
   @Nullable
   public NoteEntity read(final long id) {
     return get(id);
   }
 
+  /**
+   * Read note for given project and name.
+   */
   @Nullable
   public NoteEntity read(final String project, final String name) {
     checkNotNull(project);
@@ -77,6 +86,9 @@ public class NoteEntityDao
     return uniqueResult(query);
   }
 
+  /**
+   * Edit note.
+   */
   public NoteEntity edit(final NoteEntity entity) {
     checkNotNull(entity);
 
@@ -88,6 +100,9 @@ public class NoteEntityDao
     return persist(entity);
   }
 
+  /**
+   * Add a new note.
+   */
   public NoteEntity add(final NoteEntity entity) {
     checkNotNull(entity);
 
@@ -99,6 +114,9 @@ public class NoteEntityDao
     return persist(entity);
   }
 
+  /**
+   * Delete note.
+   */
   public void delete(final NoteEntity entity) {
     checkNotNull(entity);
 

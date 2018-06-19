@@ -36,6 +36,9 @@ public class ProjectEntityDao
     super(sessionFactory);
   }
 
+  /**
+   * Browse projects.
+   */
   public List<ProjectEntity> browse(@Nullable final String filter,
                                     @Nullable final Integer pageSize,
                                     @Nullable final String pageToken)
@@ -48,11 +51,17 @@ public class ProjectEntityDao
     return currentSession().createQuery(query).list();
   }
 
+  /**
+   * Read project for given entity identifier.
+   */
   @Nullable
   public ProjectEntity read(final long id) {
     return get(id);
   }
 
+  /**
+   * Read project for given name.
+   */
   @Nullable
   public ProjectEntity read(final String name) {
     checkNotNull(name);
@@ -65,12 +74,18 @@ public class ProjectEntityDao
     return uniqueResult(query);
   }
 
+  /**
+   * Add a new project.
+   */
   public ProjectEntity add(final ProjectEntity entity) {
     checkNotNull(entity);
 
     return persist(entity);
   }
 
+  /**
+   * Delete project.
+   */
   public void delete(final ProjectEntity entity) {
     checkNotNull(entity);
 

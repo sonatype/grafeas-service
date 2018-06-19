@@ -39,6 +39,9 @@ public class OccurrenceEntityDao
     super(sessionFactory);
   }
 
+  /**
+   * Browse occurrences for project.
+   */
   public List<OccurrenceEntity> browse(final String project,
                                        @Nullable final String filter,
                                        @Nullable final Integer pageSize,
@@ -55,11 +58,17 @@ public class OccurrenceEntityDao
     return currentSession().createQuery(query).list();
   }
 
+  /**
+   * Read occurrence for given entity identifier.
+   */
   @Nullable
   public OccurrenceEntity read(final long id) {
     return get(id);
   }
 
+  /**
+   * Read occurrence for given project and name.
+   */
   @Nullable
   public OccurrenceEntity read(final String project, final String name) {
     checkNotNull(project);
@@ -78,6 +87,9 @@ public class OccurrenceEntityDao
     return uniqueResult(query);
   }
 
+  /**
+   * Edit occurrence.
+   */
   public OccurrenceEntity edit(final OccurrenceEntity entity) {
     checkNotNull(entity);
 
@@ -89,6 +101,9 @@ public class OccurrenceEntityDao
     return persist(entity);
   }
 
+  /**
+   * Add a new occurrence.
+   */
   public OccurrenceEntity add(final OccurrenceEntity entity) {
     checkNotNull(entity);
 
@@ -100,6 +115,9 @@ public class OccurrenceEntityDao
     return persist(entity);
   }
 
+  /**
+   * Delete occurrence.
+   */
   public void delete(final OccurrenceEntity entity) {
     checkNotNull(entity);
 
