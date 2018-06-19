@@ -77,7 +77,7 @@ Generate script references to include at bottom of page for faster loading.
 </#macro>
 
 <#macro navlink name title href>
-    <a class="nav-link <#if (navbar_selected?? && navbar_selected==name)>active</#if>" href="${href}">${title}</a>
+  <a class="nav-link <#if (navbar_selected?? && navbar_selected==name)>active</#if>" href="${href}">${title}</a>
 </#macro>
 
 <#--
