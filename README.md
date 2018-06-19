@@ -27,6 +27,7 @@ Implementation of [Grafeas](https://grafeas.io/) as a Java micro-service.
 
 ### HTTP PATCH
 
+* https://tools.ietf.org/html/rfc5789
 * https://github.com/jersey/jersey/tree/master/examples/http-patch
 * http://kingsfleet.blogspot.com/2014/02/transparent-patch-support-in-jax-rs-20.html
 * https://github.com/java-json-tools/json-patch
