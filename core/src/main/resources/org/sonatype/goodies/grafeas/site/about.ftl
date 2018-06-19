@@ -24,7 +24,7 @@
       <h1><i class="fas fa-info-circle"></i> ${page_title}</h1>
 
       <p class="lead text-muted">
-        ${loremIpsum(20)}
+        Sonatype implementation of the <@extlink "https://grafeas.io/", "Grafeas"/> specification.
       </p>
 
       <h2>Attributions</h2>

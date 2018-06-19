@@ -23,9 +23,8 @@
       <img src="${basePath}/assets/images/sonatype-64x64.png" height="64" width="64"/> ${applicationTitle}
     </h1>
     <p class="lead text-muted">
-      ${loremIpsum(10)}
+      Sonatype implementation of the <@extlink "https://grafeas.io/", "Grafeas"/> specification.
     </p>
   </div>
-
 </@page>
 </html>
