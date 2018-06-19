@@ -9,6 +9,8 @@ CREATE TABLE projects (
   name VARCHAR NOT NULL UNIQUE
 );
 
+--FIXME: notes, occurrences and operations probably should have a more direct relationship to project?
+
 CREATE TABLE notes (
   id IDENTITY PRIMARY KEY,
   project_name VARCHAR NOT NULL,
