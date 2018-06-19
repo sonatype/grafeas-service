@@ -52,6 +52,10 @@ public class NoteEntity
   @Convert(converter = ApiNoteConverter.class)
   private ApiNote data;
 
+  /**
+   * Resolves occurrences attached to the note.
+   */
+  @SuppressWarnings("unused")
   @OneToMany(fetch = FetchType.LAZY)
   @JoinColumn(name = "note_id")
   private List<OccurrenceEntity> occurrences;
