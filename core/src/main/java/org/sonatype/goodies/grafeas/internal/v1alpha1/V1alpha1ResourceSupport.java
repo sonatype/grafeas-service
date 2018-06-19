@@ -118,7 +118,7 @@ public abstract class V1alpha1ResourceSupport
       return reader.readValue(node);
     }
     catch (IOException e) {
-      throw new RuntimeException(String.format("Unable to merge %s into %s", updates, basis), e);
+      throw new RuntimeException(String.format("Unable to merge: %s into %s", updates, basis), e);
     }
   }
 }
