@@ -29,6 +29,7 @@ import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiOccurrence;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
@@ -53,7 +54,7 @@ public interface OccurrencesEndpoint
   @ApiResponses({
       @ApiResponse(code = 200, message = "Occurrences")
   })
-  ApiListOccurrencesResponse browse(@PathParam("project") String project,
+  ApiListOccurrencesResponse browse(@PathParam("project") @ApiParam("Project name") String project,
                                     @QueryParam("filter") @Nullable String filter,
                                     @QueryParam("page_size") @Nullable Integer pageSize,
                                     @QueryParam("page_token") @Nullable String pageToken);
@@ -66,7 +67,8 @@ public interface OccurrencesEndpoint
       @ApiResponse(code = 200, message = "Occurrence"),
       @ApiResponse(code = 404, message = "Occurrences not found")
   })
-  ApiOccurrence read(@PathParam("project") String project, @PathParam("name") String name);
+  ApiOccurrence read(@PathParam("project") @ApiParam("Project name") String project,
+                     @PathParam("name") @ApiParam("Occurrence name") String name);
 
   // FIXME: jax-rs 2.0 does not support HTTP PATCH :-\
 
@@ -80,7 +82,9 @@ public interface OccurrencesEndpoint
       @ApiResponse(code = 200, message = "Occurrence edited"),
       @ApiResponse(code = 404, message = "Occurrence not found")
   })
-  ApiOccurrence edit(@PathParam("project") String project, @PathParam("name") String name, ApiOccurrence occurrence);
+  ApiOccurrence edit(@PathParam("project") @ApiParam("Project name") String project,
+                     @PathParam("name") @ApiParam("Occurrence name") String name,
+                     @ApiParam("Occurrence") ApiOccurrence occurrence);
 
   @POST
   @Path("{project}/occurrences")
@@ -90,7 +94,8 @@ public interface OccurrencesEndpoint
   @ApiResponses({
       @ApiResponse(code = 201, message = "Occurrence added")
   })
-  ApiOccurrence add(@PathParam("project") String project, ApiOccurrence occurrence);
+  ApiOccurrence add(@PathParam("project") @ApiParam("Project name") String project,
+                    @ApiParam("Occurrence") ApiOccurrence occurrence);
 
   @DELETE
   @Path("{project}/occurrences/{name}")
@@ -100,7 +105,8 @@ public interface OccurrencesEndpoint
       @ApiResponse(code = 204, message = "Occurrence deleted"),
       @ApiResponse(code = 404, message = "Occurrence not found")
   })
-  void delete(@PathParam("project") String project, @PathParam("name") String name);
+  void delete(@PathParam("project") @ApiParam("Project name") String project,
+              @PathParam("name") @ApiParam("Occurrence name") String name);
 
   // FIXME: for some reason the path is 'notes' but the protobuf spec returns a single note
 
@@ -112,5 +118,6 @@ public interface OccurrencesEndpoint
       @ApiResponse(code = 200, message = "Note"),
       @ApiResponse(code = 404, message = "Occurrence not found")
   })
-  ApiNote readNote(@PathParam("project") String project, @PathParam("name") String name);
+  ApiNote readNote(@PathParam("project") @ApiParam("Project name") String project,
+                   @PathParam("name") @ApiParam("Occurrence name") String name);
 }

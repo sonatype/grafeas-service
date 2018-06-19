@@ -29,6 +29,7 @@ import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiNote;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
@@ -53,7 +54,7 @@ public interface NotesEndpoint
   @ApiResponses({
       @ApiResponse(code = 200, message = "Notes")
   })
-  ApiListNotesResponse browse(@PathParam("project") String project,
+  ApiListNotesResponse browse(@PathParam("project") @ApiParam("Project name") String project,
                               @QueryParam("filter") @Nullable String filter,
                               @QueryParam("page_size") @Nullable Integer pageSize,
                               @QueryParam("page_token") @Nullable String pageToken);
@@ -66,7 +67,8 @@ public interface NotesEndpoint
       @ApiResponse(code = 200, message = "Note"),
       @ApiResponse(code = 404, message = "Note not found")
   })
-  ApiNote read(@PathParam("project") String project, @PathParam("name") String name);
+  ApiNote read(@PathParam("project") @ApiParam("Project name") String project,
+               @PathParam("name") @ApiParam("Note name") String name);
 
   // FIXME: jax-rs 2.0 does not support HTTP PATCH :-\
 
@@ -80,7 +82,9 @@ public interface NotesEndpoint
       @ApiResponse(code = 200, message = "Note edited"),
       @ApiResponse(code = 404, message = "Note not found")
   })
-  ApiNote edit(@PathParam("project") String project, @PathParam("name") String name, ApiNote note);
+  ApiNote edit(@PathParam("project") @ApiParam("Project name") String project,
+               @PathParam("name") @ApiParam("Note name") String name,
+               @ApiParam("Note") ApiNote note);
 
   @POST
   @Path("{project}/notes")
@@ -90,7 +94,8 @@ public interface NotesEndpoint
   @ApiResponses({
       @ApiResponse(code = 201, message = "Note added")
   })
-  ApiNote add(@PathParam("project") String project, ApiNote note);
+  ApiNote add(@PathParam("project") @ApiParam("Project name") String project,
+              @ApiParam("Note") ApiNote note);
 
   @DELETE
   @Path("{project}/notes/{name}")
@@ -100,7 +105,8 @@ public interface NotesEndpoint
       @ApiResponse(code = 204, message = "Note deleted"),
       @ApiResponse(code = 404, message = "Note not found")
   })
-  void delete(@PathParam("project") String project, @PathParam("name") String name);
+  void delete(@PathParam("project") @ApiParam("Project name") String project,
+              @PathParam("name") @ApiParam("Note name") String name);
 
   @GET
   @Path("{project}/notes/{name}/occurrences")
@@ -110,5 +116,6 @@ public interface NotesEndpoint
       @ApiResponse(code = 200, message = "Occurrences"),
       @ApiResponse(code = 404, message = "Note not found")
   })
-  ApiListNoteOccurrencesResponse readOccurrences(@PathParam("project") String project, @PathParam("name") String name);
+  ApiListNoteOccurrencesResponse readOccurrences(@PathParam("project") @ApiParam("Project name") String project,
+                                                 @PathParam("name") @ApiParam("Note name") String name);
 }

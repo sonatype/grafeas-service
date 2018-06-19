@@ -71,7 +71,7 @@ public interface ProjectsEndpoint
   @ApiResponses({
       @ApiResponse(code = 201, message = "Project added")
   })
-  void add(ApiProject project);
+  void add(@ApiParam("Project") ApiProject project);
 
   @DELETE
   @Path("{name}")

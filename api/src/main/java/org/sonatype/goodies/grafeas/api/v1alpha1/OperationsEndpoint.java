@@ -23,6 +23,7 @@ import org.sonatype.goodies.grafeas.api.v1alpha1.model.LongrunningOperation;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
@@ -50,5 +51,6 @@ public interface OperationsEndpoint
   @ApiResponses({
       @ApiResponse(code = 201, message = "Operation added")
   })
-  LongrunningOperation add(@PathParam("project") String project, ApiCreateOperationRequest request);
+  LongrunningOperation add(@PathParam("project") @ApiParam("Project name") String project,
+                           @ApiParam("Create operation request") ApiCreateOperationRequest request);
 }
