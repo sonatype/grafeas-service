@@ -19,18 +19,8 @@ Implementation of [Grafeas](https://grafeas.io/) as a Java micro-service.
 ## TODO
 
 * Browse operations take a `filter` but its not defined afaict what that is, and ref-impl doesn't even look at it
-* Why is Swagger generating a "default" section?  Maybe due to use of intf + impls?
-* Swagger UI is not properly rendering details?  why?
 * Adjust isolation between REST <-> data; atm short-cut implementing logic in REST resources
 
 ## References
 
-### HTTP PATCH
-
-* https://tools.ietf.org/html/rfc5789
-* https://github.com/jersey/jersey/tree/master/examples/http-patch
-* http://kingsfleet.blogspot.com/2014/02/transparent-patch-support-in-jax-rs-20.html
-* https://github.com/java-json-tools/json-patch
-* http://brianoneill.blogspot.com/2011/11/patch-methods-on-jax-rs.html
-* https://github.com/tbugrara/dropwizard-patch
-* https://stackoverflow.com/questions/17897171/how-to-have-a-patch-annotation-for-jax-rs
+* https://grafeas.io/
