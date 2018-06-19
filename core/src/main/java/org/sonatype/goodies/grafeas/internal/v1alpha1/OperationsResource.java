@@ -12,6 +12,9 @@
  */
 package org.sonatype.goodies.grafeas.internal.v1alpha1;
 
+import java.util.List;
+
+import javax.annotation.Nullable;
 import javax.inject.Named;
 import javax.inject.Singleton;
 import javax.ws.rs.Path;
@@ -36,6 +39,45 @@ public class OperationsResource
     extends V1alpha1ResourceSupport
     implements OperationsEndpoint
 {
+  // FIXME: resolve what the actual specification api is for operations and implement
+
+  @UnitOfWork
+  @Override
+  public List<LongrunningOperation> browse(final String project,
+                                           @Nullable final String filter,
+                                           @Nullable final Integer pageSize,
+                                           @Nullable final String pageToken)
+  {
+    checkNotNull(project);
+
+    // TODO:
+
+    return null;
+  }
+
+  @UnitOfWork
+  @Override
+  public LongrunningOperation read(final String project, final String name) {
+    checkNotNull(project);
+    checkNotNull(name);
+
+    // TODO:
+
+    return null;
+  }
+
+  @UnitOfWork
+  @Override
+  public LongrunningOperation edit(final String project, final String name, final LongrunningOperation operation) {
+    checkNotNull(project);
+    checkNotNull(name);
+    checkNotNull(operation);
+
+    // TODO:
+
+    return null;
+  }
+
   @UnitOfWork
   @Override
   public LongrunningOperation add(final String project, final ApiCreateOperationRequest request) {
@@ -43,6 +85,16 @@ public class OperationsResource
     checkNotNull(request);
 
     // TODO:
+
     return null;
+  }
+
+  @UnitOfWork
+  @Override
+  public void delete(final String project, final String name) {
+    checkNotNull(project);
+    checkNotNull(name);
+
+    // TODO:
   }
 }
