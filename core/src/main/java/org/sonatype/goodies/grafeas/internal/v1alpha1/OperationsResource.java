@@ -16,7 +16,6 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 import javax.ws.rs.Path;
 
-import org.sonatype.goodies.dropwizard.jaxrs.ResourceSupport;
 import org.sonatype.goodies.grafeas.api.v1alpha1.OperationsEndpoint;
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiCreateOperationRequest;
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.LongrunningOperation;
@@ -34,7 +33,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 @Singleton
 @Path("/api/v1alpha1/projects")
 public class OperationsResource
-    extends ResourceSupport
+    extends V1alpha1ResourceSupport
     implements OperationsEndpoint
 {
   @UnitOfWork

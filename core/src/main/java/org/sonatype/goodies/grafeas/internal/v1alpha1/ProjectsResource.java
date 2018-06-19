@@ -16,20 +16,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 import javax.ws.rs.Path;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response.Status;
 
-import org.sonatype.goodies.dropwizard.jaxrs.ResourceSupport;
 import org.sonatype.goodies.grafeas.api.v1alpha1.ProjectsEndpoint;
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiListProjectsResponse;
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiProject;
 
 import io.dropwizard.hibernate.UnitOfWork;
-import org.hibernate.SessionFactory;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -42,26 +39,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 @Singleton
 @Path("/api/v1alpha1/projects")
 public class ProjectsResource
-    extends ResourceSupport
+    extends V1alpha1ResourceSupport
     implements ProjectsEndpoint
 {
-  private final SessionFactory sessionFactory;
-
-  @Inject
-  public ProjectsResource(final SessionFactory sessionFactory) {
-    this.sessionFactory = checkNotNull(sessionFactory);
-  }
-
-  private ProjectEntityDao dao() {
-    return new ProjectEntityDao(sessionFactory);
-  }
-
-  private ApiProject convert(final ProjectEntity entity) {
-    String name = entity.getName();
-    checkNotNull(name);
-    return new ApiProject().name(name);
-  }
-
   @Override
   @UnitOfWork
   public ApiListProjectsResponse browse(@Nullable final String filter,
@@ -70,7 +50,7 @@ public class ProjectsResource
   {
     log.debug("Browse; filter: {}, page-size: {}, page-token: {}", filter, pageSize, pageToken);
 
-    List<ApiProject> models = dao().browse(filter, pageSize, pageToken)
+    List<ApiProject> models = projectDao().browse(filter, pageSize, pageToken)
         .stream().map(this::convert).collect(Collectors.toList());
     log.debug("Found: {} entities", models.size());
 
@@ -85,7 +65,7 @@ public class ProjectsResource
     checkNotNull(name);
 
     log.debug("Find: {}", name);
-    ProjectEntity entity = dao().read(name);
+    ProjectEntity entity = projectDao().read(name);
 
     log.debug("Found: {}", entity);
     if (entity == null) {
@@ -103,7 +83,7 @@ public class ProjectsResource
     log.debug("Create: {}", project);
     ProjectEntity entity = new ProjectEntity();
     entity.setName(project.getName());
-    long id = dao().add(entity);
+    long id = projectDao().add(entity);
     log.debug("Created: {}", id);
   }
 
@@ -113,11 +93,11 @@ public class ProjectsResource
     checkNotNull(name);
 
     log.debug("Delete: {}", name);
-    ProjectEntity entity = dao().read(name);
+    ProjectEntity entity = projectDao().read(name);
     if (entity == null) {
       throw new WebApplicationException(Status.NOT_FOUND);
     }
-    dao().delete(entity);
+    projectDao().delete(entity);
     log.debug("Deleted");
   }
 }

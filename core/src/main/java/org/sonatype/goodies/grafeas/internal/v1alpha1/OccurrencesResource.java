@@ -16,21 +16,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 import javax.ws.rs.Path;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response.Status;
 
-import org.sonatype.goodies.dropwizard.jaxrs.ResourceSupport;
 import org.sonatype.goodies.grafeas.api.v1alpha1.OccurrencesEndpoint;
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiListOccurrencesResponse;
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiNote;
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiOccurrence;
 
 import io.dropwizard.hibernate.UnitOfWork;
-import org.hibernate.SessionFactory;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -43,36 +40,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 @Singleton
 @Path("/api/v1alpha1/projects")
 public class OccurrencesResource
-    extends ResourceSupport
+    extends V1alpha1ResourceSupport
     implements OccurrencesEndpoint
 {
-  private final SessionFactory sessionFactory;
-
-  @Inject
-  public OccurrencesResource(final SessionFactory sessionFactory) {
-    this.sessionFactory = checkNotNull(sessionFactory);
-  }
-
-  private OccurrenceEntityDao dao() {
-    return new OccurrenceEntityDao(sessionFactory);
-  }
-
-  private NoteEntityDao noteDao() {
-    return new NoteEntityDao(sessionFactory);
-  }
-
-  private ApiOccurrence convert(final OccurrenceEntity entity) {
-    ApiOccurrence model = entity.getData();
-    checkNotNull(model);
-    return model;
-  }
-
-  private ApiNote convert(final NoteEntity entity) {
-    ApiNote model = entity.getData();
-    checkNotNull(model);
-    return model;
-  }
-
   @UnitOfWork
   @Override
   public ApiListOccurrencesResponse browse(final String project,
@@ -80,7 +50,7 @@ public class OccurrencesResource
                                            @Nullable final Integer pageSize,
                                            @Nullable final String pageToken)
   {
-    List<ApiOccurrence> models = dao().browse(project, filter, pageSize, pageToken)
+    List<ApiOccurrence> models = occurrenceDao().browse(project, filter, pageSize, pageToken)
         .stream().map(this::convert).collect(Collectors.toList());
     ApiListOccurrencesResponse result = new ApiListOccurrencesResponse();
     result.setOccurrences(models);
@@ -94,7 +64,7 @@ public class OccurrencesResource
     checkNotNull(name);
 
     log.debug("Find: {}/{}", project, name);
-    OccurrenceEntity entity = dao().read(project, name);
+    OccurrenceEntity entity = occurrenceDao().read(project, name);
     log.debug("Found: {}", entity);
     if (entity == null) {
       throw new WebApplicationException(Status.NOT_FOUND);
@@ -115,12 +85,12 @@ public class OccurrencesResource
       throw new WebApplicationException("Name mismatch", Status.BAD_REQUEST);
     }
 
-    OccurrenceEntity entity = dao().read(project, name);
+    OccurrenceEntity entity = occurrenceDao().read(project, name);
     checkNotNull(entity);
 
     // FIXME: probably need to merge mutable fields here only
     entity.setData(occurrence);
-    entity = dao().edit(entity);
+    entity = occurrenceDao().edit(entity);
     log.debug("Edited: {}", entity);
 
     return convert(entity);
@@ -153,7 +123,7 @@ public class OccurrencesResource
     // TODO: verify project exists
     // TODO: verify if operation-name is given that operation exists
 
-    entity = dao().add(entity);
+    entity = occurrenceDao().add(entity);
     log.debug("Created: {}", entity);
 
     return convert(entity);
@@ -166,11 +136,11 @@ public class OccurrencesResource
     checkNotNull(name);
 
     log.debug("Delete: {}/{}", project, name);
-    OccurrenceEntity entity = dao().read(project, name);
+    OccurrenceEntity entity = occurrenceDao().read(project, name);
     if (entity == null) {
       throw new WebApplicationException(Status.NOT_FOUND);
     }
-    dao().delete(entity);
+    occurrenceDao().delete(entity);
   }
 
   @UnitOfWork
@@ -181,7 +151,7 @@ public class OccurrencesResource
 
     log.debug("Read note: {}/{}", project, name);
 
-    OccurrenceEntity entity = dao().read(project, name);
+    OccurrenceEntity entity = occurrenceDao().read(project, name);
     if (entity == null) {
       throw new WebApplicationException(Status.NOT_FOUND);
     }
