@@ -30,6 +30,7 @@ import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiOccurrence;
 import io.dropwizard.hibernate.UnitOfWork;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static org.sonatype.goodies.dropwizard.jaxrs.WebPreconditions.checkRequest;
 
 /**
  * {@link OccurrencesEndpoint} resource.
@@ -80,7 +81,11 @@ public class OccurrencesResource
     checkNotNull(occurrence);
     log.debug("Edit: {}/{} -> {}", project, name, occurrence);
 
-    // TODO: ban updates for immutable elements
+    // ban updates for immutable properties
+    checkRequest(occurrence.getName() == null, "Name is immutable");
+    checkRequest(occurrence.getKind() == null, "Kind is immutable");
+    checkRequest(occurrence.getCreateTime() == null, "Create-time is immutable");
+    checkRequest(occurrence.getUpdateTime() == null, "Update-time is immutable");
 
     OccurrenceEntity entity = occurrenceDao().read(project, name);
     checkNotNull(entity);

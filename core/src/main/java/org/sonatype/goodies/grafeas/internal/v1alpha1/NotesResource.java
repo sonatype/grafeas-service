@@ -31,6 +31,7 @@ import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiOccurrence;
 import io.dropwizard.hibernate.UnitOfWork;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static org.sonatype.goodies.dropwizard.jaxrs.WebPreconditions.checkRequest;
 
 /**
  * {@link NotesEndpoint} resource.
@@ -83,7 +84,11 @@ public class NotesResource
     checkNotNull(note);
     log.debug("Edit: {}/{} -> {}", project, name, note);
 
-    // TODO: ban updates for immutable elements
+    // ban updates for immutable properties
+    checkRequest(note.getName() == null, "Name is immutable");
+    checkRequest(note.getKind() == null, "Kind is immutable");
+    checkRequest(note.getCreateTime() == null, "Create-time is immutable");
+    checkRequest(note.getUpdateTime() == null, "Update-time is immutable");
 
     NoteEntity entity = noteDao().read(project, name);
     checkNotNull(entity);
