@@ -12,13 +12,19 @@
  */
 package org.sonatype.goodies.grafeas.internal.v1alpha1;
 
+import java.io.IOException;
+
 import javax.inject.Inject;
 
 import org.sonatype.goodies.dropwizard.jaxrs.ResourceSupport;
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiNote;
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiOccurrence;
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiProject;
+import org.sonatype.goodies.grafeas.internal.ObjectMapperFactory;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import org.hibernate.SessionFactory;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -95,5 +101,24 @@ public abstract class V1alpha1ResourceSupport
     ApiOccurrence model = entity.getData();
     checkNotNull(model);
     return model;
+  }
+
+  //
+  // Modal merge
+  //
+
+  // TODO: customize object-mapper for persistence; and join with JsonAttributeConverterSupport
+
+  private static ObjectMapper objectMapper = ObjectMapperFactory.create();
+
+  protected <T> T merge(final T basis, final T updates) {
+    ObjectReader reader = objectMapper.readerForUpdating(basis);
+    JsonNode node = objectMapper.valueToTree(updates);
+    try {
+      return reader.readValue(node);
+    }
+    catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 }

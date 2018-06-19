@@ -83,16 +83,12 @@ public class NotesResource
     checkNotNull(note);
     log.debug("Edit: {}/{} -> {}", project, name, note);
 
-    // ensure note.name matches
-    if (!name.equals(note.getName())) {
-      throw new WebApplicationException("Name mismatch", Status.BAD_REQUEST);
-    }
+    // TODO: ban updates for immutable elements
 
     NoteEntity entity = noteDao().read(project, name);
     checkNotNull(entity);
 
-    // FIXME: probably need to merge mutable fields here only
-    entity.setData(note);
+    entity.setData(merge(entity.getData(), note));
     entity = noteDao().edit(entity);
     log.debug("Edited: {}", entity);
 

@@ -80,16 +80,12 @@ public class OccurrencesResource
     checkNotNull(occurrence);
     log.debug("Edit: {}/{} -> {}", project, name, occurrence);
 
-    // ensure note.name matches
-    if (!name.equals(occurrence.getName())) {
-      throw new WebApplicationException("Name mismatch", Status.BAD_REQUEST);
-    }
+    // TODO: ban updates for immutable elements
 
     OccurrenceEntity entity = occurrenceDao().read(project, name);
     checkNotNull(entity);
 
-    // FIXME: probably need to merge mutable fields here only
-    entity.setData(occurrence);
+    entity.setData(merge(entity.getData(), occurrence));
     entity = occurrenceDao().edit(entity);
     log.debug("Edited: {}", entity);
 
