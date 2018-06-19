@@ -54,7 +54,7 @@ public interface OccurrencesEndpoint
   @ApiResponses({
       @ApiResponse(code = 200, message = "Occurrences")
   })
-  ApiListOccurrencesResponse browse(@PathParam("project") @ApiParam("Project name") String project,
+  ApiListOccurrencesResponse browse(@PathParam("project") @ApiParam("Project name") String projectName,
                                     @QueryParam("filter") @Nullable String filter,
                                     @QueryParam("page_size") @Nullable Integer pageSize,
                                     @QueryParam("page_token") @Nullable String pageToken);
@@ -67,7 +67,7 @@ public interface OccurrencesEndpoint
       @ApiResponse(code = 200, message = "Occurrence"),
       @ApiResponse(code = 404, message = "Occurrences not found")
   })
-  ApiOccurrence read(@PathParam("project") @ApiParam("Project name") String project,
+  ApiOccurrence read(@PathParam("project") @ApiParam("Project name") String projectName,
                      @PathParam("name") @ApiParam("Occurrence name") String name);
 
   // FIXME: need clarification on what the HTTP PATCH for grafeas specification actually implements
@@ -81,7 +81,7 @@ public interface OccurrencesEndpoint
       @ApiResponse(code = 200, message = "Occurrence edited"),
       @ApiResponse(code = 404, message = "Occurrence not found")
   })
-  ApiOccurrence edit(@PathParam("project") @ApiParam("Project name") String project,
+  ApiOccurrence edit(@PathParam("project") @ApiParam("Project name") String projectName,
                      @PathParam("name") @ApiParam("Occurrence name") String name,
                      @ApiParam("Occurrence") ApiOccurrence occurrence);
 
@@ -93,7 +93,7 @@ public interface OccurrencesEndpoint
   @ApiResponses({
       @ApiResponse(code = 201, message = "Occurrence added")
   })
-  ApiOccurrence add(@PathParam("project") @ApiParam("Project name") String project,
+  ApiOccurrence add(@PathParam("project") @ApiParam("Project name") String projectName,
                     @ApiParam("Occurrence") ApiOccurrence occurrence);
 
   @DELETE
@@ -104,7 +104,7 @@ public interface OccurrencesEndpoint
       @ApiResponse(code = 204, message = "Occurrence deleted"),
       @ApiResponse(code = 404, message = "Occurrence not found")
   })
-  void delete(@PathParam("project") @ApiParam("Project name") String project,
+  void delete(@PathParam("project") @ApiParam("Project name") String projectName,
               @PathParam("name") @ApiParam("Occurrence name") String name);
 
   // FIXME: for some reason the path is 'notes' but the protobuf spec returns a single note
@@ -117,6 +117,6 @@ public interface OccurrencesEndpoint
       @ApiResponse(code = 200, message = "Note"),
       @ApiResponse(code = 404, message = "Occurrence not found")
   })
-  ApiNote readNote(@PathParam("project") @ApiParam("Project name") String project,
+  ApiNote readNote(@PathParam("project") @ApiParam("Project name") String projectName,
                    @PathParam("name") @ApiParam("Occurrence name") String name);
 }

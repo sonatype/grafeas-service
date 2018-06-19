@@ -58,7 +58,7 @@ public interface OperationsEndpoint
   @ApiResponses({
       @ApiResponse(code = 200, message = "Operations")
   })
-  List<LongrunningOperation> browse(@PathParam("project") @ApiParam("Project name") String project,
+  List<LongrunningOperation> browse(@PathParam("project") @ApiParam("Project name") String projectName,
                                     @QueryParam("filter") @Nullable String filter,
                                     @QueryParam("page_size") @Nullable Integer pageSize,
                                     @QueryParam("page_token") @Nullable String pageToken);
@@ -71,7 +71,7 @@ public interface OperationsEndpoint
       @ApiResponse(code = 200, message = "Operation"),
       @ApiResponse(code = 404, message = "Operation not found")
   })
-  LongrunningOperation read(@PathParam("project") @ApiParam("Project name") String project,
+  LongrunningOperation read(@PathParam("project") @ApiParam("Project name") String projectName,
                             @PathParam("name") @ApiParam("Operation name") String name);
 
   // FIXME: need clarification on what the HTTP PATCH for grafeas specification actually implements
@@ -85,7 +85,7 @@ public interface OperationsEndpoint
       @ApiResponse(code = 200, message = "Operation edited"),
       @ApiResponse(code = 404, message = "Operation not found")
   })
-  LongrunningOperation edit(@PathParam("project") @ApiParam("Project name") String project,
+  LongrunningOperation edit(@PathParam("project") @ApiParam("Project name") String projectName,
                             @PathParam("name") @ApiParam("Operation name") String name,
                             @ApiParam("Note") LongrunningOperation operation);
 
@@ -97,7 +97,7 @@ public interface OperationsEndpoint
   @ApiResponses({
       @ApiResponse(code = 201, message = "Operation added")
   })
-  LongrunningOperation add(@PathParam("project") @ApiParam("Project name") String project,
+  LongrunningOperation add(@PathParam("project") @ApiParam("Project name") String projectName,
                            @ApiParam("Create operation request") ApiCreateOperationRequest request);
 
   @DELETE
@@ -108,6 +108,6 @@ public interface OperationsEndpoint
       @ApiResponse(code = 204, message = "Operation deleted"),
       @ApiResponse(code = 404, message = "Operation not found")
   })
-  void delete(@PathParam("project") @ApiParam("Project name") String project,
+  void delete(@PathParam("project") @ApiParam("Project name") String projectName,
               @PathParam("name") @ApiParam("Operation name") String name);
 }

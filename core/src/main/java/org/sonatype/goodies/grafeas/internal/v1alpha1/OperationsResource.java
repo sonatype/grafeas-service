@@ -43,12 +43,12 @@ public class OperationsResource
 
   @UnitOfWork
   @Override
-  public List<LongrunningOperation> browse(final String project,
+  public List<LongrunningOperation> browse(final String projectName,
                                            @Nullable final String filter,
                                            @Nullable final Integer pageSize,
                                            @Nullable final String pageToken)
   {
-    checkNotNull(project);
+    checkNotNull(projectName);
 
     // TODO:
 
@@ -57,8 +57,8 @@ public class OperationsResource
 
   @UnitOfWork
   @Override
-  public LongrunningOperation read(final String project, final String name) {
-    checkNotNull(project);
+  public LongrunningOperation read(final String projectName, final String name) {
+    checkNotNull(projectName);
     checkNotNull(name);
 
     // TODO:
@@ -68,8 +68,8 @@ public class OperationsResource
 
   @UnitOfWork
   @Override
-  public LongrunningOperation edit(final String project, final String name, final LongrunningOperation operation) {
-    checkNotNull(project);
+  public LongrunningOperation edit(final String projectName, final String name, final LongrunningOperation operation) {
+    checkNotNull(projectName);
     checkNotNull(name);
     checkNotNull(operation);
 
@@ -80,8 +80,8 @@ public class OperationsResource
 
   @UnitOfWork
   @Override
-  public LongrunningOperation add(final String project, final ApiCreateOperationRequest request) {
-    checkNotNull(project);
+  public LongrunningOperation add(final String projectName, final ApiCreateOperationRequest request) {
+    checkNotNull(projectName);
     checkNotNull(request);
 
     // TODO:
@@ -91,8 +91,8 @@ public class OperationsResource
 
   @UnitOfWork
   @Override
-  public void delete(final String project, final String name) {
-    checkNotNull(project);
+  public void delete(final String projectName, final String name) {
+    checkNotNull(projectName);
     checkNotNull(name);
 
     // TODO:

@@ -54,7 +54,7 @@ public interface NotesEndpoint
   @ApiResponses({
       @ApiResponse(code = 200, message = "Notes")
   })
-  ApiListNotesResponse browse(@PathParam("project") @ApiParam("Project name") String project,
+  ApiListNotesResponse browse(@PathParam("project") @ApiParam("Project name") String projectName,
                               @QueryParam("filter") @Nullable String filter,
                               @QueryParam("page_size") @Nullable Integer pageSize,
                               @QueryParam("page_token") @Nullable String pageToken);
@@ -67,7 +67,7 @@ public interface NotesEndpoint
       @ApiResponse(code = 200, message = "Note"),
       @ApiResponse(code = 404, message = "Note not found")
   })
-  ApiNote read(@PathParam("project") @ApiParam("Project name") String project,
+  ApiNote read(@PathParam("project") @ApiParam("Project name") String projectName,
                @PathParam("name") @ApiParam("Note name") String name);
 
   // FIXME: need clarification on what the HTTP PATCH for grafeas specification actually implements
@@ -81,7 +81,7 @@ public interface NotesEndpoint
       @ApiResponse(code = 200, message = "Note edited"),
       @ApiResponse(code = 404, message = "Note not found")
   })
-  ApiNote edit(@PathParam("project") @ApiParam("Project name") String project,
+  ApiNote edit(@PathParam("project") @ApiParam("Project name") String projectName,
                @PathParam("name") @ApiParam("Note name") String name,
                @ApiParam("Note") ApiNote note);
 
@@ -93,7 +93,7 @@ public interface NotesEndpoint
   @ApiResponses({
       @ApiResponse(code = 201, message = "Note added")
   })
-  ApiNote add(@PathParam("project") @ApiParam("Project name") String project,
+  ApiNote add(@PathParam("project") @ApiParam("Project name") String projectName,
               @ApiParam("Note") ApiNote note);
 
   @DELETE
@@ -104,7 +104,7 @@ public interface NotesEndpoint
       @ApiResponse(code = 204, message = "Note deleted"),
       @ApiResponse(code = 404, message = "Note not found")
   })
-  void delete(@PathParam("project") @ApiParam("Project name") String project,
+  void delete(@PathParam("project") @ApiParam("Project name") String projectName,
               @PathParam("name") @ApiParam("Note name") String name);
 
   @GET
@@ -115,6 +115,6 @@ public interface NotesEndpoint
       @ApiResponse(code = 200, message = "Occurrences"),
       @ApiResponse(code = 404, message = "Note not found")
   })
-  ApiListNoteOccurrencesResponse readOccurrences(@PathParam("project") @ApiParam("Project name") String project,
+  ApiListNoteOccurrencesResponse readOccurrences(@PathParam("project") @ApiParam("Project name") String projectName,
                                                  @PathParam("name") @ApiParam("Note name") String name);
 }

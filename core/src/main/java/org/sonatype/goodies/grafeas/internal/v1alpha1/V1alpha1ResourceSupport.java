@@ -30,6 +30,7 @@ import org.hibernate.SessionFactory;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static org.sonatype.goodies.dropwizard.jaxrs.WebPreconditions.checkRequest;
 
 /**
  * Support for {@code v1alpha1} resources.
@@ -119,5 +120,18 @@ public abstract class V1alpha1ResourceSupport
     catch (IOException e) {
       throw new RuntimeException(String.format("Unable to merge: %s into %s", updates, basis), e);
     }
+  }
+
+  //
+  // Helpers
+  //
+
+  /**
+   * Ensure project with given name exists.
+   */
+  protected ProjectEntity ensureProjectExists(final String projectName) {
+    ProjectEntity entity = projectDao().read(projectName);
+    checkRequest(entity != null, "Invalid project");
+    return entity;
   }
 }
