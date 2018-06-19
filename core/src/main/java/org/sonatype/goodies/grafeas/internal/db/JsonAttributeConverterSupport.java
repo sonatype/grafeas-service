@@ -42,8 +42,6 @@ public abstract class JsonAttributeConverterSupport<T>
     this.type = checkNotNull(type);
   }
 
-  // TODO: check contract for exception and return value on failure
-
   @Override
   public String convertToDatabaseColumn(final T model) {
     log.trace("Converting to column: {}", model);
@@ -53,8 +51,7 @@ public abstract class JsonAttributeConverterSupport<T>
       return value;
     }
     catch (Exception e) {
-      log.error("Failed to convert to String column: {}", model, e);
-      return null;
+      throw new RuntimeException(String.format("Failed to convert to String column: %s", model), e);
     }
   }
 
@@ -67,8 +64,7 @@ public abstract class JsonAttributeConverterSupport<T>
       return model;
     }
     catch (Exception e) {
-      log.error("Failed to convert to {} model: {}", type.getSimpleName(), value, e);
-      return null;
+      throw new RuntimeException(String.format("Failed to convert to %s model: %s", type.getSimpleName(), value), e);
     }
   }
 }
