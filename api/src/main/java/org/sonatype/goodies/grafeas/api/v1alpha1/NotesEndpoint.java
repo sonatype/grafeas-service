@@ -68,7 +68,7 @@ public interface NotesEndpoint
       @ApiResponse(code = 404, message = "Note not found")
   })
   ApiNote read(@PathParam("project") @ApiParam("Project name") String projectName,
-               @PathParam("name") @ApiParam("Note name") String name);
+               @PathParam("name") @ApiParam("Note name") String noteName);
 
   // FIXME: need clarification on what the HTTP PATCH for grafeas specification actually implements
 
@@ -82,7 +82,7 @@ public interface NotesEndpoint
       @ApiResponse(code = 404, message = "Note not found")
   })
   ApiNote edit(@PathParam("project") @ApiParam("Project name") String projectName,
-               @PathParam("name") @ApiParam("Note name") String name,
+               @PathParam("name") @ApiParam("Note name") String noteName,
                @ApiParam("Note") ApiNote note);
 
   @POST
@@ -105,7 +105,7 @@ public interface NotesEndpoint
       @ApiResponse(code = 404, message = "Note not found")
   })
   void delete(@PathParam("project") @ApiParam("Project name") String projectName,
-              @PathParam("name") @ApiParam("Note name") String name);
+              @PathParam("name") @ApiParam("Note name") String noteName);
 
   @GET
   @Path("{project}/notes/{name}/occurrences")
@@ -116,5 +116,5 @@ public interface NotesEndpoint
       @ApiResponse(code = 404, message = "Note not found")
   })
   ApiListNoteOccurrencesResponse readOccurrences(@PathParam("project") @ApiParam("Project name") String projectName,
-                                                 @PathParam("name") @ApiParam("Note name") String name);
+                                                 @PathParam("name") @ApiParam("Note name") String noteName);
 }

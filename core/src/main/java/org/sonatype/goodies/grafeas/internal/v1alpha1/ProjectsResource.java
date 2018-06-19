@@ -60,11 +60,11 @@ public class ProjectsResource
 
   @Override
   @UnitOfWork
-  public ApiProject read(final String name) {
-    checkNotNull(name);
-    log.debug("Find: {}", name);
+  public ApiProject read(final String projectName) {
+    checkNotNull(projectName);
+    log.debug("Find: {}", projectName);
 
-    ProjectEntity entity = projectDao().read(name);
+    ProjectEntity entity = projectDao().read(projectName);
 
     log.debug("Found: {}", entity);
     checkFound(entity != null);
@@ -87,11 +87,11 @@ public class ProjectsResource
 
   @Override
   @UnitOfWork
-  public void delete(final String name) {
-    checkNotNull(name);
-    log.debug("Delete: {}", name);
+  public void delete(final String projectName) {
+    checkNotNull(projectName);
+    log.debug("Delete: {}", projectName);
 
-    ProjectEntity entity = projectDao().read(name);
+    ProjectEntity entity = projectDao().read(projectName);
     checkFound(entity != null);
 
     projectDao().delete(entity);

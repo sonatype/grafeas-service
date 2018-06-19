@@ -63,7 +63,7 @@ public interface ProjectsEndpoint
       @ApiResponse(code = 200, message = "Project"),
       @ApiResponse(code = 404, message = "Project not found")
   })
-  ApiProject read(@PathParam("name") @ApiParam("Project name") String name);
+  ApiProject read(@PathParam("name") @ApiParam("Project name") String projectName);
 
   @POST
   @Consumes(APPLICATION_JSON)
@@ -80,5 +80,5 @@ public interface ProjectsEndpoint
       @ApiResponse(code = 204, message = "Project deleted"),
       @ApiResponse(code = 404, message = "Project not found")
   })
-  void delete(@PathParam("name") @ApiParam("Project name") String name);
+  void delete(@PathParam("name") @ApiParam("Project name") String projectName);
 }

@@ -68,7 +68,7 @@ public interface OccurrencesEndpoint
       @ApiResponse(code = 404, message = "Occurrences not found")
   })
   ApiOccurrence read(@PathParam("project") @ApiParam("Project name") String projectName,
-                     @PathParam("name") @ApiParam("Occurrence name") String name);
+                     @PathParam("name") @ApiParam("Occurrence name") String occurrenceName);
 
   // FIXME: need clarification on what the HTTP PATCH for grafeas specification actually implements
 
@@ -82,7 +82,7 @@ public interface OccurrencesEndpoint
       @ApiResponse(code = 404, message = "Occurrence not found")
   })
   ApiOccurrence edit(@PathParam("project") @ApiParam("Project name") String projectName,
-                     @PathParam("name") @ApiParam("Occurrence name") String name,
+                     @PathParam("name") @ApiParam("Occurrence name") String occurrenceName,
                      @ApiParam("Occurrence") ApiOccurrence occurrence);
 
   @POST
@@ -105,7 +105,7 @@ public interface OccurrencesEndpoint
       @ApiResponse(code = 404, message = "Occurrence not found")
   })
   void delete(@PathParam("project") @ApiParam("Project name") String projectName,
-              @PathParam("name") @ApiParam("Occurrence name") String name);
+              @PathParam("name") @ApiParam("Occurrence name") String occurrenceName);
 
   // FIXME: for some reason the path is 'notes' but the protobuf spec returns a single note
 
@@ -118,5 +118,5 @@ public interface OccurrencesEndpoint
       @ApiResponse(code = 404, message = "Occurrence not found")
   })
   ApiNote readNote(@PathParam("project") @ApiParam("Project name") String projectName,
-                   @PathParam("name") @ApiParam("Occurrence name") String name);
+                   @PathParam("name") @ApiParam("Occurrence name") String occurrenceName);
 }

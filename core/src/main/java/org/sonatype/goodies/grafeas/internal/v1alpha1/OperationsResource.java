@@ -57,9 +57,9 @@ public class OperationsResource
 
   @UnitOfWork
   @Override
-  public LongrunningOperation read(final String projectName, final String name) {
+  public LongrunningOperation read(final String projectName, final String operationName) {
     checkNotNull(projectName);
-    checkNotNull(name);
+    checkNotNull(operationName);
 
     // TODO:
 
@@ -68,9 +68,9 @@ public class OperationsResource
 
   @UnitOfWork
   @Override
-  public LongrunningOperation edit(final String projectName, final String name, final LongrunningOperation operation) {
+  public LongrunningOperation edit(final String projectName, final String operationName, final LongrunningOperation operation) {
     checkNotNull(projectName);
-    checkNotNull(name);
+    checkNotNull(operationName);
     checkNotNull(operation);
 
     // TODO:
@@ -80,9 +80,9 @@ public class OperationsResource
 
   @UnitOfWork
   @Override
-  public LongrunningOperation add(final String projectName, final ApiCreateOperationRequest request) {
+  public LongrunningOperation add(final String projectName, final ApiCreateOperationRequest createOperationRequest) {
     checkNotNull(projectName);
-    checkNotNull(request);
+    checkNotNull(createOperationRequest);
 
     // TODO:
 
@@ -91,9 +91,9 @@ public class OperationsResource
 
   @UnitOfWork
   @Override
-  public void delete(final String projectName, final String name) {
+  public void delete(final String projectName, final String operationName) {
     checkNotNull(projectName);
-    checkNotNull(name);
+    checkNotNull(operationName);
 
     // TODO:
   }

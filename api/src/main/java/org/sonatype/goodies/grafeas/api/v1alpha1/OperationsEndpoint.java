@@ -72,7 +72,7 @@ public interface OperationsEndpoint
       @ApiResponse(code = 404, message = "Operation not found")
   })
   LongrunningOperation read(@PathParam("project") @ApiParam("Project name") String projectName,
-                            @PathParam("name") @ApiParam("Operation name") String name);
+                            @PathParam("name") @ApiParam("Operation name") String operationName);
 
   // FIXME: need clarification on what the HTTP PATCH for grafeas specification actually implements
 
@@ -86,7 +86,7 @@ public interface OperationsEndpoint
       @ApiResponse(code = 404, message = "Operation not found")
   })
   LongrunningOperation edit(@PathParam("project") @ApiParam("Project name") String projectName,
-                            @PathParam("name") @ApiParam("Operation name") String name,
+                            @PathParam("name") @ApiParam("Operation name") String operationName,
                             @ApiParam("Note") LongrunningOperation operation);
 
   @POST
@@ -98,7 +98,7 @@ public interface OperationsEndpoint
       @ApiResponse(code = 201, message = "Operation added")
   })
   LongrunningOperation add(@PathParam("project") @ApiParam("Project name") String projectName,
-                           @ApiParam("Create operation request") ApiCreateOperationRequest request);
+                           @ApiParam("Create operation request") ApiCreateOperationRequest createOperationRequest);
 
   @DELETE
   @Path("{project}/operations/{name}")
@@ -109,5 +109,5 @@ public interface OperationsEndpoint
       @ApiResponse(code = 404, message = "Operation not found")
   })
   void delete(@PathParam("project") @ApiParam("Project name") String projectName,
-              @PathParam("name") @ApiParam("Operation name") String name);
+              @PathParam("name") @ApiParam("Operation name") String operationName);
 }

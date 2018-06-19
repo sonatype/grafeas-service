@@ -67,14 +67,14 @@ public class NotesResource
 
   @UnitOfWork
   @Override
-  public ApiNote read(final String projectName, final String name) {
+  public ApiNote read(final String projectName, final String noteName) {
     checkNotNull(projectName);
-    checkNotNull(name);
-    log.debug("Find: {}/{}", projectName, name);
+    checkNotNull(noteName);
+    log.debug("Find: {}/{}", projectName, noteName);
 
     ensureProjectExists(projectName);
 
-    NoteEntity entity = noteDao().read(projectName, name);
+    NoteEntity entity = noteDao().read(projectName, noteName);
 
     log.debug("Found: {}", entity);
     checkFound(entity != null);
@@ -84,11 +84,11 @@ public class NotesResource
 
   @UnitOfWork
   @Override
-  public ApiNote edit(final String projectName, final String name, final ApiNote note) {
+  public ApiNote edit(final String projectName, final String noteName, final ApiNote note) {
     checkNotNull(projectName);
-    checkNotNull(name);
+    checkNotNull(noteName);
     checkNotNull(note);
-    log.debug("Edit: {}/{} -> {}", projectName, name, note);
+    log.debug("Edit: {}/{} -> {}", projectName, noteName, note);
 
     // ban updates for immutable properties
     checkRequest(note.getName() == null, "Name is immutable");
@@ -98,7 +98,7 @@ public class NotesResource
 
     ensureProjectExists(projectName);
 
-    NoteEntity entity = noteDao().read(projectName, name);
+    NoteEntity entity = noteDao().read(projectName, noteName);
     checkNotNull(entity);
 
     entity.setData(merge(entity.getData(), note));
@@ -135,14 +135,14 @@ public class NotesResource
 
   @UnitOfWork
   @Override
-  public void delete(final String projectName, final String name) {
+  public void delete(final String projectName, final String noteName) {
     checkNotNull(projectName);
-    checkNotNull(name);
-    log.debug("Delete: {}/{}", projectName, name);
+    checkNotNull(noteName);
+    log.debug("Delete: {}/{}", projectName, noteName);
 
     ensureProjectExists(projectName);
 
-    NoteEntity entity = noteDao().read(projectName, name);
+    NoteEntity entity = noteDao().read(projectName, noteName);
     checkFound(entity != null);
 
     noteDao().delete(entity);
@@ -150,14 +150,14 @@ public class NotesResource
 
   @UnitOfWork
   @Override
-  public ApiListNoteOccurrencesResponse readOccurrences(final String projectName, final String name) {
+  public ApiListNoteOccurrencesResponse readOccurrences(final String projectName, final String noteName) {
     checkNotNull(projectName);
-    checkNotNull(name);
-    log.debug("Read occurrences: {}/{}", projectName, name);
+    checkNotNull(noteName);
+    log.debug("Read occurrences: {}/{}", projectName, noteName);
 
     ensureProjectExists(projectName);
 
-    NoteEntity entity = noteDao().read(projectName, name);
+    NoteEntity entity = noteDao().read(projectName, noteName);
     checkFound(entity != null);
 
     List<ApiOccurrence> occurrences = entity.getOccurrences()
