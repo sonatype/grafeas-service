@@ -53,9 +53,7 @@ public class ProjectsResource
         .stream().map(this::convert).collect(Collectors.toList());
     log.debug("Found: {}", models.size());
 
-    ApiListProjectsResponse result = new ApiListProjectsResponse();
-    result.setProjects(models);
-    return result;
+    return new ApiListProjectsResponse().projects(models);
   }
 
   @Override

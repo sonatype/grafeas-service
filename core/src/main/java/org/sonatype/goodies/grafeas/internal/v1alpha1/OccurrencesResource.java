@@ -59,9 +59,7 @@ public class OccurrencesResource
         .stream().map(this::convert).collect(Collectors.toList());
     log.debug("Found: {}", models.size());
 
-    ApiListOccurrencesResponse result = new ApiListOccurrencesResponse();
-    result.setOccurrences(models);
-    return result;
+    return new ApiListOccurrencesResponse().occurrences(models);
   }
 
   @UnitOfWork

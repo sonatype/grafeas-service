@@ -60,9 +60,7 @@ public class NotesResource
         .stream().map(this::convert).collect(Collectors.toList());
     log.debug("Found: {}", models.size());
 
-    ApiListNotesResponse result = new ApiListNotesResponse();
-    result.setNotes(models);
-    return result;
+    return new ApiListNotesResponse().notes(models);
   }
 
   @UnitOfWork
