@@ -46,7 +46,7 @@ public class NoteEntityDao
   {
     checkNotNull(project);
 
-    // FIXME: add filter and browse support
+    // FIXME: add filter and browse support; it is not yet clearly defined what this is
 
     CriteriaBuilder builder = currentSession().getCriteriaBuilder();
     CriteriaQuery<NoteEntity> query = builder.createQuery(NoteEntity.class);

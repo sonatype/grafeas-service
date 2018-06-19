@@ -40,7 +40,7 @@ public class ProjectEntityDao
                                     @Nullable final Integer pageSize,
                                     @Nullable final String pageToken)
   {
-    // FIXME: add filter and browse support
+    // FIXME: add filter and browse support; it is not yet clearly defined what this is
 
     CriteriaBuilder builder = currentSession().getCriteriaBuilder();
     CriteriaQuery<ProjectEntity> query = builder.createQuery(ProjectEntity.class);

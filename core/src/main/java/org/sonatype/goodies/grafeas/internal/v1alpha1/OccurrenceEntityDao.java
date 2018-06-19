@@ -46,7 +46,7 @@ public class OccurrenceEntityDao
   {
     checkNotNull(project);
 
-    // FIXME: add filter and browse support
+    // FIXME: add filter and browse support; it is not yet clearly defined what this is
 
     CriteriaBuilder builder = currentSession().getCriteriaBuilder();
     CriteriaQuery<OccurrenceEntity> query = builder.createQuery(OccurrenceEntity.class);

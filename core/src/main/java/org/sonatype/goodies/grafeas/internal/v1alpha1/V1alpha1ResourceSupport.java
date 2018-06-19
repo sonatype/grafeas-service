@@ -48,18 +48,31 @@ public abstract class V1alpha1ResourceSupport
   // Data-access objects
   //
 
-  // TODO: cache dao instances, they should be thread-safe
+  private ProjectEntityDao projectDao;
+
+  private NoteEntityDao noteDao;
+
+  private OccurrenceEntityDao occurrenceDao;
 
   protected ProjectEntityDao projectDao() {
-    return new ProjectEntityDao(getSessionFactory());
+    if (projectDao == null) {
+      projectDao = new ProjectEntityDao(getSessionFactory());
+    }
+    return projectDao;
   }
 
   protected NoteEntityDao noteDao() {
-    return new NoteEntityDao(getSessionFactory());
+    if (noteDao == null) {
+      noteDao = new NoteEntityDao(getSessionFactory());
+    }
+    return noteDao;
   }
 
   protected OccurrenceEntityDao occurrenceDao() {
-    return new OccurrenceEntityDao(getSessionFactory());
+    if (occurrenceDao == null) {
+      occurrenceDao = new OccurrenceEntityDao(getSessionFactory());
+    }
+    return occurrenceDao;
   }
 
   //
