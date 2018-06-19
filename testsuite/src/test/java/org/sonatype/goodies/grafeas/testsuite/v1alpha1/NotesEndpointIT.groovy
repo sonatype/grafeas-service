@@ -51,7 +51,8 @@ class NotesEndpointIT
     log note2
 
     def note3 = notes.edit('foo', 'note1', new ApiNote(
-        shortDescription: 'foo'
+        shortDescription: 'foo',
+        longDescription: 'f o o'
     ))
 
     log note3
