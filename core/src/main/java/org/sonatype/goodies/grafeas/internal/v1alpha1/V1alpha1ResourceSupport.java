@@ -21,6 +21,7 @@ import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiNote;
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiOccurrence;
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiProject;
 import org.sonatype.goodies.grafeas.internal.ObjectMapperFactory;
+import org.sonatype.goodies.grafeas.internal.db.DatabaseObjectMapperFactory;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -107,9 +108,7 @@ public abstract class V1alpha1ResourceSupport
   // Modal merge
   //
 
-  // TODO: customize object-mapper for persistence; and join with JsonAttributeConverterSupport
-
-  private static ObjectMapper objectMapper = ObjectMapperFactory.create();
+  private static ObjectMapper objectMapper = DatabaseObjectMapperFactory.create();
 
   protected <T> T merge(final T basis, final T updates) {
     ObjectReader reader = objectMapper.readerForUpdating(basis);

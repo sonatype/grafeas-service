@@ -14,8 +14,6 @@ package org.sonatype.goodies.grafeas.internal.db;
 
 import javax.persistence.AttributeConverter;
 
-import org.sonatype.goodies.grafeas.internal.ObjectMapperFactory;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,9 +28,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public abstract class JsonAttributeConverterSupport<T>
     implements AttributeConverter<T, String>
 {
-  // TODO: customize object-mapper for persistence?
-
-  private static final ObjectMapper objectMapper = ObjectMapperFactory.create();
+  private static final ObjectMapper objectMapper = DatabaseObjectMapperFactory.create();
 
   private final Logger log = LoggerFactory.getLogger(getClass());
 
