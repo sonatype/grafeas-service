@@ -29,7 +29,7 @@ import io.dropwizard.configuration.YamlConfigurationFactory;
 import io.dropwizard.jackson.LogbackModule;
 
 /**
- * ???
+ * {@link GrafeasConfiguration} factory.
  *
  * @since ???
  */

@@ -27,7 +27,7 @@ import io.dropwizard.configuration.SubstitutingSourceProvider;
 import io.dropwizard.setup.Bootstrap;
 
 /**
- * ???
+ * Grafeas application.
  *
  * @since ???
  */

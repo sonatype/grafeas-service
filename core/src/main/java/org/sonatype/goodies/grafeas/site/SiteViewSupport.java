@@ -20,7 +20,7 @@ import org.sonatype.goodies.dropwizard.view.ViewSupport;
 import org.sonatype.goodies.grafeas.GrafeasConfiguration;
 
 /**
- * ???
+ * Support for site views.
  *
  * @since ???
  */

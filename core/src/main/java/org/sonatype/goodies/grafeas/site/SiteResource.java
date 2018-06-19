@@ -27,7 +27,7 @@ import org.sonatype.goodies.dropwizard.jaxrs.ResourceSupport;
 import io.dropwizard.views.View;
 
 /**
- * ???
+ * Site resource.
  *
  * @since ???
  */
