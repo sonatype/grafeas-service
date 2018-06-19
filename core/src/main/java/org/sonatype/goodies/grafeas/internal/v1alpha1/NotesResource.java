@@ -19,8 +19,6 @@ import javax.annotation.Nullable;
 import javax.inject.Named;
 import javax.inject.Singleton;
 import javax.ws.rs.Path;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response.Status;
 
 import org.sonatype.goodies.grafeas.api.v1alpha1.NotesEndpoint;
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiListNoteOccurrencesResponse;
@@ -31,6 +29,7 @@ import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiOccurrence;
 import io.dropwizard.hibernate.UnitOfWork;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static org.sonatype.goodies.dropwizard.jaxrs.WebPreconditions.checkFound;
 import static org.sonatype.goodies.dropwizard.jaxrs.WebPreconditions.checkRequest;
 
 /**
@@ -53,9 +52,12 @@ public class NotesResource
                                      @Nullable final String pageToken)
   {
     checkNotNull(project);
+    log.debug("Browse; filter: {}, page-size: {}, page-token: {}", filter, pageSize, pageToken);
 
     List<ApiNote> models = noteDao().browse(project, filter, pageSize, pageToken)
         .stream().map(this::convert).collect(Collectors.toList());
+    log.debug("Found: {}", models.size());
+
     ApiListNotesResponse result = new ApiListNotesResponse();
     result.setNotes(models);
     return result;
@@ -66,13 +68,13 @@ public class NotesResource
   public ApiNote read(final String project, final String name) {
     checkNotNull(project);
     checkNotNull(name);
-
     log.debug("Find: {}/{}", project, name);
+
     NoteEntity entity = noteDao().read(project, name);
+
     log.debug("Found: {}", entity);
-    if (entity == null) {
-      throw new WebApplicationException(Status.NOT_FOUND);
-    }
+    checkFound(entity != null);
+
     return convert(entity);
   }
 
@@ -108,9 +110,7 @@ public class NotesResource
     log.debug("Create: {} -> {}", project, note);
 
     String name = note.getName();
-    if (name == null) {
-      throw new WebApplicationException("Name required", Status.BAD_REQUEST);
-    }
+    checkRequest(name != null, "Name required");
 
     NoteEntity entity = new NoteEntity();
     entity.setProjectName(project);
@@ -131,12 +131,11 @@ public class NotesResource
   public void delete(final String project, final String name) {
     checkNotNull(project);
     checkNotNull(name);
-
     log.debug("Delete: {}/{}", project, name);
+
     NoteEntity entity = noteDao().read(project, name);
-    if (entity == null) {
-      throw new WebApplicationException(Status.NOT_FOUND);
-    }
+    checkFound(entity != null);
+
     noteDao().delete(entity);
   }
 
@@ -145,13 +144,10 @@ public class NotesResource
   public ApiListNoteOccurrencesResponse readOccurrences(final String project, final String name) {
     checkNotNull(project);
     checkNotNull(name);
-
     log.debug("Read occurrences: {}/{}", project, name);
 
     NoteEntity entity = noteDao().read(project, name);
-    if (entity == null) {
-      throw new WebApplicationException(Status.NOT_FOUND);
-    }
+    checkFound(entity != null);
 
     List<ApiOccurrence> occurrences = entity.getOccurrences()
         .stream().map(this::convert).collect(Collectors.toList());

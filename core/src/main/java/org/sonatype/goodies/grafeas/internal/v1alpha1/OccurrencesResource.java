@@ -19,8 +19,6 @@ import javax.annotation.Nullable;
 import javax.inject.Named;
 import javax.inject.Singleton;
 import javax.ws.rs.Path;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response.Status;
 
 import org.sonatype.goodies.grafeas.api.v1alpha1.OccurrencesEndpoint;
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiListOccurrencesResponse;
@@ -30,6 +28,7 @@ import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiOccurrence;
 import io.dropwizard.hibernate.UnitOfWork;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static org.sonatype.goodies.dropwizard.jaxrs.WebPreconditions.checkFound;
 import static org.sonatype.goodies.dropwizard.jaxrs.WebPreconditions.checkRequest;
 
 /**
@@ -51,8 +50,13 @@ public class OccurrencesResource
                                            @Nullable final Integer pageSize,
                                            @Nullable final String pageToken)
   {
+    checkNotNull(project);
+    log.debug("Browse; filter: {}, page-size: {}, page-token: {}", filter, pageSize, pageToken);
+
     List<ApiOccurrence> models = occurrenceDao().browse(project, filter, pageSize, pageToken)
         .stream().map(this::convert).collect(Collectors.toList());
+    log.debug("Found: {}", models.size());
+
     ApiListOccurrencesResponse result = new ApiListOccurrencesResponse();
     result.setOccurrences(models);
     return result;
@@ -63,13 +67,13 @@ public class OccurrencesResource
   public ApiOccurrence read(final String project, final String name) {
     checkNotNull(project);
     checkNotNull(name);
-
     log.debug("Find: {}/{}", project, name);
+
     OccurrenceEntity entity = occurrenceDao().read(project, name);
+
     log.debug("Found: {}", entity);
-    if (entity == null) {
-      throw new WebApplicationException(Status.NOT_FOUND);
-    }
+    checkFound(entity != null);
+
     return convert(entity);
   }
 
@@ -105,9 +109,7 @@ public class OccurrencesResource
     log.debug("Create: {} -> {}", project, occurrence);
 
     String name = occurrence.getName();
-    if (name == null) {
-      throw new WebApplicationException("Name required", Status.BAD_REQUEST);
-    }
+    checkRequest(name != null, "Name required");
 
     OccurrenceEntity entity = new OccurrenceEntity();
     entity.setProjectName(project);
@@ -116,9 +118,7 @@ public class OccurrencesResource
 
     // look up and attach note
     NoteEntity note = noteDao().read(project, occurrence.getNoteName());
-    if (note == null) {
-      throw new WebApplicationException("Invalid note", Status.BAD_REQUEST);
-    }
+    checkRequest(note != null, "Invalid note");
     entity.setNote(note);
 
     // TODO: verify project exists
@@ -135,12 +135,11 @@ public class OccurrencesResource
   public void delete(final String project, final String name) {
     checkNotNull(project);
     checkNotNull(name);
-
     log.debug("Delete: {}/{}", project, name);
+
     OccurrenceEntity entity = occurrenceDao().read(project, name);
-    if (entity == null) {
-      throw new WebApplicationException(Status.NOT_FOUND);
-    }
+    checkFound(entity != null);
+
     occurrenceDao().delete(entity);
   }
 
@@ -149,13 +148,10 @@ public class OccurrencesResource
   public ApiNote readNote(final String project, final String name) {
     checkNotNull(project);
     checkNotNull(name);
-
     log.debug("Read note: {}/{}", project, name);
 
     OccurrenceEntity entity = occurrenceDao().read(project, name);
-    if (entity == null) {
-      throw new WebApplicationException(Status.NOT_FOUND);
-    }
+    checkFound(entity != null);
 
     return convert(entity.getNote());
   }

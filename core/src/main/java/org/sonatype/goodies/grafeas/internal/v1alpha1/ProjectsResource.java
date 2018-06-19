@@ -19,8 +19,6 @@ import javax.annotation.Nullable;
 import javax.inject.Named;
 import javax.inject.Singleton;
 import javax.ws.rs.Path;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response.Status;
 
 import org.sonatype.goodies.grafeas.api.v1alpha1.ProjectsEndpoint;
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiListProjectsResponse;
@@ -29,6 +27,7 @@ import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiProject;
 import io.dropwizard.hibernate.UnitOfWork;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static org.sonatype.goodies.dropwizard.jaxrs.WebPreconditions.checkFound;
 
 /**
  * {@link ProjectsEndpoint} resource.
@@ -52,7 +51,7 @@ public class ProjectsResource
 
     List<ApiProject> models = projectDao().browse(filter, pageSize, pageToken)
         .stream().map(this::convert).collect(Collectors.toList());
-    log.debug("Found: {} entities", models.size());
+    log.debug("Found: {}", models.size());
 
     ApiListProjectsResponse result = new ApiListProjectsResponse();
     result.setProjects(models);
@@ -63,14 +62,12 @@ public class ProjectsResource
   @UnitOfWork
   public ApiProject read(final String name) {
     checkNotNull(name);
-
     log.debug("Find: {}", name);
+
     ProjectEntity entity = projectDao().read(name);
 
     log.debug("Found: {}", entity);
-    if (entity == null) {
-      throw new WebApplicationException(Status.NOT_FOUND);
-    }
+    checkFound(entity != null);
 
     return convert(entity);
   }
@@ -79,10 +76,11 @@ public class ProjectsResource
   @UnitOfWork
   public void add(final ApiProject project) {
     checkNotNull(project);
-
     log.debug("Create: {}", project);
+
     ProjectEntity entity = new ProjectEntity();
     entity.setName(project.getName());
+
     long id = projectDao().add(entity);
     log.debug("Created: {}", id);
   }
@@ -91,12 +89,11 @@ public class ProjectsResource
   @UnitOfWork
   public void delete(final String name) {
     checkNotNull(name);
-
     log.debug("Delete: {}", name);
+
     ProjectEntity entity = projectDao().read(name);
-    if (entity == null) {
-      throw new WebApplicationException(Status.NOT_FOUND);
-    }
+    checkFound(entity != null);
+
     projectDao().delete(entity);
     log.debug("Deleted");
   }
