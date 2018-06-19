@@ -42,6 +42,7 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 public interface OperationsEndpoint
 {
   // TODO: operations haves have a slightly different api, this needs to be adjusted once we understand wtf they are
+  // FIXME: api here from present source is a very unclear, it looks like it should have a full bread api, but isn't exposed
 
   @POST
   @Path("{project}/operations")
