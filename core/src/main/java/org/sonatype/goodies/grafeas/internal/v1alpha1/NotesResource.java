@@ -58,10 +58,6 @@ public class NotesResource
     return new NoteEntityDao(sessionFactory);
   }
 
-  private OccurrenceEntityDao occurrenceDao() {
-    return new OccurrenceEntityDao(sessionFactory);
-  }
-
   private ApiNote convert(final NoteEntity entity) {
     ApiNote model = entity.getData();
     checkNotNull(model);
