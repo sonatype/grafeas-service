@@ -104,6 +104,7 @@
               <exclude>*.cmd</exclude>
               <exclude>references/**</exclude>
               <exclude>api/src/main/resources/io/grafeas/grafeas.swagger.json</exclude>
+              <exclude>api/src/main/java/javax/ws/rs/PATCH.java</exclude>
             </excludes>
           </configuration>
         </plugin>
