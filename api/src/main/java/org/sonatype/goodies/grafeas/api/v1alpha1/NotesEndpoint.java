@@ -70,6 +70,8 @@ public interface NotesEndpoint
   ApiNote read(@PathParam("project") @ApiParam("Project name") String project,
                @PathParam("name") @ApiParam("Note name") String name);
 
+  // FIXME: need clarification on what the HTTP PATCH for grafeas specification actually implements
+
   @PATCH
   @Path("{project}/notes/{name}")
   @Consumes(APPLICATION_JSON)
