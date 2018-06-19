@@ -15,8 +15,8 @@ package org.sonatype.goodies.grafeas.internal.v1alpha1;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.google.common.base.MoreObjects;
@@ -31,7 +31,8 @@ import com.google.common.base.MoreObjects;
 public class OperationEntity
 {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @SequenceGenerator(name="operations_sequence_generator", sequenceName = "operations_sequence")
+  @GeneratedValue(generator = "operations_sequence_generator")
   private Long id;
 
   @Column(name = "project_name")

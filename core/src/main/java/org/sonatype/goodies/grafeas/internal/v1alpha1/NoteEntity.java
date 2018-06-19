@@ -19,10 +19,10 @@ import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiNote;
@@ -41,7 +41,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class NoteEntity
 {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @SequenceGenerator(name="notes_sequence_generator", sequenceName = "notes_sequence")
+  @GeneratedValue(generator = "notes_sequence_generator")
   private Long id;
 
   @Column(name = "project_name")

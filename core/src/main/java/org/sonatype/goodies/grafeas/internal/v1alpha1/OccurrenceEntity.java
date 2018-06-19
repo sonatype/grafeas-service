@@ -17,10 +17,10 @@ import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiOccurrence;
@@ -39,7 +39,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class OccurrenceEntity
 {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @SequenceGenerator(name="occurrences_sequence_generator", sequenceName = "occurrences_sequence")
+  @GeneratedValue(generator = "occurrences_sequence_generator")
   private Long id;
 
   @Column(name = "project_name")
