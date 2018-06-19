@@ -41,6 +41,7 @@ public class OperationEntity
   private String operationName;
 
   // FIXME: resolve what the datatype is here ApiCreateOperationRequest or LongrunningOperation?
+  // FIXME: looks like its LongrunningOperation, but this has presently wrinkles requiring protobuf encoding :-\
 
   @Column
   private String data;
