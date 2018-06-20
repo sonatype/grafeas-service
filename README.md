@@ -24,3 +24,7 @@ Implementation of [Grafeas](https://grafeas.io/) as a Java micro-service.
 ## References
 
 * https://grafeas.io/
+* https://groups.google.com/forum/#!forum/grafeas-dev
+* https://groups.google.com/forum/#!forum/grafeas-users
+* https://groups.google.com/forum/#!forum/grafeas-announce
+* https://docs.google.com/document/d/15EUSFFD-aqrizJHLVHT-Ds7PooqUscIvsASllR8a0wk
