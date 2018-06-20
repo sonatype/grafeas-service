@@ -24,6 +24,8 @@ import javax.persistence.criteria.Root;
 
 import io.dropwizard.hibernate.AbstractDAO;
 import org.hibernate.SessionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -37,6 +39,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class ProjectEntityDao
     extends AbstractDAO<ProjectEntity>
 {
+  private static final Logger log = LoggerFactory.getLogger(ProjectEntityDao.class);
+
   @Inject
   public ProjectEntityDao(final SessionFactory sessionFactory) {
     super(sessionFactory);
@@ -49,6 +53,8 @@ public class ProjectEntityDao
                                     @Nullable final Integer pageSize,
                                     @Nullable final String pageToken)
   {
+    log.trace("Browse: filter={}, page-size={}, page-token={}", filter, pageSize, pageToken);
+
     // FIXME: add filter and browse support; it is not yet clearly defined what this is
 
     CriteriaBuilder builder = currentSession().getCriteriaBuilder();
@@ -62,6 +68,8 @@ public class ProjectEntityDao
    */
   @Nullable
   public ProjectEntity read(final long id) {
+    log.trace("Read: {}", id);
+
     return get(id);
   }
 
@@ -71,6 +79,8 @@ public class ProjectEntityDao
   @Nullable
   public ProjectEntity read(final String projectName) {
     checkNotNull(projectName);
+
+    log.trace("Read: project-name={}", projectName);
 
     CriteriaBuilder builder = currentSession().getCriteriaBuilder();
     CriteriaQuery<ProjectEntity> query = builder.createQuery(ProjectEntity.class);
@@ -86,6 +96,8 @@ public class ProjectEntityDao
   public ProjectEntity add(final ProjectEntity entity) {
     checkNotNull(entity);
 
+    log.trace("Add: {}", entity);
+
     return persist(entity);
   }
 
@@ -94,6 +106,8 @@ public class ProjectEntityDao
    */
   public void delete(final ProjectEntity entity) {
     checkNotNull(entity);
+
+    log.trace("Delete: {}", entity);
 
     currentSession().delete(entity);
   }

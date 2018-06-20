@@ -27,6 +27,8 @@ import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiOccurrence;
 
 import io.dropwizard.hibernate.AbstractDAO;
 import org.hibernate.SessionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -40,6 +42,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class OccurrenceEntityDao
     extends AbstractDAO<OccurrenceEntity>
 {
+  private static final Logger log = LoggerFactory.getLogger(OccurrenceEntityDao.class);
+
   @Inject
   public OccurrenceEntityDao(final SessionFactory sessionFactory) {
     super(sessionFactory);
@@ -54,6 +58,8 @@ public class OccurrenceEntityDao
                                        @Nullable final String pageToken)
   {
     checkNotNull(projectName);
+
+    log.trace("Browse: filter={}, page-size={}, page-token={}", filter, pageSize, pageToken);
 
     // FIXME: add filter and browse support; it is not yet clearly defined what this is
 
@@ -72,6 +78,8 @@ public class OccurrenceEntityDao
    */
   @Nullable
   public OccurrenceEntity read(final long id) {
+    log.trace("Read: {}", id);
+
     return get(id);
   }
 
@@ -82,6 +90,8 @@ public class OccurrenceEntityDao
   public OccurrenceEntity read(final String projectName, final String occurrenceName) {
     checkNotNull(projectName);
     checkNotNull(occurrenceName);
+
+    log.trace("Read: project-name={}, occurrence-name={}", projectName, occurrenceName);
 
     CriteriaBuilder builder = currentSession().getCriteriaBuilder();
     CriteriaQuery<OccurrenceEntity> query = builder.createQuery(OccurrenceEntity.class);
@@ -102,6 +112,8 @@ public class OccurrenceEntityDao
   public OccurrenceEntity edit(final OccurrenceEntity entity) {
     checkNotNull(entity);
 
+    log.trace("Edit: {}", entity);
+
     // adjust update-time
     ApiOccurrence model = entity.getData();
     checkNotNull(model);
@@ -116,6 +128,8 @@ public class OccurrenceEntityDao
   public OccurrenceEntity add(final OccurrenceEntity entity) {
     checkNotNull(entity);
 
+    log.trace("Add: {}", entity);
+
     // adjust create-time
     ApiOccurrence model = entity.getData();
     checkNotNull(model);
@@ -129,6 +143,8 @@ public class OccurrenceEntityDao
    */
   public void delete(final OccurrenceEntity entity) {
     checkNotNull(entity);
+
+    log.trace("Delete: {}", entity);
 
     currentSession().delete(entity);
   }

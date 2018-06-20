@@ -48,32 +48,32 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 public interface OccurrencesEndpoint
 {
   @GET
-  @Path("{project}/occurrences")
+  @Path("{project_id}/occurrences")
   @Produces(APPLICATION_JSON)
   @ApiOperation(value = "Browse project occurrences")
   @ApiResponses({
       @ApiResponse(code = 200, message = "Occurrences")
   })
-  ApiListOccurrencesResponse browse(@PathParam("project") @ApiParam("Project name") String projectName,
+  ApiListOccurrencesResponse browse(@PathParam("project_id") @ApiParam("Project ID") String projectId,
                                     @QueryParam("filter") @Nullable String filter,
                                     @QueryParam("page_size") @Nullable Integer pageSize,
                                     @QueryParam("page_token") @Nullable String pageToken);
 
   @GET
-  @Path("{project}/occurrences/{name}")
+  @Path("{project_id}/occurrences/{occurrence_id}")
   @Produces(APPLICATION_JSON)
   @ApiOperation(value = "Read project occurrence")
   @ApiResponses({
       @ApiResponse(code = 200, message = "Occurrence"),
       @ApiResponse(code = 404, message = "Occurrences not found")
   })
-  ApiOccurrence read(@PathParam("project") @ApiParam("Project name") String projectName,
-                     @PathParam("name") @ApiParam("Occurrence name") String occurrenceName);
+  ApiOccurrence read(@PathParam("project_id") @ApiParam("Project ID") String projectId,
+                     @PathParam("occurrence_id") @ApiParam("Occurrence ID") String occurrenceId);
 
   // FIXME: need clarification on what the HTTP PATCH for grafeas specification actually implements
 
   @PATCH
-  @Path("{project}/occurrences/{name}")
+  @Path("{project_id}/occurrences/{occurrence_id}")
   @Consumes(APPLICATION_JSON)
   @Produces(APPLICATION_JSON)
   @ApiOperation(value = "Edit project occurrence")
@@ -81,42 +81,42 @@ public interface OccurrencesEndpoint
       @ApiResponse(code = 200, message = "Occurrence edited"),
       @ApiResponse(code = 404, message = "Occurrence not found")
   })
-  ApiOccurrence edit(@PathParam("project") @ApiParam("Project name") String projectName,
-                     @PathParam("name") @ApiParam("Occurrence name") String occurrenceName,
+  ApiOccurrence edit(@PathParam("project_id") @ApiParam("Project ID") String projectId,
+                     @PathParam("occurrence_id") @ApiParam("Occurrence ID") String occurrenceId,
                      @ApiParam("Occurrence") ApiOccurrence occurrence);
 
   @POST
-  @Path("{project}/occurrences")
+  @Path("{project_id}/occurrences")
   @Consumes(APPLICATION_JSON)
   @Produces(APPLICATION_JSON)
   @ApiOperation(value = "Add occurrence to project")
   @ApiResponses({
       @ApiResponse(code = 201, message = "Occurrence added")
   })
-  ApiOccurrence add(@PathParam("project") @ApiParam("Project name") String projectName,
+  ApiOccurrence add(@PathParam("project_id") @ApiParam("Project ID") String projectId,
                     @ApiParam("Occurrence") ApiOccurrence occurrence);
 
   @DELETE
-  @Path("{project}/occurrences/{name}")
+  @Path("{project_id}/occurrences/{occurrence_id}")
   @Produces(APPLICATION_JSON)
   @ApiOperation(value = "Delete project occurrence")
   @ApiResponses({
       @ApiResponse(code = 204, message = "Occurrence deleted"),
       @ApiResponse(code = 404, message = "Occurrence not found")
   })
-  void delete(@PathParam("project") @ApiParam("Project name") String projectName,
-              @PathParam("name") @ApiParam("Occurrence name") String occurrenceName);
+  void delete(@PathParam("project_id") @ApiParam("Project ID") String projectId,
+              @PathParam("occurrence_id") @ApiParam("Occurrence ID") String occurrenceId);
 
   // FIXME: for some reason the path is 'notes' but the protobuf spec returns a single note
 
   @GET
-  @Path("{project}/occurrences/{name}/notes")
+  @Path("{project_id}/occurrences/{occurrence_id}/notes")
   @Produces(APPLICATION_JSON)
   @ApiOperation(value = "Read note attached to occurrence")
   @ApiResponses({
       @ApiResponse(code = 200, message = "Note"),
       @ApiResponse(code = 404, message = "Occurrence not found")
   })
-  ApiNote readNote(@PathParam("project") @ApiParam("Project name") String projectName,
-                   @PathParam("name") @ApiParam("Occurrence name") String occurrenceName);
+  ApiNote readNote(@PathParam("project_id") @ApiParam("Project ID") String projectId,
+                   @PathParam("occurrence_id") @ApiParam("Occurrence ID") String occurrenceId);
 }

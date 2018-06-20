@@ -27,6 +27,8 @@ import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiNote;
 
 import io.dropwizard.hibernate.AbstractDAO;
 import org.hibernate.SessionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -40,6 +42,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class NoteEntityDao
     extends AbstractDAO<NoteEntity>
 {
+  private static final Logger log = LoggerFactory.getLogger(NoteEntityDao.class);
+
   @Inject
   public NoteEntityDao(final SessionFactory sessionFactory) {
     super(sessionFactory);
@@ -54,6 +58,9 @@ public class NoteEntityDao
                                  @Nullable final String pageToken)
   {
     checkNotNull(projectName);
+
+    log.trace("Browse: project-name={}, filter={}, page-size={}, page-token={}",
+        projectName, filter, pageSize, pageToken);
 
     // FIXME: add filter and browse support; it is not yet clearly defined what this is
 
@@ -71,6 +78,8 @@ public class NoteEntityDao
    */
   @Nullable
   public NoteEntity read(final long id) {
+    log.trace("Read: {}", id);
+
     return get(id);
   }
 
@@ -81,6 +90,8 @@ public class NoteEntityDao
   public NoteEntity read(final String projectName, final String noteName) {
     checkNotNull(projectName);
     checkNotNull(noteName);
+
+    log.trace("Read: project-name={}, note-name={}", projectName, noteName);
 
     CriteriaBuilder builder = currentSession().getCriteriaBuilder();
     CriteriaQuery<NoteEntity> query = builder.createQuery(NoteEntity.class);
@@ -101,6 +112,8 @@ public class NoteEntityDao
   public NoteEntity edit(final NoteEntity entity) {
     checkNotNull(entity);
 
+    log.trace("Edit: {}", entity);
+
     // adjust update-time
     ApiNote model = entity.getData();
     checkNotNull(model);
@@ -115,6 +128,8 @@ public class NoteEntityDao
   public NoteEntity add(final NoteEntity entity) {
     checkNotNull(entity);
 
+    log.trace("Add: {}", entity);
+
     // adjust create-time
     ApiNote model = entity.getData();
     checkNotNull(model);
@@ -128,6 +143,8 @@ public class NoteEntityDao
    */
   public void delete(final NoteEntity entity) {
     checkNotNull(entity);
+
+    log.trace("Delete: {}", entity);
 
     currentSession().delete(entity);
   }

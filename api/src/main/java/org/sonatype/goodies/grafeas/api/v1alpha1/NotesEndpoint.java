@@ -48,32 +48,32 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 public interface NotesEndpoint
 {
   @GET
-  @Path("{project}/notes")
+  @Path("{project_id}/notes")
   @Produces(APPLICATION_JSON)
   @ApiOperation(value = "Browse project notes")
   @ApiResponses({
       @ApiResponse(code = 200, message = "Notes")
   })
-  ApiListNotesResponse browse(@PathParam("project") @ApiParam("Project name") String projectName,
+  ApiListNotesResponse browse(@PathParam("project_id") @ApiParam("Project ID") String projectId,
                               @QueryParam("filter") @Nullable String filter,
                               @QueryParam("page_size") @Nullable Integer pageSize,
                               @QueryParam("page_token") @Nullable String pageToken);
 
   @GET
-  @Path("{project}/notes/{name}")
+  @Path("{project_id}/notes/{note_id}")
   @Produces(APPLICATION_JSON)
   @ApiOperation(value = "Read project note")
   @ApiResponses({
       @ApiResponse(code = 200, message = "Note"),
       @ApiResponse(code = 404, message = "Note not found")
   })
-  ApiNote read(@PathParam("project") @ApiParam("Project name") String projectName,
-               @PathParam("name") @ApiParam("Note name") String noteName);
+  ApiNote read(@PathParam("project_id") @ApiParam("Project ID") String projectId,
+               @PathParam("note_id") @ApiParam("Note ID") String noteId);
 
   // FIXME: need clarification on what the HTTP PATCH for grafeas specification actually implements
 
   @PATCH
-  @Path("{project}/notes/{name}")
+  @Path("{project_id}/notes/{note_id}")
   @Consumes(APPLICATION_JSON)
   @Produces(APPLICATION_JSON)
   @ApiOperation(value = "Edit project note")
@@ -81,40 +81,40 @@ public interface NotesEndpoint
       @ApiResponse(code = 200, message = "Note edited"),
       @ApiResponse(code = 404, message = "Note not found")
   })
-  ApiNote edit(@PathParam("project") @ApiParam("Project name") String projectName,
-               @PathParam("name") @ApiParam("Note name") String noteName,
+  ApiNote edit(@PathParam("project_id") @ApiParam("Project ID") String projectId,
+               @PathParam("note_id") @ApiParam("Note ID") String noteId,
                @ApiParam("Note") ApiNote note);
 
   @POST
-  @Path("{project}/notes")
+  @Path("{project_id}/notes")
   @Consumes(APPLICATION_JSON)
   @Produces(APPLICATION_JSON)
   @ApiOperation(value = "Add note to project")
   @ApiResponses({
       @ApiResponse(code = 201, message = "Note added")
   })
-  ApiNote add(@PathParam("project") @ApiParam("Project name") String projectName,
+  ApiNote add(@PathParam("project_id") @ApiParam("Project ID") String projectId,
               @ApiParam("Note") ApiNote note);
 
   @DELETE
-  @Path("{project}/notes/{name}")
+  @Path("{project_id}/notes/{note_id}")
   @Produces(APPLICATION_JSON)
   @ApiOperation(value = "Delete project note")
   @ApiResponses({
       @ApiResponse(code = 204, message = "Note deleted"),
       @ApiResponse(code = 404, message = "Note not found")
   })
-  void delete(@PathParam("project") @ApiParam("Project name") String projectName,
-              @PathParam("name") @ApiParam("Note name") String noteName);
+  void delete(@PathParam("project_id") @ApiParam("Project ID") String projectId,
+              @PathParam("note_id") @ApiParam("Note ID") String noteId);
 
   @GET
-  @Path("{project}/notes/{name}/occurrences")
+  @Path("{project_id}/notes/{note_id}/occurrences")
   @Produces(APPLICATION_JSON)
   @ApiOperation(value = "Browse occurrences referencing project note")
   @ApiResponses({
       @ApiResponse(code = 200, message = "Occurrences"),
       @ApiResponse(code = 404, message = "Note not found")
   })
-  ApiListNoteOccurrencesResponse readOccurrences(@PathParam("project") @ApiParam("Project name") String projectName,
-                                                 @PathParam("name") @ApiParam("Note name") String noteName);
+  ApiListNoteOccurrencesResponse readOccurrences(@PathParam("project_id") @ApiParam("Project ID") String projectId,
+                                                 @PathParam("note_id") @ApiParam("Note ID") String noteId);
 }

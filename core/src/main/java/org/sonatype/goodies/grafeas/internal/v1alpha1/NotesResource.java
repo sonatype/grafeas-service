@@ -46,14 +46,15 @@ public class NotesResource
 {
   @UnitOfWork
   @Override
-  public ApiListNotesResponse browse(final String projectName,
+  public ApiListNotesResponse browse(final String projectId,
                                      @Nullable final String filter,
                                      @Nullable final Integer pageSize,
                                      @Nullable final String pageToken)
   {
-    checkNotNull(projectName);
+    checkNotNull(projectId);
     log.debug("Browse; filter: {}, page-size: {}, page-token: {}", filter, pageSize, pageToken);
 
+    String projectName = projectName(projectId);
     ensureProjectExists(projectName);
 
     List<ApiNote> models = getNoteDao().browse(projectName, filter, pageSize, pageToken)
@@ -65,10 +66,13 @@ public class NotesResource
 
   @UnitOfWork
   @Override
-  public ApiNote read(final String projectName, final String noteName) {
-    checkNotNull(projectName);
-    checkNotNull(noteName);
-    log.debug("Find: {}/{}", projectName, noteName);
+  public ApiNote read(final String projectId, final String noteId) {
+    checkNotNull(projectId);
+    checkNotNull(noteId);
+    log.debug("Find: {}/{}", projectId, noteId);
+
+    String projectName = projectName(projectId);
+    String noteName = noteName(projectId, noteId);
 
     ensureProjectExists(projectName);
 
@@ -82,17 +86,20 @@ public class NotesResource
 
   @UnitOfWork
   @Override
-  public ApiNote edit(final String projectName, final String noteName, final ApiNote note) {
-    checkNotNull(projectName);
-    checkNotNull(noteName);
+  public ApiNote edit(final String projectId, final String noteId, final ApiNote note) {
+    checkNotNull(projectId);
+    checkNotNull(noteId);
     checkNotNull(note);
-    log.debug("Edit: {}/{} -> {}", projectName, noteName, note);
+    log.debug("Edit: {}/{} -> {}", projectId, noteId, note);
 
     // ban updates for immutable properties
     checkRequest(note.getName() == null, "Name is immutable");
     checkRequest(note.getKind() == null, "Kind is immutable");
     checkRequest(note.getCreateTime() == null, "Create-time is immutable");
     checkRequest(note.getUpdateTime() == null, "Update-time is immutable");
+
+    String projectName = projectName(projectId);
+    String noteName = noteName(projectId, noteId);
 
     ensureProjectExists(projectName);
 
@@ -108,17 +115,19 @@ public class NotesResource
 
   @UnitOfWork
   @Override
-  public ApiNote add(final String projectName, final ApiNote note) {
-    checkNotNull(projectName);
+  public ApiNote add(final String projectId, final ApiNote note) {
+    checkNotNull(projectId);
     checkNotNull(note);
-    log.debug("Create: {} -> {}", projectName, note);
+    log.debug("Create: {} -> {}", projectId, note);
 
-    String name = note.getName();
-    checkRequest(name != null, "Name required");
+    String projectName = projectName(projectId);
+    String noteName = note.getName();
+    checkRequest(noteName != null, "Name required");
+    // TODO: validate note name
 
     ensureProjectExists(projectName);
 
-    NoteEntity entity = new NoteEntity(projectName, name, note);
+    NoteEntity entity = new NoteEntity(projectName, noteName, note);
 
     // TODO: verify if operation-name is given that operation exists
 
@@ -130,10 +139,13 @@ public class NotesResource
 
   @UnitOfWork
   @Override
-  public void delete(final String projectName, final String noteName) {
-    checkNotNull(projectName);
-    checkNotNull(noteName);
-    log.debug("Delete: {}/{}", projectName, noteName);
+  public void delete(final String projectId, final String noteId) {
+    checkNotNull(projectId);
+    checkNotNull(noteId);
+    log.debug("Delete: {}/{}", projectId, noteId);
+
+    String projectName = projectName(projectId);
+    String noteName = noteName(projectId, noteId);
 
     ensureProjectExists(projectName);
 
@@ -145,10 +157,13 @@ public class NotesResource
 
   @UnitOfWork
   @Override
-  public ApiListNoteOccurrencesResponse readOccurrences(final String projectName, final String noteName) {
-    checkNotNull(projectName);
-    checkNotNull(noteName);
-    log.debug("Read occurrences: {}/{}", projectName, noteName);
+  public ApiListNoteOccurrencesResponse readOccurrences(final String projectId, final String noteId) {
+    checkNotNull(projectId);
+    checkNotNull(noteId);
+    log.debug("Read occurrences: {}/{}", projectId, noteId);
+
+    String projectName = projectName(projectId);
+    String noteName = noteName(projectId, noteId);
 
     ensureProjectExists(projectName);
 

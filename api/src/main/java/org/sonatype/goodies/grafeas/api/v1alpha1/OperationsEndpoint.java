@@ -39,6 +39,8 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 // SEE: https://github.com/grafeas/grafeas/blob/master/v1alpha1/docs/GrafeasApi.md
 // SEE: https://github.com/grafeas/grafeas/blob/master/v1alpha1/proto/grafeas.proto
 
+// FIXME: v1beta1 has removed this, may purge it here too
+
 /**
  * Operations endpoint.
  *

@@ -21,7 +21,7 @@ logging:
   level: INFO
 
   loggers:
-    org.sonatype.goodies.grafeas: DEBUG
+    org.sonatype.goodies.grafeas: TRACE
     org.apache.shiro.grafeas: DEBUG
     org.apache.shiro.dropwizard: DEBUG
     org.glassfish.jersey.logging.LoggingFeature: DEBUG
@@ -29,7 +29,7 @@ logging:
 
   appenders:
     - type: console
-      threshold: DEBUG
+      threshold: ALL
       logFormat: "%d{'yyyy-MM-dd HH:mm:ss,SSSZ'} %-5level [%thread] %X{user:-*SYSTEM} %logger - %msg%n"
 
     - type: file

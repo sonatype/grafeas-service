@@ -79,6 +79,22 @@ public abstract class V1alpha1ResourceSupport
   }
 
   //
+  // Name resolvers
+  //
+
+  protected static String projectName(final String projectId) {
+    return String.format("projects/%s", projectId);
+  }
+
+  protected static String noteName(final String projectId, final String nodeId) {
+    return String.format("projects/%s/notes/%s", projectId, nodeId);
+  }
+
+  protected static String occurrenceName(final String projectId, final String occurrenceId) {
+    return String.format("projects/%s/occurrences/%s", projectId, occurrenceId);
+  }
+
+  //
   // Converters
   //
 
