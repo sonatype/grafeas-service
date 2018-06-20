@@ -27,45 +27,11 @@
       ${project.name}
     </p>
 
-    <#--
-    TODO: consider avoiding duplicating of note listing, and summarize here and link to content?
-    TODO: else this may need to only show a summary of recent notes or something?
-    -->
-
-    <h2><a href="${basePath}/project/${project.name}/notes">Notes</a></h2>
-    <#list project.notes?sort_by("name")>
-      <div class="table-responsive">
-        <table class="table table-striped table-hover">
-          <caption>${plural(project.notes?size, "note")}</caption>
-          <thead>
-          <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Description</th>
-          </tr>
-          </thead>
-          <tbody>
-            <#items as note>
-            <#assign data=note.data/>
-            <tr>
-              <td>
-                <a href="${basePath}/project/${note.projectName}/note/${note.name}"><i class="fas fa-sticky-note"></i> ${note.name}</a>
-              </td>
-              <td>
-                <#-- generated models have fluent setters which conflict with default simple property access -->
-                <#if data.getShortDescription()?has_content>
-                  ${data.getShortDescription()}
-                <#else>
-                  <@missing_data "no description"/>
-                </#if>
-              </td>
-            </tr>
-            </#items>
-          </tbody>
-        </table>
-      </div>
-    <#else>
-      <p class="text-muted"><@missing_data "no notes found"/></p>
-    </#list>
+    <dl class="row">
+      <dt class="col-sm-2">Notes</dt>
+      <dd class="col-sm-9"><a href="${basePath}/project/${project.name}/notes">
+        <i class="fas fa-sticky-note"></i> ${plural(project.notes?size, "note")}</a></dd>
+    </dl>
   </div>
 </div>
 </@page>
