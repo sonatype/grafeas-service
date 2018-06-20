@@ -12,6 +12,8 @@
  */
 package org.sonatype.goodies.grafeas.internal.v1alpha1;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -37,7 +39,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 @Entity
 @Table(name = "occurrences")
 public class OccurrenceEntity
+    implements Serializable
 {
+  private static final long serialVersionUID = 1L;
+
   @Id
   @SequenceGenerator(name="occurrences_sequence_generator", sequenceName = "occurrences_sequence")
   @GeneratedValue(generator = "occurrences_sequence_generator")
@@ -83,6 +88,10 @@ public class OccurrenceEntity
 
   public String getOccurrenceName() {
     return occurrenceName;
+  }
+
+  public String getName() {
+    return getOccurrenceName();
   }
 
   public NoteEntity getNote() {

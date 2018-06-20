@@ -12,10 +12,16 @@
  */
 package org.sonatype.goodies.grafeas.internal.v1alpha1;
 
+import java.io.Serializable;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -33,7 +39,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 @Entity
 @Table(name = "projects")
 public class ProjectEntity
+    implements Serializable
 {
+  private static final long serialVersionUID = 1L;
+
   @Id
   @SequenceGenerator(name="projects_sequence_generator", sequenceName = "projects_sequence")
   @GeneratedValue(generator = "projects_sequence_generator")
@@ -41,6 +50,11 @@ public class ProjectEntity
 
   @Column
   private String name;
+
+  @SuppressWarnings("unused")
+  @OneToMany(fetch = FetchType.LAZY)
+  @JoinColumn(name = "project_name", referencedColumnName = "name")
+  private List<NoteEntity> notes;
 
   @SuppressWarnings("unused")
   public ProjectEntity() {
@@ -57,6 +71,10 @@ public class ProjectEntity
 
   public String getName() {
     return name;
+  }
+
+  public List<NoteEntity> getNotes() {
+    return notes;
   }
 
   @Override

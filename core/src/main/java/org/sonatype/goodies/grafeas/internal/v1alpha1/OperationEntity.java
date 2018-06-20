@@ -12,6 +12,8 @@
  */
 package org.sonatype.goodies.grafeas.internal.v1alpha1;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,7 +31,10 @@ import com.google.common.base.MoreObjects;
 @Entity
 @Table(name="operations")
 public class OperationEntity
+    implements Serializable
 {
+  private static final long serialVersionUID = 1L;
+
   @Id
   @SequenceGenerator(name="operations_sequence_generator", sequenceName = "operations_sequence")
   @GeneratedValue(generator = "operations_sequence_generator")
@@ -65,6 +70,10 @@ public class OperationEntity
 
   public String getOperationName() {
     return operationName;
+  }
+
+  public String getName() {
+    return getOperationName();
   }
 
   public void setOperationName(final String operationName) {

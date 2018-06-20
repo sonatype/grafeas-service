@@ -28,7 +28,39 @@
     </p>
 
     <h2>Notes</h2>
-    ${loremIpsum(10)}
+    <#list project.notes?sort_by("name")>
+      <div class="table-responsive">
+        <table class="table table-striped table-hover">
+          <caption>${plural(project.notes?size, "note")}</caption>
+          <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+          </tr>
+          </thead>
+          <tbody>
+            <#items as note>
+            <#assign data=note.data/>
+            <tr>
+              <td>
+                <a href="${basePath}/project/${project.name}/note/${note.name}"><i class="fas fa-sticky-note"></i> ${note.name}</a>
+              </td>
+              <td>
+                <#-- generated models have fluent setters which conflict with default simple property access -->
+                <#if data.getShortDescription()?has_content>
+                  ${data.getShortDescription()}
+                <#else>
+                  <@missing_data "no description"/>
+                </#if>
+              </td>
+            </tr>
+            </#items>
+          </tbody>
+        </table>
+      </div>
+    <#else>
+      <p class="text-muted"><@missing_data "no notes found"/></p>
+    </#list>
   </div>
 </div>
 </@page>

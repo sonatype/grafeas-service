@@ -12,6 +12,7 @@
  */
 package org.sonatype.goodies.grafeas.internal.v1alpha1;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -39,7 +40,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 @Entity
 @Table(name = "notes")
 public class NoteEntity
+    implements Serializable
 {
+  private static final long serialVersionUID = 1L;
+
   @Id
   @SequenceGenerator(name="notes_sequence_generator", sequenceName = "notes_sequence")
   @GeneratedValue(generator = "notes_sequence_generator")
@@ -84,6 +88,10 @@ public class NoteEntity
 
   public String getNoteName() {
     return noteName;
+  }
+
+  public String getName() {
+    return getNoteName();
   }
 
   public ApiNote getData() {
