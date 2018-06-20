@@ -158,6 +158,11 @@ Generate common page footer.
             <@footer_reference "${basePath}/rest", "REST"/>
             <@footer_reference "${basePath}/contact", "Contact"/>
           </@footer_section>
+
+          <@footer_section "Legal">
+            <@footer_reference "${basePath}/tos", "Terms of Service"/>
+            <@footer_reference "${sonatype_privacy_policy_url}", "Privacy Policy", true/>
+          </@footer_section>
         </div>
       </div>
     </footer>

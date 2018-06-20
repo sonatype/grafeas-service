@@ -12,10 +12,12 @@
  */
 package org.sonatype.goodies.grafeas.site;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 
 import org.sonatype.goodies.dropwizard.ApplicationVersion;
 import org.sonatype.goodies.dropwizard.util.Version;
+import org.sonatype.goodies.dropwizard.view.ViewNotification;
 import org.sonatype.goodies.dropwizard.view.ViewSupport;
 import org.sonatype.goodies.grafeas.GrafeasConfiguration;
 
@@ -75,5 +77,22 @@ public class SiteViewSupport
       urlSuffix = "_v=" + version;
     }
     return urlSuffix;
+  }
+
+  //
+  // Notifications
+  //
+
+  @Nullable
+  private ViewNotification notification;
+
+  @Nullable
+  public ViewNotification getNotification() {
+    return notification;
+  }
+
+  public SiteViewSupport withNotification(@Nullable final ViewNotification notification) {
+    this.notification = notification;
+    return this;
   }
 }
