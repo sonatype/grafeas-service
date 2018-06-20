@@ -48,18 +48,21 @@ public class OccurrenceEntityDao
   /**
    * Browse occurrences for project.
    */
-  public List<OccurrenceEntity> browse(final String project,
+  public List<OccurrenceEntity> browse(final String projectName,
                                        @Nullable final String filter,
                                        @Nullable final Integer pageSize,
                                        @Nullable final String pageToken)
   {
-    checkNotNull(project);
+    checkNotNull(projectName);
 
     // FIXME: add filter and browse support; it is not yet clearly defined what this is
 
     CriteriaBuilder builder = currentSession().getCriteriaBuilder();
     CriteriaQuery<OccurrenceEntity> query = builder.createQuery(OccurrenceEntity.class);
-    query.from(OccurrenceEntity.class);
+    Root<OccurrenceEntity> root = query.from(OccurrenceEntity.class);
+    query.where(
+        builder.equal(root.get("projectName"), projectName)
+    );
 
     return currentSession().createQuery(query).list();
   }
@@ -76,17 +79,17 @@ public class OccurrenceEntityDao
    * Read occurrence for given project and name.
    */
   @Nullable
-  public OccurrenceEntity read(final String project, final String name) {
-    checkNotNull(project);
-    checkNotNull(name);
+  public OccurrenceEntity read(final String projectName, final String occurrenceName) {
+    checkNotNull(projectName);
+    checkNotNull(occurrenceName);
 
     CriteriaBuilder builder = currentSession().getCriteriaBuilder();
     CriteriaQuery<OccurrenceEntity> query = builder.createQuery(OccurrenceEntity.class);
     Root<OccurrenceEntity> root = query.from(OccurrenceEntity.class);
     query.where(
         builder.and(
-            builder.equal(root.get("projectName"), project),
-            builder.equal(root.get("occurrenceName"), name)
+            builder.equal(root.get("projectName"), projectName),
+            builder.equal(root.get("occurrenceName"), occurrenceName)
         )
     );
 

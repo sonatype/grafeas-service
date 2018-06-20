@@ -53,7 +53,7 @@ public class ProjectEntityDao
 
     CriteriaBuilder builder = currentSession().getCriteriaBuilder();
     CriteriaQuery<ProjectEntity> query = builder.createQuery(ProjectEntity.class);
-    query.from(ProjectEntity.class);
+    Root<ProjectEntity> root = query.from(ProjectEntity.class);
     return currentSession().createQuery(query).list();
   }
 
@@ -69,13 +69,13 @@ public class ProjectEntityDao
    * Read project for given name.
    */
   @Nullable
-  public ProjectEntity read(final String name) {
-    checkNotNull(name);
+  public ProjectEntity read(final String projectName) {
+    checkNotNull(projectName);
 
     CriteriaBuilder builder = currentSession().getCriteriaBuilder();
     CriteriaQuery<ProjectEntity> query = builder.createQuery(ProjectEntity.class);
     Root<ProjectEntity> root = query.from(ProjectEntity.class);
-    query.where(builder.equal(root.get("name"), name));
+    query.where(builder.equal(root.get("name"), projectName));
 
     return uniqueResult(query);
   }

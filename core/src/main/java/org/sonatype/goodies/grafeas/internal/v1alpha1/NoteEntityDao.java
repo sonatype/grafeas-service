@@ -48,18 +48,21 @@ public class NoteEntityDao
   /**
    * Browse notes for project.
    */
-  public List<NoteEntity> browse(final String project,
+  public List<NoteEntity> browse(final String projectName,
                                  @Nullable final String filter,
                                  @Nullable final Integer pageSize,
                                  @Nullable final String pageToken)
   {
-    checkNotNull(project);
+    checkNotNull(projectName);
 
     // FIXME: add filter and browse support; it is not yet clearly defined what this is
 
     CriteriaBuilder builder = currentSession().getCriteriaBuilder();
     CriteriaQuery<NoteEntity> query = builder.createQuery(NoteEntity.class);
-    query.from(NoteEntity.class);
+    Root<NoteEntity> root = query.from(NoteEntity.class);
+    query.where(
+        builder.equal(root.get("projectName"), projectName)
+    );
     return currentSession().createQuery(query).list();
   }
 
@@ -75,17 +78,17 @@ public class NoteEntityDao
    * Read note for given project and name.
    */
   @Nullable
-  public NoteEntity read(final String project, final String name) {
-    checkNotNull(project);
-    checkNotNull(name);
+  public NoteEntity read(final String projectName, final String noteName) {
+    checkNotNull(projectName);
+    checkNotNull(noteName);
 
     CriteriaBuilder builder = currentSession().getCriteriaBuilder();
     CriteriaQuery<NoteEntity> query = builder.createQuery(NoteEntity.class);
     Root<NoteEntity> root = query.from(NoteEntity.class);
     query.where(
         builder.and(
-            builder.equal(root.get("projectName"), project),
-            builder.equal(root.get("noteName"), name)
+            builder.equal(root.get("projectName"), projectName),
+            builder.equal(root.get("noteName"), noteName)
         )
     );
 

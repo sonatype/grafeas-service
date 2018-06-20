@@ -90,6 +90,9 @@ public class NoteEntity
     return noteName;
   }
 
+  /**
+   * @see #getNoteName()
+   */
   public String getName() {
     return getNoteName();
   }

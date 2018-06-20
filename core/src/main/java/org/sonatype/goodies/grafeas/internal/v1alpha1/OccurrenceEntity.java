@@ -90,6 +90,9 @@ public class OccurrenceEntity
     return occurrenceName;
   }
 
+  /**
+   * @see #getOccurrenceName()
+   */
   public String getName() {
     return getOccurrenceName();
   }

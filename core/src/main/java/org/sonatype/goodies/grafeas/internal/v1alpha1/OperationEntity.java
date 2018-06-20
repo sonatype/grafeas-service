@@ -72,6 +72,9 @@ public class OperationEntity
     return operationName;
   }
 
+  /**
+   * @see #getOperationName()
+   */
   public String getName() {
     return getOperationName();
   }
