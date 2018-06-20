@@ -12,19 +12,19 @@
     See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
 
 -->
-<#-- @ftlvariable name="" type="org.sonatype.goodies.grafeas.site.NoteView" -->
+<#-- @ftlvariable name="" type="org.sonatype.goodies.grafeas.site.OccurrenceView" -->
 <#include "common/common.ftl">
 <!DOCTYPE html>
 <html lang="en">
-<#assign page_title="Note"/>
+<#assign page_title="Occurrence"/>
 <#--<#assign navbar_selected="projects"/>-->
 <@head title="${page_title}"/>
 <@page>
 <div class="row">
   <div class="col">
-    <h1><i class="fas fa-sticky-note"></i> ${page_title}</h1>
+    <h1><i class="fas fa-location-arrow"></i> ${page_title}</h1>
     <p class="lead text-muted">
-      ${note.name}
+      ${occurrence.name}
     </p>
 
     <dl class="row">
@@ -32,11 +32,11 @@
       <dd class="col-sm-9"><a href="${basePath}/project/${projectName}">
         <i class="fas fa-cube"></i> ${projectName}</a></dd>
 
-      <#-- TODO: add more bits from data model -->
+      <dt class="col-sm-2">Note</dt>
+      <dd class="col-sm-9"><a href="${basePath}/project/${projectName}/note/${noteName}">
+        <i class="fas fa-sticky-note"></i> ${noteName}</a></dd>
 
-      <dt class="col-sm-2">Occurrences</dt>
-      <dd class="col-sm-9"><a href="${basePath}/project/${projectName}/note/${note.name}/occurrences">
-        <i class="fas fa-location-arrow"></i> ${plural(note.occurrences?size, "occurrence")}</a></dd>
+      <#-- TODO: add more bits from data model -->
     </dl>
 </div>
 </@page>
