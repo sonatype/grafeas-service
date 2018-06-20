@@ -27,6 +27,12 @@
       ${note.name}
     </p>
 
+    <dl class="row">
+      <dt class="col-sm-2">Project</dt>
+      <dd class="col-sm-9"><a href="${basePath}/project/${projectName}">
+        <i class="fas fa-cube"></i> ${projectName}</a></dd>
+    </dl>
+
     <#--<h2>Notes</h2>-->
     <#--<#list project.notes?sort_by("name")>-->
       <#--<div class="table-responsive">-->

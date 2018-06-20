@@ -52,7 +52,7 @@ public class NoteResource
   @Path("project/{project}/notes")
   @UnitOfWork
   public View list(@PathParam("project") final String projectName) {
-    return new NoteListView(noteEntityDao.browse(projectName, null, null, null));
+    return new NoteListView(projectName, noteEntityDao.browse(projectName, null, null, null));
   }
 
   @GET

@@ -34,4 +34,8 @@ public class NoteView
   public NoteEntity getNote() {
     return note;
   }
+
+  public String getProjectName() {
+    return note.getProjectName();
+  }
 }
