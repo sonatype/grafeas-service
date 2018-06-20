@@ -18,7 +18,7 @@ import java.util.Map;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-import org.sonatype.goodies.dropwizard.swagger.SwaggerConfiguration;
+import org.sonatype.goodies.grafeas.internal.GrafeasSwaggerConfiguration;
 import org.sonatype.goodies.grafeas.internal.db.DatabaseConfiguration;
 import org.sonatype.goodies.grafeas.site.SiteConfiguration;
 
@@ -82,13 +82,13 @@ public class GrafeasConfiguration
 
   @NotNull
   @JsonProperty("swagger")
-  private SwaggerConfiguration swaggerConfiguration = new SwaggerConfiguration();
+  private GrafeasSwaggerConfiguration swaggerConfiguration = new GrafeasSwaggerConfiguration();
 
-  public SwaggerConfiguration getSwaggerConfiguration() {
+  public GrafeasSwaggerConfiguration getSwaggerConfiguration() {
     return swaggerConfiguration;
   }
 
-  public void setSwaggerConfiguration(final SwaggerConfiguration swaggerConfiguration) {
+  public void setSwaggerConfiguration(final GrafeasSwaggerConfiguration swaggerConfiguration) {
     this.swaggerConfiguration = swaggerConfiguration;
   }
 }
