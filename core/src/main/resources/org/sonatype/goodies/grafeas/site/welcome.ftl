@@ -26,5 +26,15 @@
     Sonatype implementation of the <@extlink "https://grafeas.io/", "Grafeas"/> specification.
   </p>
 </div>
+
+<h2>${loremIpsum(3)}</h2>
+<p class="text-muted">
+  ${loremIpsum(10, 20)}
+</p>
+
+<h2>${loremIpsum(3)}</h2>
+<p class="text-muted">
+  ${loremIpsum(10, 20)}
+</p>
 </@page>
 </html>
