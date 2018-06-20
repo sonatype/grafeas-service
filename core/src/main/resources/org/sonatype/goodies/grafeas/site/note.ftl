@@ -33,6 +33,10 @@
         <i class="fas fa-cube"></i> ${projectName}</a></dd>
     </dl>
 
+    <#-- TODO: add more bits from data model -->
+
+    <#-- TODO: add occurances -->
+
     <#--<h2>Notes</h2>-->
     <#--<#list project.notes?sort_by("name")>-->
       <#--<div class="table-responsive">-->
