@@ -14,7 +14,6 @@ package org.sonatype.goodies.grafeas.site;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
-import javax.ws.rs.core.MediaType;
 
 import org.sonatype.goodies.dropwizard.EnvironmentCustomizer;
 
@@ -23,6 +22,8 @@ import io.dropwizard.jersey.errors.ErrorMessage;
 import io.dropwizard.jersey.validation.ValidationErrorMessage;
 import io.dropwizard.setup.Environment;
 import io.dropwizard.views.View;
+
+import static javax.ws.rs.core.MediaType.TEXT_HTML_TYPE;
 
 /**
  * Error view customizer.
@@ -39,7 +40,7 @@ public class ErrorCustomizer
   @Override
   public void customize(final Environment environment) {
     // adapt ErrorMessage to view
-    environment.jersey().register(new ErrorEntityWriter<ErrorMessage, View>(MediaType.TEXT_HTML_TYPE, View.class)
+    environment.jersey().register(new ErrorEntityWriter<ErrorMessage, View>(TEXT_HTML_TYPE, View.class)
     {
       @Override
       protected View getRepresentation(final ErrorMessage entity) {
@@ -48,13 +49,12 @@ public class ErrorCustomizer
     });
 
     // adapt ValidationErrorMessage to view
-    environment.jersey()
-        .register(new ErrorEntityWriter<ValidationErrorMessage, View>(MediaType.TEXT_HTML_TYPE, View.class)
-        {
-          @Override
-          protected View getRepresentation(final ValidationErrorMessage entity) {
-            return new ValidationErrorView(entity);
-          }
-        });
+    environment.jersey().register(new ErrorEntityWriter<ValidationErrorMessage, View>(TEXT_HTML_TYPE, View.class)
+    {
+      @Override
+      protected View getRepresentation(final ValidationErrorMessage entity) {
+        return new ValidationErrorView(entity);
+      }
+    });
   }
 }
