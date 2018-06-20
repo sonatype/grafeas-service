@@ -12,31 +12,22 @@
     See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
 
 -->
-<#-- @ftlvariable name="" type="org.sonatype.goodies.grafeas.site.ProjectView" -->
+<#-- @ftlvariable name="" type="org.sonatype.goodies.grafeas.site.NoteListView" -->
 <#include "common/common.ftl">
 <!DOCTYPE html>
 <html lang="en">
-<#assign page_title="Project"/>
-<#assign navbar_selected="projects"/>
+<#assign page_title="Notes"/>
+<#--<#assign navbar_selected="projects"/>-->
 <@head title="${page_title}"/>
 <@page>
 <div class="row">
   <div class="col">
-    <h1><i class="fas fa-cube"></i> ${page_title}</h1>
-    <p class="lead text-muted">
-      ${project.name}
-    </p>
+    <h1><i class="fas fa-sticky-note"></i> ${page_title}</h1>
 
-    <#--
-    TODO: consider avoiding duplicating of note listing, and summarize here and link to content?
-    TODO: else this may need to only show a summary of recent notes or something?
-    -->
-
-    <h2><a href="${basePath}/project/${project.name}/notes">Notes</a></h2>
-    <#list project.notes?sort_by("name")>
+    <#list notes?sort_by("name")>
       <div class="table-responsive">
         <table class="table table-striped table-hover">
-          <caption>${plural(project.notes?size, "note")}</caption>
+          <caption>${plural(notes?size, "note")}</caption>
           <thead>
           <tr>
             <th scope="col">Name</th>
