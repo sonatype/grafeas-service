@@ -12,6 +12,7 @@
  */
 package org.sonatype.goodies.grafeas.site;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 import javax.ws.rs.GET;
@@ -21,11 +22,15 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.sonatype.goodies.dropwizard.jaxrs.ResourceSupport;
+import org.sonatype.goodies.grafeas.internal.v1alpha1.ProjectEntityDao;
 
+import io.dropwizard.hibernate.UnitOfWork;
 import io.dropwizard.views.View;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
- * ???
+ * Project resource.
  *
  * @since ???
  */
@@ -36,17 +41,24 @@ import io.dropwizard.views.View;
 public class ProjectResource
     extends ResourceSupport
 {
+  private final ProjectEntityDao projectDao;
+
+  @Inject
+  public ProjectResource(final ProjectEntityDao projectDao) {
+    this.projectDao = checkNotNull(projectDao);
+  }
+
   @GET
   @Path("projects")
+  @UnitOfWork
   public View list() {
-    // TODO:
-    return new ProjectListView();
+    return new ProjectListView(projectDao.browse(null, null, null));
   }
 
   @GET
   @Path("project/{name}")
+  @UnitOfWork
   public View get(@PathParam("name") final String name) {
-    // TODO:
-    return new ProjectView();
+    return new ProjectView(projectDao.read(name));
   }
 }

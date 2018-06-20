@@ -19,6 +19,9 @@
 <#assign page_title="Project"/>
 <@head title="${page_title}"/>
 <@page>
-  ${loremIpsum(10)}
+  <h1><i class="fas fa-cube"></i> ${page_title}</h1>
+  <p class="lead text-muted">
+    ${loremIpsum(10)}
+  </p>
 </@page>
 </html>

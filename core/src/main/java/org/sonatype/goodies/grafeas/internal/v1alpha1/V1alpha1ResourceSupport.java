@@ -56,6 +56,8 @@ public abstract class V1alpha1ResourceSupport
   // Data-access objects
   //
 
+  // TODO: adjust for injectable DAO impls
+
   private ProjectEntityDao projectDao;
 
   private NoteEntityDao noteDao;

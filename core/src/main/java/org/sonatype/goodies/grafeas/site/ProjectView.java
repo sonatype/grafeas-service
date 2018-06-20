@@ -12,15 +12,26 @@
  */
 package org.sonatype.goodies.grafeas.site;
 
+import org.sonatype.goodies.grafeas.internal.v1alpha1.ProjectEntity;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
- * ???
+ * Project view.
  *
  * @since ???
  */
 public class ProjectView
   extends SiteViewSupport
 {
-  public ProjectView() {
+  private final ProjectEntity project;
+
+  public ProjectView(final ProjectEntity project) {
     super("project.ftl");
+    this.project = checkNotNull(project);
+  }
+
+  public ProjectEntity getProject() {
+    return project;
   }
 }

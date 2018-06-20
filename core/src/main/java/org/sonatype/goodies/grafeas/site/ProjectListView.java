@@ -12,15 +12,28 @@
  */
 package org.sonatype.goodies.grafeas.site;
 
+import java.util.List;
+
+import org.sonatype.goodies.grafeas.internal.v1alpha1.ProjectEntity;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
- * ???
+ * Project list view.
  *
  * @since ???
  */
 public class ProjectListView
   extends SiteViewSupport
 {
-  public ProjectListView() {
+  private final List<ProjectEntity> projects;
+
+  public ProjectListView(final List<ProjectEntity> projects) {
     super("project-list.ftl");
+    this.projects = checkNotNull(projects);
+  }
+
+  public List<ProjectEntity> getProjects() {
+    return projects;
   }
 }

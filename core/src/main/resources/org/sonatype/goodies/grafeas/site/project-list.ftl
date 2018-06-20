@@ -16,9 +16,12 @@
 <#include "common/common.ftl">
 <!DOCTYPE html>
 <html lang="en">
-<#assign page_title="Project List"/>
+<#assign page_title="Projects"/>
 <@head title="${page_title}"/>
 <@page>
-  ${loremIpsum(10)}
+  <h1><i class="fas fa-cubes"></i> ${page_title}</h1>
+  <p class="lead text-muted">
+    ${loremIpsum(10)}
+  </p>
 </@page>
 </html>
