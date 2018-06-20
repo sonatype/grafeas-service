@@ -83,4 +83,10 @@ public class SiteResource
   public View rest() {
     return view("rest.ftl");
   }
+
+  @GET
+  @Path("tos")
+  public View tos() {
+    return view("tos.ftl");
+  }
 }
