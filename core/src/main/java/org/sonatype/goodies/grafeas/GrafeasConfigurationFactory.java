@@ -17,8 +17,6 @@ import java.io.IOException;
 import javax.annotation.Nullable;
 import javax.validation.Validator;
 
-import org.sonatype.goodies.dropwizard.swagger.SwaggerConfiguration;
-
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
