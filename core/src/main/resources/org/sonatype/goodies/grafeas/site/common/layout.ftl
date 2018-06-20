@@ -96,12 +96,11 @@ Generate common page header and navigation.
             <span class="navbar-toggler-icon"></span>
           </button>
 
-          <#--<div class="collapse navbar-collapse" id="navbar-toggle">-->
-            <#--<ul class="navbar-nav mr-auto">-->
-              <#--<li class="nav-item"><@navlink "search", "Search", "${basePath}/search"/></li>-->
-              <#--<li class="nav-item"><@navlink "docs", "Documentation", "${basePath}/docs"/></li>-->
-            <#--</ul>-->
-          <#--</div>-->
+          <div class="collapse navbar-collapse" id="navbar-toggle">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item"><@navlink "projects", "Projects", "${basePath}/projects"/></li>
+            </ul>
+          </div>
         </div>
       </nav>
     </header>

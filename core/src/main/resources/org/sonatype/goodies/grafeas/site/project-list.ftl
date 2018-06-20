@@ -17,6 +17,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <#assign page_title="Projects"/>
+<#assign navbar_selected="projects"/>
 <@head title="${page_title}"/>
 <@page>
 <div class="row">
