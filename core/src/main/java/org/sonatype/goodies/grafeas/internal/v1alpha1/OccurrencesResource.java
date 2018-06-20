@@ -103,7 +103,7 @@ public class OccurrencesResource
     ensureProjectExists(projectName);
 
     OccurrenceEntity entity = getOccurrenceDao().read(projectName, occurrenceName);
-    checkNotNull(entity);
+    checkFound(entity != null);
 
     entity.setData(merge(entity.getData(), occurrence));
     entity = getOccurrenceDao().edit(entity);

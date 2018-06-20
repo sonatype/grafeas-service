@@ -104,7 +104,7 @@ public class NotesResource
     ensureProjectExists(projectName);
 
     NoteEntity entity = getNoteDao().read(projectName, noteName);
-    checkNotNull(entity);
+    checkFound(entity != null);
 
     entity.setData(merge(entity.getData(), note));
     entity = getNoteDao().edit(entity);
