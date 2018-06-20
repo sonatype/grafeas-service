@@ -23,7 +23,7 @@
   <div class="col">
     <h1><i class="far fa-handshake"></i> ${page_title}</h1>
     <p class="lead text-muted">
-      ${loremIpsum(10)}
+      ${applicationTitle} terms of service
     </p>
 
     <p>
