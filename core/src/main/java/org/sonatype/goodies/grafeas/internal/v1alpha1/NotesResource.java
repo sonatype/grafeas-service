@@ -56,7 +56,7 @@ public class NotesResource
 
     ensureProjectExists(projectName);
 
-    List<ApiNote> models = noteDao().browse(projectName, filter, pageSize, pageToken)
+    List<ApiNote> models = getNoteDao().browse(projectName, filter, pageSize, pageToken)
         .stream().map(this::convert).collect(Collectors.toList());
     log.debug("Found: {}", models.size());
 
@@ -72,7 +72,7 @@ public class NotesResource
 
     ensureProjectExists(projectName);
 
-    NoteEntity entity = noteDao().read(projectName, noteName);
+    NoteEntity entity = getNoteDao().read(projectName, noteName);
 
     log.debug("Found: {}", entity);
     checkFound(entity != null);
@@ -96,11 +96,11 @@ public class NotesResource
 
     ensureProjectExists(projectName);
 
-    NoteEntity entity = noteDao().read(projectName, noteName);
+    NoteEntity entity = getNoteDao().read(projectName, noteName);
     checkNotNull(entity);
 
     entity.setData(merge(entity.getData(), note));
-    entity = noteDao().edit(entity);
+    entity = getNoteDao().edit(entity);
     log.debug("Edited: {}", entity);
 
     return convert(entity);
@@ -122,7 +122,7 @@ public class NotesResource
 
     // TODO: verify if operation-name is given that operation exists
 
-    entity = noteDao().add(entity);
+    entity = getNoteDao().add(entity);
     log.debug("Created: {}", entity);
 
     return convert(entity);
@@ -137,10 +137,10 @@ public class NotesResource
 
     ensureProjectExists(projectName);
 
-    NoteEntity entity = noteDao().read(projectName, noteName);
+    NoteEntity entity = getNoteDao().read(projectName, noteName);
     checkFound(entity != null);
 
-    noteDao().delete(entity);
+    getNoteDao().delete(entity);
   }
 
   @UnitOfWork
@@ -152,7 +152,7 @@ public class NotesResource
 
     ensureProjectExists(projectName);
 
-    NoteEntity entity = noteDao().read(projectName, noteName);
+    NoteEntity entity = getNoteDao().read(projectName, noteName);
     checkFound(entity != null);
 
     List<ApiOccurrence> occurrences = entity.getOccurrences()

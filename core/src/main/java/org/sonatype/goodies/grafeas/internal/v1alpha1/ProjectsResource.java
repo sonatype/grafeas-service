@@ -49,7 +49,7 @@ public class ProjectsResource
   {
     log.debug("Browse; filter: {}, page-size: {}, page-token: {}", filter, pageSize, pageToken);
 
-    List<ApiProject> models = projectDao().browse(filter, pageSize, pageToken)
+    List<ApiProject> models = getProjectDao().browse(filter, pageSize, pageToken)
         .stream().map(this::convert).collect(Collectors.toList());
     log.debug("Found: {}", models.size());
 
@@ -62,7 +62,7 @@ public class ProjectsResource
     checkNotNull(projectName);
     log.debug("Find: {}", projectName);
 
-    ProjectEntity entity = projectDao().read(projectName);
+    ProjectEntity entity = getProjectDao().read(projectName);
 
     log.debug("Found: {}", entity);
     checkFound(entity != null);
@@ -77,7 +77,7 @@ public class ProjectsResource
     log.debug("Create: {}", project);
 
     ProjectEntity entity = new ProjectEntity(project.getName());
-    ProjectEntity created = projectDao().add(entity);
+    ProjectEntity created = getProjectDao().add(entity);
     log.debug("Created: {}", created);
   }
 
@@ -87,10 +87,10 @@ public class ProjectsResource
     checkNotNull(projectName);
     log.debug("Delete: {}", projectName);
 
-    ProjectEntity entity = projectDao().read(projectName);
+    ProjectEntity entity = getProjectDao().read(projectName);
     checkFound(entity != null);
 
-    projectDao().delete(entity);
+    getProjectDao().delete(entity);
     log.debug("Deleted");
   }
 }

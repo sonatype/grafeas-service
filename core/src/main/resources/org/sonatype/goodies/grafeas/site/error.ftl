@@ -19,11 +19,11 @@
 <#assign page_title="${code} Error"/>
 <@head title="${page_title}"/>
 <@page>
-  <div class="row">
-    <div class="col">
-      <h1><i class="fas fa-exclamation-circle text-danger"></i> ${page_title}</h1>
-      <p class="lead text-muted">${message}</p>
-    </div>
+<div class="row">
+  <div class="col">
+    <h1><i class="fas fa-exclamation-circle text-danger"></i> ${page_title}</h1>
+    <p class="lead text-muted">${message}</p>
   </div>
+</div>
 </@page>
 </html>

@@ -36,59 +36,59 @@
   </style>
 </@head>
 <@page>
-  <div class="row">
-    <div class="col">
-      <h1><i class="fas fa-bed"></i> REST API</h1>
-      <p class="lead text-muted">RESTful Application Programming Interface</p>
+<div class="row">
+  <div class="col">
+    <h1><i class="fas fa-bed"></i> REST API</h1>
+    <p class="lead text-muted">RESTful Application Programming Interface</p>
 
-      <div id="swagger-ui"></div>
-    </div>
+    <div id="swagger-ui"></div>
   </div>
+</div>
 
-  <#switch resourceMode>
-    <#case "DEV">
-      <@javascript "${basePath}/assets/swagger/swagger-ui-bundle.js?${urlSuffix}"/>
-      <@javascript "${basePath}/assets/swagger/swagger-ui-standalone-preset.js?${urlSuffix}"/>
-      <#break>
-    <#default>
-      <@javascript "${basePath}/assets/swagger-all.js?${urlSuffix}"/>
-  </#switch>
+<#switch resourceMode>
+  <#case "DEV">
+    <@javascript "${basePath}/assets/swagger/swagger-ui-bundle.js?${urlSuffix}"/>
+    <@javascript "${basePath}/assets/swagger/swagger-ui-standalone-preset.js?${urlSuffix}"/>
+    <#break>
+  <#default>
+    <@javascript "${basePath}/assets/swagger-all.js?${urlSuffix}"/>
+</#switch>
 
-  <script type="text/javascript">
-    window.onload = function () {
-      // overrides the Topbar component to return nothing
-      function HideTopbarPlugin() {
-        return {
-          components: {
-            Topbar: function () {
-              return null;
-            }
+<script type="text/javascript">
+  window.onload = function () {
+    // overrides the Topbar component to return nothing
+    function HideTopbarPlugin() {
+      return {
+        components: {
+          Topbar: function () {
+            return null;
           }
         }
       }
-
-      // Build a system
-      const ui = SwaggerUIBundle({
-        url: "${baseUrl}/swagger.json?${urlSuffix}",
-        dom_id: '#swagger-ui',
-        deepLinking: true,
-        validatorUrl: null,
-        docExpansion: 'list',
-        apisSorter: 'alpha',
-        operationsSorter: 'alpha',
-        presets: [
-          SwaggerUIBundle.presets.apis,
-          SwaggerUIStandalonePreset
-        ],
-        plugins: [
-          SwaggerUIBundle.plugins.DownloadUrl,
-          HideTopbarPlugin
-        ],
-        layout: "StandaloneLayout"
-      });
-
-      window.ui = ui
     }
-  </script>
+
+    // Build a system
+    const ui = SwaggerUIBundle({
+      url: "${baseUrl}/swagger.json?${urlSuffix}",
+      dom_id: '#swagger-ui',
+      deepLinking: true,
+      validatorUrl: null,
+      docExpansion: 'list',
+      apisSorter: 'alpha',
+      operationsSorter: 'alpha',
+      presets: [
+        SwaggerUIBundle.presets.apis,
+        SwaggerUIStandalonePreset
+      ],
+      plugins: [
+        SwaggerUIBundle.plugins.DownloadUrl,
+        HideTopbarPlugin
+      ],
+      layout: "StandaloneLayout"
+    });
+
+    window.ui = ui
+  }
+</script>
 </@page>
 </html>

@@ -15,6 +15,9 @@ package org.sonatype.goodies.grafeas.internal.v1alpha1;
 import java.util.List;
 
 import javax.annotation.Nullable;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -29,9 +32,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
  *
  * @since ???
  */
+@Named
+@Singleton
 public class ProjectEntityDao
     extends AbstractDAO<ProjectEntity>
 {
+  @Inject
   public ProjectEntityDao(final SessionFactory sessionFactory) {
     super(sessionFactory);
   }

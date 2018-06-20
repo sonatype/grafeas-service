@@ -12,29 +12,24 @@
     See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
 
 -->
-<#-- @ftlvariable name="" type="org.sonatype.goodies.grafeas.site.SiteViewSupport" -->
+<#-- @ftlvariable name="" type="org.sonatype.goodies.grafeas.site.ProjectView" -->
 <#include "common/common.ftl">
 <!DOCTYPE html>
 <html lang="en">
-<@head/>
+<#assign page_title="Project"/>
+<#assign navbar_selected="projects"/>
+<@head title="${page_title}"/>
 <@page>
-<div class="jumbotron">
-  <h1 class="display-4 welcome-brand">
-    <img src="${basePath}/assets/images/sonatype-64x64.png" height="64" width="64"/> ${applicationTitle}
-  </h1>
-  <p class="lead text-muted">
-    Sonatype implementation of the <@extlink "https://grafeas.io/", "Grafeas"/> specification.
-  </p>
+<div class="row">
+  <div class="col">
+    <h1><i class="fas fa-cube"></i> ${page_title}</h1>
+    <p class="lead text-muted">
+      ${project.name}
+    </p>
+
+    <h2>Notes</h2>
+    ${loremIpsum(10)}
+  </div>
 </div>
-
-<h2>${loremIpsum(3)}</h2>
-<p class="text-muted">
-  ${loremIpsum(10, 20)}
-</p>
-
-<h2>${loremIpsum(3)}</h2>
-<p class="text-muted">
-  ${loremIpsum(10, 20)}
-</p>
 </@page>
 </html>
