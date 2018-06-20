@@ -55,7 +55,7 @@ public class OccurrencesResource
 
     ensureProjectExists(projectName);
 
-    List<ApiOccurrence> models = occurrenceDao().browse(projectName, filter, pageSize, pageToken)
+    List<ApiOccurrence> models = getOccurrenceDao().browse(projectName, filter, pageSize, pageToken)
         .stream().map(this::convert).collect(Collectors.toList());
     log.debug("Found: {}", models.size());
 
@@ -71,7 +71,7 @@ public class OccurrencesResource
 
     ensureProjectExists(projectName);
 
-    OccurrenceEntity entity = occurrenceDao().read(projectName, occurrenceName);
+    OccurrenceEntity entity = getOccurrenceDao().read(projectName, occurrenceName);
 
     log.debug("Found: {}", entity);
     checkFound(entity != null);
@@ -95,11 +95,11 @@ public class OccurrencesResource
 
     ensureProjectExists(projectName);
 
-    OccurrenceEntity entity = occurrenceDao().read(projectName, occurrenceName);
+    OccurrenceEntity entity = getOccurrenceDao().read(projectName, occurrenceName);
     checkNotNull(entity);
 
     entity.setData(merge(entity.getData(), occurrence));
-    entity = occurrenceDao().edit(entity);
+    entity = getOccurrenceDao().edit(entity);
     log.debug("Edited: {}", entity);
 
     return convert(entity);
@@ -118,14 +118,14 @@ public class OccurrencesResource
     ensureProjectExists(projectName);
 
     // look up parent note
-    NoteEntity note = noteDao().read(projectName, occurrence.getNoteName());
+    NoteEntity note = getNoteDao().read(projectName, occurrence.getNoteName());
     checkRequest(note != null, "Invalid note");
 
     OccurrenceEntity entity = new OccurrenceEntity(projectName, name, note, occurrence);
 
     // TODO: verify if operation-name is given that operation exists
 
-    entity = occurrenceDao().add(entity);
+    entity = getOccurrenceDao().add(entity);
     log.debug("Created: {}", entity);
 
     return convert(entity);
@@ -140,10 +140,10 @@ public class OccurrencesResource
 
     ensureProjectExists(projectName);
 
-    OccurrenceEntity entity = occurrenceDao().read(projectName, occurrenceName);
+    OccurrenceEntity entity = getOccurrenceDao().read(projectName, occurrenceName);
     checkFound(entity != null);
 
-    occurrenceDao().delete(entity);
+    getOccurrenceDao().delete(entity);
   }
 
   @UnitOfWork
@@ -155,7 +155,7 @@ public class OccurrencesResource
 
     ensureProjectExists(projectName);
 
-    OccurrenceEntity entity = occurrenceDao().read(projectName, occurrenceName);
+    OccurrenceEntity entity = getOccurrenceDao().read(projectName, occurrenceName);
     checkFound(entity != null);
 
     return convert(entity.getNote());

@@ -20,13 +20,11 @@ import org.sonatype.goodies.dropwizard.jaxrs.ResourceSupport;
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiNote;
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiOccurrence;
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiProject;
-import org.sonatype.goodies.grafeas.internal.ObjectMapperFactory;
 import org.sonatype.goodies.grafeas.internal.db.DatabaseObjectMapperFactory;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
-import org.hibernate.SessionFactory;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
@@ -40,23 +38,9 @@ import static org.sonatype.goodies.dropwizard.jaxrs.WebPreconditions.checkReques
 public abstract class V1alpha1ResourceSupport
     extends ResourceSupport
 {
-  private SessionFactory sessionFactory;
-
-  @Inject
-  public void setSessionFactory(final SessionFactory sessionFactory) {
-    this.sessionFactory = checkNotNull(sessionFactory);
-  }
-
-  private SessionFactory getSessionFactory() {
-    checkState(sessionFactory != null);
-    return sessionFactory;
-  }
-
   //
   // Data-access objects
   //
-
-  // TODO: adjust for injectable DAO impls
 
   private ProjectEntityDao projectDao;
 
@@ -64,24 +48,33 @@ public abstract class V1alpha1ResourceSupport
 
   private OccurrenceEntityDao occurrenceDao;
 
-  protected ProjectEntityDao projectDao() {
-    if (projectDao == null) {
-      projectDao = new ProjectEntityDao(getSessionFactory());
-    }
+  @Inject
+  public void setProjectDao(final ProjectEntityDao projectDao) {
+    this.projectDao = checkNotNull(projectDao);
+  }
+
+  @Inject
+  public void setNoteDao(final NoteEntityDao noteDao) {
+    this.noteDao = checkNotNull(noteDao);
+  }
+
+  @Inject
+  public void setOccurrenceDao(final OccurrenceEntityDao occurrenceDao) {
+    this.occurrenceDao = checkNotNull(occurrenceDao);
+  }
+
+  protected ProjectEntityDao getProjectDao() {
+    checkState(projectDao != null);
     return projectDao;
   }
 
-  protected NoteEntityDao noteDao() {
-    if (noteDao == null) {
-      noteDao = new NoteEntityDao(getSessionFactory());
-    }
+  protected NoteEntityDao getNoteDao() {
+    checkState(noteDao != null);
     return noteDao;
   }
 
-  protected OccurrenceEntityDao occurrenceDao() {
-    if (occurrenceDao == null) {
-      occurrenceDao = new OccurrenceEntityDao(getSessionFactory());
-    }
+  protected OccurrenceEntityDao getOccurrenceDao() {
+    checkState(occurrenceDao != null);
     return occurrenceDao;
   }
 
@@ -111,7 +104,7 @@ public abstract class V1alpha1ResourceSupport
   // Modal merge
   //
 
-  private static ObjectMapper objectMapper = DatabaseObjectMapperFactory.create();
+  private static final ObjectMapper objectMapper = DatabaseObjectMapperFactory.create();
 
   protected <T> T merge(final T basis, final T updates) {
     ObjectReader reader = objectMapper.readerForUpdating(basis);
@@ -132,7 +125,7 @@ public abstract class V1alpha1ResourceSupport
    * Ensure project with given name exists.
    */
   protected ProjectEntity ensureProjectExists(final String projectName) {
-    ProjectEntity entity = projectDao().read(projectName);
+    ProjectEntity entity = getProjectDao().read(projectName);
     checkRequest(entity != null, "Invalid project");
     return entity;
   }
