@@ -34,9 +34,9 @@ public interface VersionEndpoint
 {
   @GET
   @Produces(value = APPLICATION_JSON)
-  @ApiOperation(value = "Get version information")
+  @ApiOperation(value = "Get service version information")
   @ApiResponses({
-      @ApiResponse(code = 200, message = "Version information")
+      @ApiResponse(code = 200, message = "Service version information")
   })
   Version get();
 }
