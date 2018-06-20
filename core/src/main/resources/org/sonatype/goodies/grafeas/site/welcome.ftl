@@ -18,13 +18,13 @@
 <html lang="en">
 <@head/>
 <@page>
-  <div class="jumbotron">
-    <h1 class="display-4 welcome-brand">
-      <img src="${basePath}/assets/images/sonatype-64x64.png" height="64" width="64"/> ${applicationTitle}
-    </h1>
-    <p class="lead text-muted">
-      Sonatype implementation of the <@extlink "https://grafeas.io/", "Grafeas"/> specification.
-    </p>
-  </div>
+<div class="jumbotron">
+  <h1 class="display-4 welcome-brand">
+    <img src="${basePath}/assets/images/sonatype-64x64.png" height="64" width="64"/> ${applicationTitle}
+  </h1>
+  <p class="lead text-muted">
+    Sonatype implementation of the <@extlink "https://grafeas.io/", "Grafeas"/> specification.
+  </p>
+</div>
 </@page>
 </html>

@@ -19,9 +19,34 @@
 <#assign page_title="Projects"/>
 <@head title="${page_title}"/>
 <@page>
-  <h1><i class="fas fa-cubes"></i> ${page_title}</h1>
-  <p class="lead text-muted">
-    ${loremIpsum(10)}
-  </p>
+<div class="row">
+  <div class="col">
+    <h1><i class="fas fa-cubes"></i> ${page_title}</h1>
+
+    <#list projects?sort_by("name")>
+      <div class="table-responsive">
+        <table class="table table-striped table-hover">
+          <caption>${plural(projects?size, "project")}</caption>
+          <thead>
+          <tr>
+            <th scope="col">Name</th>
+          </tr>
+          </thead>
+          <tbody>
+            <#items as project>
+            <tr>
+              <td>
+                <a href="${basePath}/project/${project.name}"><i class="fas fa-cube"></i> ${project.name}</a>
+              </td>
+            </tr>
+            </#items>
+          </tbody>
+        </table>
+      </div>
+    <#else>
+      <p class="text-muted"><@missing_data "no projects found"/></p>
+    </#list>
+  </div>
+</div>
 </@page>
 </html>

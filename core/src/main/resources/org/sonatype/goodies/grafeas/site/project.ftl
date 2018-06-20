@@ -19,9 +19,16 @@
 <#assign page_title="Project"/>
 <@head title="${page_title}"/>
 <@page>
-  <h1><i class="fas fa-cube"></i> ${page_title}</h1>
-  <p class="lead text-muted">
+<div class="row">
+  <div class="col">
+    <h1><i class="fas fa-cube"></i> ${page_title}</h1>
+    <p class="lead text-muted">
+      ${project.name}
+    </p>
+
+    <h2>Notes</h2>
     ${loremIpsum(10)}
-  </p>
+  </div>
+</div>
 </@page>
 </html>

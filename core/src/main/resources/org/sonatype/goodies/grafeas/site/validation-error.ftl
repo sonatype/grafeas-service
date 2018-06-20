@@ -19,18 +19,18 @@
 <#assign page_title="Validation Error"/>
 <@head title="${page_title}"/>
 <@page>
-  <div class="row">
-    <div class="col">
-      <h1><i class="fas fa-exclamation-triangle text-warning"></i> ${page_title}</h1>
-      <p class="lead text-muted">Input validation errors detected!</p>
+<div class="row">
+  <div class="col">
+    <h1><i class="fas fa-exclamation-triangle text-warning"></i> ${page_title}</h1>
+    <p class="lead text-muted">Input validation errors detected!</p>
 
-      <h2>Errors</h2>
-      <ul>
-        <#list errors as error>
-          <li>${error}</li>
-        </#list>
-      </ul>
-    </div>
+    <h2>Errors</h2>
+    <ul>
+      <#list errors as error>
+        <li>${error}</li>
+      </#list>
+    </ul>
   </div>
+</div>
 </@page>
 </html>
