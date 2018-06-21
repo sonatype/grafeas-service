@@ -44,16 +44,20 @@ public class NoteEntity
 {
   private static final long serialVersionUID = 1L;
 
+  /**
+   * Entity key.
+   */
   @Id
-  @SequenceGenerator(name="notes_sequence_generator", sequenceName = "notes_sequence")
+  @Column(name = "key")
+  @SequenceGenerator(name = "notes_sequence_generator", sequenceName = "notes_sequence")
   @GeneratedValue(generator = "notes_sequence_generator")
-  private Long id;
+  private Long key;
 
-  @Column(name = "project_name")
-  private String projectName;
+  @Column(name = "project_id")
+  private String projectId;
 
-  @Column(name = "note_name")
-  private String noteName;
+  @Column(name = "note_id")
+  private String noteId;
 
   @Column
   @Convert(converter = ApiNoteConverter.class)
@@ -72,22 +76,30 @@ public class NoteEntity
     // empty
   }
 
-  public NoteEntity(final String projectName, final String noteName, final ApiNote data) {
-    this.projectName = checkNotNull(projectName);
-    this.noteName = checkNotNull(noteName);
+  public NoteEntity(final String projectId, final String noteId, final ApiNote data) {
+    this.projectId = checkNotNull(projectId);
+    this.noteId = checkNotNull(noteId);
     this.data = checkNotNull(data);
   }
 
-  public Long getId() {
-    return id;
+  public Long getKey() {
+    return key;
+  }
+
+  public String getProjectId() {
+    return projectId;
   }
 
   public String getProjectName() {
-    return projectName;
+    return ProjectEntity.name(projectId);
+  }
+
+  public String getNoteId() {
+    return noteId;
   }
 
   public String getNoteName() {
-    return noteName;
+    return name(projectId, noteId);
   }
 
   /**
@@ -112,10 +124,18 @@ public class NoteEntity
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this)
-        .add("id", id)
-        .add("projectName", projectName)
-        .add("noteName", noteName)
+        .add("key", key)
+        .add("projectId", projectId)
+        .add("noteId", noteId)
         .add("data", data)
         .toString();
+  }
+
+  //
+  // Helpers
+  //
+
+  public static String name(final String projectId, final String noteId) {
+    return String.format("projects/%s/notes/%s", projectId, noteId);
   }
 }

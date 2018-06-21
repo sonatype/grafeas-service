@@ -13,6 +13,7 @@
 package org.sonatype.goodies.grafeas.internal.v1alpha1;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -43,17 +44,21 @@ public class ProjectEntity
 {
   private static final long serialVersionUID = 1L;
 
+  /**
+   * Entity key.
+   */
   @Id
+  @Column(name = "key")
   @SequenceGenerator(name="projects_sequence_generator", sequenceName = "projects_sequence")
   @GeneratedValue(generator = "projects_sequence_generator")
-  private Long id;
+  private Long key;
 
-  @Column
-  private String name;
+  @Column(name = "project_id")
+  private String projectId;
 
   @SuppressWarnings("unused")
   @OneToMany(fetch = FetchType.LAZY)
-  @JoinColumn(name = "project_name", referencedColumnName = "name")
+  @JoinColumn(name = "project_id", referencedColumnName = "project_id")
   private List<NoteEntity> notes;
 
   @SuppressWarnings("unused")
@@ -61,16 +66,20 @@ public class ProjectEntity
     // empty
   }
 
-  public ProjectEntity(final String name) {
-    this.name = checkNotNull(name);
+  public ProjectEntity(final String projectId) {
+    this.projectId = checkNotNull(projectId);
   }
 
-  public Long getId() {
-    return id;
+  public Long getKey() {
+    return key;
   }
 
-  public String getName() {
-    return name;
+  public String getProjectId() {
+    return projectId;
+  }
+
+  public String getProjectName() {
+    return name(projectId);
   }
 
   public List<NoteEntity> getNotes() {
@@ -80,8 +89,16 @@ public class ProjectEntity
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this)
-        .add("id", id)
-        .add("name", name)
+        .add("key", key)
+        .add("projectId", projectId)
         .toString();
+  }
+
+  //
+  // Helpers
+  //
+
+  public static String name(final String projectId) {
+    return String.format("projects/%s", projectId);
   }
 }

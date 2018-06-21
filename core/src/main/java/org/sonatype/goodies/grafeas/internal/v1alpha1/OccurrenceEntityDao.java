@@ -50,16 +50,16 @@ public class OccurrenceEntityDao
   }
 
   /**
-   * Browse occurrences for project.
+   * Browse occurrences for project-id.
    */
-  public List<OccurrenceEntity> browse(final String projectName,
+  public List<OccurrenceEntity> browse(final String projectId,
                                        @Nullable final String filter,
                                        @Nullable final Integer pageSize,
                                        @Nullable final String pageToken)
   {
-    checkNotNull(projectName);
+    checkNotNull(projectId);
 
-    log.trace("Browse: filter={}, page-size={}, page-token={}", filter, pageSize, pageToken);
+    log.trace("Browse: project-id={}, filter={}, page-size={}, page-token={}", projectId, filter, pageSize, pageToken);
 
     // FIXME: add filter and browse support; it is not yet clearly defined what this is
 
@@ -67,39 +67,39 @@ public class OccurrenceEntityDao
     CriteriaQuery<OccurrenceEntity> query = builder.createQuery(OccurrenceEntity.class);
     Root<OccurrenceEntity> root = query.from(OccurrenceEntity.class);
     query.where(
-        builder.equal(root.get("projectName"), projectName)
+        builder.equal(root.get("projectId"), projectId)
     );
 
     return currentSession().createQuery(query).list();
   }
 
   /**
-   * Read occurrence for given entity identifier.
+   * Read occurrence for given entity-key.
    */
   @Nullable
-  public OccurrenceEntity read(final long id) {
-    log.trace("Read: {}", id);
+  public OccurrenceEntity read(final long key) {
+    log.trace("Read: {}", key);
 
-    return get(id);
+    return get(key);
   }
 
   /**
-   * Read occurrence for given project and name.
+   * Read occurrence for given project-id and occurrence-id.
    */
   @Nullable
-  public OccurrenceEntity read(final String projectName, final String occurrenceName) {
-    checkNotNull(projectName);
-    checkNotNull(occurrenceName);
+  public OccurrenceEntity read(final String projectId, final String occurrenceId) {
+    checkNotNull(projectId);
+    checkNotNull(occurrenceId);
 
-    log.trace("Read: project-name={}, occurrence-name={}", projectName, occurrenceName);
+    log.trace("Read: project-id={}, occurrence-id={}", projectId, occurrenceId);
 
     CriteriaBuilder builder = currentSession().getCriteriaBuilder();
     CriteriaQuery<OccurrenceEntity> query = builder.createQuery(OccurrenceEntity.class);
     Root<OccurrenceEntity> root = query.from(OccurrenceEntity.class);
     query.where(
         builder.and(
-            builder.equal(root.get("projectName"), projectName),
-            builder.equal(root.get("occurrenceName"), occurrenceName)
+            builder.equal(root.get("projectId"), projectId),
+            builder.equal(root.get("occurrenceId"), occurrenceId)
         )
     );
 

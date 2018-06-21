@@ -62,7 +62,7 @@ public class ProjectsResource
     checkNotNull(projectId);
     log.debug("Find: {}", projectId);
 
-    ProjectEntity entity = getProjectDao().read(projectName(projectId));
+    ProjectEntity entity = getProjectDao().read(projectId);
 
     log.debug("Found: {}", entity);
     checkFound(entity != null);
@@ -78,8 +78,10 @@ public class ProjectsResource
 
     String projectName = project.getName();
     // TODO: validate project name
+    // TODO: extract project-id
+    String projectId = "FIXME";
 
-    ProjectEntity entity = new ProjectEntity(projectName);
+    ProjectEntity entity = new ProjectEntity(projectId);
     ProjectEntity created = getProjectDao().add(entity);
     log.debug("Created: {}", created);
   }
@@ -90,7 +92,7 @@ public class ProjectsResource
     checkNotNull(projectId);
     log.debug("Delete: {}", projectId);
 
-    ProjectEntity entity = getProjectDao().read(projectName(projectId));
+    ProjectEntity entity = getProjectDao().read(projectId);
     checkFound(entity != null);
 
     getProjectDao().delete(entity);

@@ -54,10 +54,9 @@ public class NotesResource
     checkNotNull(projectId);
     log.debug("Browse; filter: {}, page-size: {}, page-token: {}", filter, pageSize, pageToken);
 
-    String projectName = projectName(projectId);
-    ensureProjectExists(projectName);
+    ensureProjectExists(projectId);
 
-    List<ApiNote> models = getNoteDao().browse(projectName, filter, pageSize, pageToken)
+    List<ApiNote> models = getNoteDao().browse(projectId, filter, pageSize, pageToken)
         .stream().map(this::convert).collect(Collectors.toList());
     log.debug("Found: {}", models.size());
 
@@ -71,12 +70,9 @@ public class NotesResource
     checkNotNull(noteId);
     log.debug("Find: {}/{}", projectId, noteId);
 
-    String projectName = projectName(projectId);
-    String noteName = noteName(projectId, noteId);
+    ensureProjectExists(projectId);
 
-    ensureProjectExists(projectName);
-
-    NoteEntity entity = getNoteDao().read(projectName, noteName);
+    NoteEntity entity = getNoteDao().read(projectId, noteId);
 
     log.debug("Found: {}", entity);
     checkFound(entity != null);
@@ -98,12 +94,9 @@ public class NotesResource
     checkRequest(note.getCreateTime() == null, "Create-time is immutable");
     checkRequest(note.getUpdateTime() == null, "Update-time is immutable");
 
-    String projectName = projectName(projectId);
-    String noteName = noteName(projectId, noteId);
+    ensureProjectExists(projectId);
 
-    ensureProjectExists(projectName);
-
-    NoteEntity entity = getNoteDao().read(projectName, noteName);
+    NoteEntity entity = getNoteDao().read(projectId, noteId);
     checkFound(entity != null);
 
     entity.setData(merge(entity.getData(), note));
@@ -120,14 +113,15 @@ public class NotesResource
     checkNotNull(note);
     log.debug("Create: {} -> {}", projectId, note);
 
-    String projectName = projectName(projectId);
     String noteName = note.getName();
     checkRequest(noteName != null, "Name required");
     // TODO: validate note name
+    // TODO: extract note-id
+    String noteId = "FIXME";
 
-    ensureProjectExists(projectName);
+    ensureProjectExists(projectId);
 
-    NoteEntity entity = new NoteEntity(projectName, noteName, note);
+    NoteEntity entity = new NoteEntity(projectId, noteId, note);
 
     // TODO: verify if operation-name is given that operation exists
 
@@ -144,12 +138,9 @@ public class NotesResource
     checkNotNull(noteId);
     log.debug("Delete: {}/{}", projectId, noteId);
 
-    String projectName = projectName(projectId);
-    String noteName = noteName(projectId, noteId);
+    ensureProjectExists(projectId);
 
-    ensureProjectExists(projectName);
-
-    NoteEntity entity = getNoteDao().read(projectName, noteName);
+    NoteEntity entity = getNoteDao().read(projectId, noteId);
     checkFound(entity != null);
 
     getNoteDao().delete(entity);
@@ -162,12 +153,9 @@ public class NotesResource
     checkNotNull(noteId);
     log.debug("Read occurrences: {}/{}", projectId, noteId);
 
-    String projectName = projectName(projectId);
-    String noteName = noteName(projectId, noteId);
+    ensureProjectExists(projectId);
 
-    ensureProjectExists(projectName);
-
-    NoteEntity entity = getNoteDao().read(projectName, noteName);
+    NoteEntity entity = getNoteDao().read(projectId, noteId);
     checkFound(entity != null);
 
     List<ApiOccurrence> occurrences = entity.getOccurrences()

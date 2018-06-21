@@ -50,17 +50,17 @@ public class NoteEntityDao
   }
 
   /**
-   * Browse notes for project.
+   * Browse notes for project-id.
    */
-  public List<NoteEntity> browse(final String projectName,
+  public List<NoteEntity> browse(final String projectId,
                                  @Nullable final String filter,
                                  @Nullable final Integer pageSize,
                                  @Nullable final String pageToken)
   {
-    checkNotNull(projectName);
+    checkNotNull(projectId);
 
-    log.trace("Browse: project-name={}, filter={}, page-size={}, page-token={}",
-        projectName, filter, pageSize, pageToken);
+    log.trace("Browse: project-id={}, filter={}, page-size={}, page-token={}",
+        projectId, filter, pageSize, pageToken);
 
     // FIXME: add filter and browse support; it is not yet clearly defined what this is
 
@@ -68,38 +68,38 @@ public class NoteEntityDao
     CriteriaQuery<NoteEntity> query = builder.createQuery(NoteEntity.class);
     Root<NoteEntity> root = query.from(NoteEntity.class);
     query.where(
-        builder.equal(root.get("projectName"), projectName)
+        builder.equal(root.get("projectId"), projectId)
     );
     return currentSession().createQuery(query).list();
   }
 
   /**
-   * Read note for given entity identifier.
+   * Read note for given entity-key.
    */
   @Nullable
-  public NoteEntity read(final long id) {
-    log.trace("Read: {}", id);
+  public NoteEntity read(final long key) {
+    log.trace("Read: {}", key);
 
-    return get(id);
+    return get(key);
   }
 
   /**
-   * Read note for given project and name.
+   * Read note for given project-id and note-id
    */
   @Nullable
-  public NoteEntity read(final String projectName, final String noteName) {
-    checkNotNull(projectName);
-    checkNotNull(noteName);
+  public NoteEntity read(final String projectId, final String noteId) {
+    checkNotNull(projectId);
+    checkNotNull(noteId);
 
-    log.trace("Read: project-name={}, note-name={}", projectName, noteName);
+    log.trace("Read: project-id={}, note-id={}", projectId, noteId);
 
     CriteriaBuilder builder = currentSession().getCriteriaBuilder();
     CriteriaQuery<NoteEntity> query = builder.createQuery(NoteEntity.class);
     Root<NoteEntity> root = query.from(NoteEntity.class);
     query.where(
         builder.and(
-            builder.equal(root.get("projectName"), projectName),
-            builder.equal(root.get("noteName"), noteName)
+            builder.equal(root.get("projectId"), projectId),
+            builder.equal(root.get("noteId"), noteId)
         )
     );
 

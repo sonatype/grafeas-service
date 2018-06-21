@@ -64,28 +64,28 @@ public class ProjectEntityDao
   }
 
   /**
-   * Read project for given entity identifier.
+   * Read project for given entity-key.
    */
   @Nullable
-  public ProjectEntity read(final long id) {
-    log.trace("Read: {}", id);
+  public ProjectEntity read(final long key) {
+    log.trace("Read: {}", key);
 
-    return get(id);
+    return get(key);
   }
 
   /**
-   * Read project for given name.
+   * Read project for given ID.
    */
   @Nullable
-  public ProjectEntity read(final String projectName) {
-    checkNotNull(projectName);
+  public ProjectEntity read(final String projectId) {
+    checkNotNull(projectId);
 
-    log.trace("Read: project-name={}", projectName);
+    log.trace("Read: project-id={}", projectId);
 
     CriteriaBuilder builder = currentSession().getCriteriaBuilder();
     CriteriaQuery<ProjectEntity> query = builder.createQuery(ProjectEntity.class);
     Root<ProjectEntity> root = query.from(ProjectEntity.class);
-    query.where(builder.equal(root.get("name"), projectName));
+    query.where(builder.equal(root.get("projectId"), projectId));
 
     return uniqueResult(query);
   }

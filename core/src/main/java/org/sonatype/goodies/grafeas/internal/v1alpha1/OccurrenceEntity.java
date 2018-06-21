@@ -43,19 +43,23 @@ public class OccurrenceEntity
 {
   private static final long serialVersionUID = 1L;
 
+  /**
+   * Entity key.
+   */
   @Id
+  @Column(name = "key")
   @SequenceGenerator(name="occurrences_sequence_generator", sequenceName = "occurrences_sequence")
   @GeneratedValue(generator = "occurrences_sequence_generator")
-  private Long id;
+  private Long key;
 
-  @Column(name = "project_name")
-  private String projectName;
+  @Column(name = "project_id")
+  private String projectId;
 
-  @Column(name = "occurrence_name")
-  private String occurrenceName;
+  @Column(name = "occurrence_id")
+  private String occurrenceId;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "note_id")
+  @JoinColumn(name = "note_key")
   private NoteEntity note;
 
   @Column
@@ -67,27 +71,35 @@ public class OccurrenceEntity
     // empty
   }
 
-  public OccurrenceEntity(final String projectName,
-                          final String occurrenceName,
+  public OccurrenceEntity(final String projectId,
+                          final String occurrenceId,
                           final NoteEntity note,
                           final ApiOccurrence data)
   {
-    this.projectName = checkNotNull(projectName);
-    this.occurrenceName = checkNotNull(occurrenceName);
+    this.projectId = checkNotNull(projectId);
+    this.occurrenceId = checkNotNull(occurrenceId);
     this.note = checkNotNull(note);
     this.data = checkNotNull(data);
   }
 
-  public Long getId() {
-    return id;
+  public Long getKey() {
+    return key;
+  }
+
+  public String getProjectId() {
+    return projectId;
   }
 
   public String getProjectName() {
-    return projectName;
+    return ProjectEntity.name(projectId);
+  }
+
+  public String getOccurrenceId() {
+    return occurrenceId;
   }
 
   public String getOccurrenceName() {
-    return occurrenceName;
+    return name(projectId, occurrenceId);
   }
 
   /**
@@ -116,11 +128,19 @@ public class OccurrenceEntity
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this)
-        .add("id", id)
-        .add("projectName", projectName)
-        .add("occurrenceName", occurrenceName)
+        .add("key", key)
+        .add("projectId", projectId)
+        .add("occurrenceId", occurrenceId)
         .add("note", note)
         .add("data", data)
         .toString();
+  }
+
+  //
+  // Helpers
+  //
+
+  public static String name(final String projectId, final String occurrenceId) {
+    return String.format("projects/%s/occurrences/%s", projectId, occurrenceId);
   }
 }

@@ -53,10 +53,9 @@ public class OccurrencesResource
     checkNotNull(projectId);
     log.debug("Browse; filter: {}, page-size: {}, page-token: {}", filter, pageSize, pageToken);
 
-    String projectName = projectName(projectId);
-    ensureProjectExists(projectName);
+    ensureProjectExists(projectId);
 
-    List<ApiOccurrence> models = getOccurrenceDao().browse(projectName, filter, pageSize, pageToken)
+    List<ApiOccurrence> models = getOccurrenceDao().browse(projectId, filter, pageSize, pageToken)
         .stream().map(this::convert).collect(Collectors.toList());
     log.debug("Found: {}", models.size());
 
@@ -70,12 +69,9 @@ public class OccurrencesResource
     checkNotNull(occurrenceId);
     log.debug("Find: {}/{}", projectId, occurrenceId);
 
-    String projectName = projectName(projectId);
-    String occurrenceName = occurrenceName(projectId, occurrenceId);
+    ensureProjectExists(projectId);
 
-    ensureProjectExists(projectName);
-
-    OccurrenceEntity entity = getOccurrenceDao().read(projectName, occurrenceName);
+    OccurrenceEntity entity = getOccurrenceDao().read(projectId, occurrenceId);
 
     log.debug("Found: {}", entity);
     checkFound(entity != null);
@@ -97,12 +93,9 @@ public class OccurrencesResource
     checkRequest(occurrence.getCreateTime() == null, "Create-time is immutable");
     checkRequest(occurrence.getUpdateTime() == null, "Update-time is immutable");
 
-    String projectName = projectName(projectId);
-    String occurrenceName = occurrenceName(projectId, occurrenceId);
+    ensureProjectExists(projectId);
 
-    ensureProjectExists(projectName);
-
-    OccurrenceEntity entity = getOccurrenceDao().read(projectName, occurrenceName);
+    OccurrenceEntity entity = getOccurrenceDao().read(projectId, occurrenceId);
     checkFound(entity != null);
 
     entity.setData(merge(entity.getData(), occurrence));
@@ -119,18 +112,21 @@ public class OccurrencesResource
     checkNotNull(occurrence);
     log.debug("Create: {} -> {}", projectId, occurrence);
 
-    String projectName = projectName(projectId);
     String occurrenceName = occurrence.getName();
     checkRequest(occurrenceName != null, "Name required");
-    // TODO: validate occurrence name
+    // TODO: validate occurrence-name
+    // TODO: extract occurrence-id
+    String occurrenceId = "FIXME";
 
-    ensureProjectExists(projectName);
+    ensureProjectExists(projectId);
 
     // look up parent note
-    NoteEntity note = getNoteDao().read(projectName, occurrence.getNoteName());
+    // TODO: extract note-id
+    String noteId = "FIXME";
+    NoteEntity note = getNoteDao().read(projectId, noteId);
     checkRequest(note != null, "Invalid note");
 
-    OccurrenceEntity entity = new OccurrenceEntity(projectName, occurrenceName, note, occurrence);
+    OccurrenceEntity entity = new OccurrenceEntity(projectId, occurrenceId, note, occurrence);
 
     // TODO: verify if operation-name is given that operation exists
 
@@ -147,12 +143,9 @@ public class OccurrencesResource
     checkNotNull(occurrenceId);
     log.debug("Delete: {}/{}", projectId, occurrenceId);
 
-    String projectName = projectName(projectId);
-    String occurrenceName = occurrenceName(projectId, occurrenceId);
+    ensureProjectExists(projectId);
 
-    ensureProjectExists(projectName);
-
-    OccurrenceEntity entity = getOccurrenceDao().read(projectName, occurrenceName);
+    OccurrenceEntity entity = getOccurrenceDao().read(projectId, occurrenceId);
     checkFound(entity != null);
 
     getOccurrenceDao().delete(entity);
@@ -165,12 +158,9 @@ public class OccurrencesResource
     checkNotNull(occurrenceId);
     log.debug("Read note: {}/{}", projectId, occurrenceId);
 
-    String projectName = projectName(projectId);
-    String occurrenceName = occurrenceName(projectId, occurrenceId);
+    ensureProjectExists(projectId);
 
-    ensureProjectExists(projectName);
-
-    OccurrenceEntity entity = getOccurrenceDao().read(projectName, occurrenceName);
+    OccurrenceEntity entity = getOccurrenceDao().read(projectId, occurrenceId);
     checkFound(entity != null);
 
     return convert(entity.getNote());

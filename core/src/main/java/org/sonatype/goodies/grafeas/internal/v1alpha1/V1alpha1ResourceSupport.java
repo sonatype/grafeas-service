@@ -99,9 +99,9 @@ public abstract class V1alpha1ResourceSupport
   //
 
   protected ApiProject convert(final ProjectEntity entity) {
-    String name = entity.getName();
-    checkNotNull(name);
-    return new ApiProject().name(name);
+    String projectName = entity.getProjectName();
+    checkNotNull(projectName);
+    return new ApiProject().name(projectName);
   }
 
   protected ApiNote convert(final NoteEntity entity) {
@@ -140,8 +140,8 @@ public abstract class V1alpha1ResourceSupport
   /**
    * Ensure project with given name exists.
    */
-  protected ProjectEntity ensureProjectExists(final String projectName) {
-    ProjectEntity entity = getProjectDao().read(projectName);
+  protected ProjectEntity ensureProjectExists(final String projectId) {
+    ProjectEntity entity = getProjectDao().read(projectId);
     checkRequest(entity != null, "Invalid project");
     return entity;
   }
