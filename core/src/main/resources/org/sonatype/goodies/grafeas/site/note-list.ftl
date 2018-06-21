@@ -26,8 +26,8 @@
 
     <dl class="row">
       <dt class="col-sm-2">Project</dt>
-      <dd class="col-sm-9"><a href="${basePath}/project/${projectId}">
-        <i class="fas fa-cube"></i> ${projectId}</a></dd>
+      <dd class="col-sm-9"><a href="${basePath}/project/${project.projectId}">
+        <i class="fas fa-cube"></i> ${project.projectName}</a></dd>
     </dl>
 
     <#list notes?sort_by("noteName")>

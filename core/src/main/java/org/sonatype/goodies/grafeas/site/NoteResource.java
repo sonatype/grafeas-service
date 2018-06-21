@@ -22,12 +22,16 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.sonatype.goodies.dropwizard.jaxrs.ResourceSupport;
+import org.sonatype.goodies.dropwizard.jaxrs.WebPreconditions;
 import org.sonatype.goodies.grafeas.internal.v1alpha1.NoteEntityDao;
+import org.sonatype.goodies.grafeas.internal.v1alpha1.ProjectEntity;
+import org.sonatype.goodies.grafeas.internal.v1alpha1.ProjectEntityDao;
 
 import io.dropwizard.hibernate.UnitOfWork;
 import io.dropwizard.views.View;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static org.sonatype.goodies.dropwizard.jaxrs.WebPreconditions.*;
 
 /**
  * Note resource.
@@ -41,10 +45,13 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class NoteResource
     extends ResourceSupport
 {
+  private final ProjectEntityDao projectEntityDao;
+
   private final NoteEntityDao noteEntityDao;
 
   @Inject
-  public NoteResource(final NoteEntityDao noteEntityDao) {
+  public NoteResource(final ProjectEntityDao projectEntityDao, final NoteEntityDao noteEntityDao) {
+    this.projectEntityDao = checkNotNull(projectEntityDao);
     this.noteEntityDao = checkNotNull(noteEntityDao);
   }
 
@@ -52,7 +59,9 @@ public class NoteResource
   @Path("project/{project_id}/notes")
   @UnitOfWork
   public View list(@PathParam("project_id") final String projectId) {
-    return new NoteListView(projectId, noteEntityDao.browse(projectId, null, null, null));
+    ProjectEntity project = projectEntityDao.read(projectId);
+    checkFound(project != null);
+    return new NoteListView(project, project.getNotes());
   }
 
   @GET

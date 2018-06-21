@@ -15,6 +15,7 @@ package org.sonatype.goodies.grafeas.site;
 import java.util.List;
 
 import org.sonatype.goodies.grafeas.internal.v1alpha1.NoteEntity;
+import org.sonatype.goodies.grafeas.internal.v1alpha1.ProjectEntity;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -26,18 +27,18 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class NoteListView
   extends SiteViewSupport
 {
-  private final String projectId;
+  private final ProjectEntity project;
 
   private final List<NoteEntity> notes;
 
-  public NoteListView(final String projectId, final List<NoteEntity> notes) {
+  public NoteListView(final ProjectEntity project, final List<NoteEntity> notes) {
     super("note-list.ftl");
-    this.projectId = checkNotNull(projectId);
+    this.project = checkNotNull(project);
     this.notes = checkNotNull(notes);
   }
 
-  public String getProjectId() {
-    return projectId;
+  public ProjectEntity getProject() {
+    return project;
   }
 
   public List<NoteEntity> getNotes() {
