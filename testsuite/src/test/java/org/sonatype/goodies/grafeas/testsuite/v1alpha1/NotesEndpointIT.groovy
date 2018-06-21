@@ -39,11 +39,11 @@ class NotesEndpointIT
     def notes = dropwizard.endpoint(NotesEndpoint.class)
 
     projects.add(new ApiProject(
-        name: 'foo'
+        name: 'projects/foo'
     ))
 
     def note1 = notes.add('foo', new ApiNote(
-        name: 'note1'
+        name: 'projects/foo/notes/note1'
     ))
     log note1
 
@@ -54,7 +54,6 @@ class NotesEndpointIT
         shortDescription: 'foo',
         longDescription: 'f o o'
     ))
-
     log note3
   }
 }

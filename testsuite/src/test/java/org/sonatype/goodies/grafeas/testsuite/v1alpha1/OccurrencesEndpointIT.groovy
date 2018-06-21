@@ -42,18 +42,18 @@ class OccurrencesEndpointIT
     def occurrences = dropwizard.endpoint(OccurrencesEndpoint.class)
 
     projects.add(new ApiProject(
-        name: 'foo'
+        name: 'projects/foo'
     ))
 
     def note1 = notes.add('foo', new ApiNote(
-        name: 'note1',
+        name: 'projects/foo/notes/note1',
         shortDescription: 'first note'
     ))
     log note1
 
     def occurrence1 = occurrences.add('foo', new ApiOccurrence(
-        name: 'occurrence1',
-        noteName: 'note1'
+        name: 'projects/foo/occurrences/occurrence1',
+        noteName: 'projects/foo/notes/note1'
     ))
     log occurrence1
 
