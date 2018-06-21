@@ -15,6 +15,7 @@ package org.sonatype.goodies.grafeas.internal.v1alpha1;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -44,16 +45,20 @@ public class NoteEntity
 {
   private static final long serialVersionUID = 1L;
 
+  /**
+   * Entity key.
+   */
   @Id
-  @SequenceGenerator(name="notes_sequence_generator", sequenceName = "notes_sequence")
+  @Column(name = "key")
+  @SequenceGenerator(name = "notes_sequence_generator", sequenceName = "notes_sequence")
   @GeneratedValue(generator = "notes_sequence_generator")
-  private Long id;
+  private Long key;
 
-  @Column(name = "project_name")
-  private String projectName;
+  @Column(name = "project_id")
+  private String projectId;
 
-  @Column(name = "note_name")
-  private String noteName;
+  @Column(name = "note_id")
+  private String noteId;
 
   @Column
   @Convert(converter = ApiNoteConverter.class)
@@ -64,7 +69,7 @@ public class NoteEntity
    */
   @SuppressWarnings("unused")
   @OneToMany(fetch = FetchType.LAZY)
-  @JoinColumn(name = "note_id")
+  @JoinColumn(name = "note_key")
   private List<OccurrenceEntity> occurrences;
 
   @SuppressWarnings("unused")
@@ -72,22 +77,30 @@ public class NoteEntity
     // empty
   }
 
-  public NoteEntity(final String projectName, final String noteName, final ApiNote data) {
-    this.projectName = checkNotNull(projectName);
-    this.noteName = checkNotNull(noteName);
+  public NoteEntity(final String projectId, final String noteId, final ApiNote data) {
+    this.projectId = checkNotNull(projectId);
+    this.noteId = checkNotNull(noteId);
     this.data = checkNotNull(data);
   }
 
-  public Long getId() {
-    return id;
+  public Long getKey() {
+    return key;
+  }
+
+  public String getProjectId() {
+    return projectId;
   }
 
   public String getProjectName() {
-    return projectName;
+    return ProjectEntity.name(projectId);
+  }
+
+  public String getNoteId() {
+    return noteId;
   }
 
   public String getNoteName() {
-    return noteName;
+    return name(projectId, noteId);
   }
 
   /**
@@ -112,10 +125,42 @@ public class NoteEntity
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this)
-        .add("id", id)
-        .add("projectName", projectName)
-        .add("noteName", noteName)
+        .add("key", key)
+        .add("projectId", projectId)
+        .add("noteId", noteId)
         .add("data", data)
         .toString();
+  }
+
+  //
+  // Helpers
+  //
+
+  private static final String NAME_PREFIX = "projects/%s/notes/";
+
+  /**
+   * Convert note-id to note-name.
+   */
+  public static String name(final String projectId, final String noteId) {
+    checkNotNull(projectId);
+    checkNotNull(noteId);
+
+    return String.format(NAME_PREFIX + "%s", projectId, noteId);
+  }
+
+  /**
+   * Extract note-id from note-name.
+   */
+  @Nullable
+  public static String extractId(final String projectId, final String noteName) {
+    checkNotNull(projectId);
+    checkNotNull(noteName);
+
+    String prefix = String.format(NAME_PREFIX, projectId);
+    if (noteName.startsWith(prefix)) {
+      return noteName.substring(prefix.length(), noteName.length());
+    }
+
+    return null;
   }
 }

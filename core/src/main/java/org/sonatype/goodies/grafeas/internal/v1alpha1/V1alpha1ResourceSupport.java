@@ -79,13 +79,29 @@ public abstract class V1alpha1ResourceSupport
   }
 
   //
+  // Name resolvers
+  //
+
+  protected static String projectName(final String projectId) {
+    return String.format("projects/%s", projectId);
+  }
+
+  protected static String noteName(final String projectId, final String nodeId) {
+    return String.format("projects/%s/notes/%s", projectId, nodeId);
+  }
+
+  protected static String occurrenceName(final String projectId, final String occurrenceId) {
+    return String.format("projects/%s/occurrences/%s", projectId, occurrenceId);
+  }
+
+  //
   // Converters
   //
 
   protected ApiProject convert(final ProjectEntity entity) {
-    String name = entity.getName();
-    checkNotNull(name);
-    return new ApiProject().name(name);
+    String projectName = entity.getProjectName();
+    checkNotNull(projectName);
+    return new ApiProject().name(projectName);
   }
 
   protected ApiNote convert(final NoteEntity entity) {
@@ -124,8 +140,8 @@ public abstract class V1alpha1ResourceSupport
   /**
    * Ensure project with given name exists.
    */
-  protected ProjectEntity ensureProjectExists(final String projectName) {
-    ProjectEntity entity = getProjectDao().read(projectName);
+  protected ProjectEntity ensureProjectExists(final String projectId) {
+    ProjectEntity entity = getProjectDao().read(projectId);
     checkRequest(entity != null, "Invalid project");
     return entity;
   }

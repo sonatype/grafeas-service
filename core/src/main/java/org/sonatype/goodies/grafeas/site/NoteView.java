@@ -35,6 +35,10 @@ public class NoteView
     return note;
   }
 
+  public String getProjectId() {
+    return note.getProjectId();
+  }
+
   public String getProjectName() {
     return note.getProjectName();
   }

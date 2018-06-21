@@ -27,6 +27,8 @@ import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiNote;
 
 import io.dropwizard.hibernate.AbstractDAO;
 import org.hibernate.SessionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -40,20 +42,25 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class NoteEntityDao
     extends AbstractDAO<NoteEntity>
 {
+  private static final Logger log = LoggerFactory.getLogger(NoteEntityDao.class);
+
   @Inject
   public NoteEntityDao(final SessionFactory sessionFactory) {
     super(sessionFactory);
   }
 
   /**
-   * Browse notes for project.
+   * Browse notes for project-id.
    */
-  public List<NoteEntity> browse(final String projectName,
+  public List<NoteEntity> browse(final String projectId,
                                  @Nullable final String filter,
                                  @Nullable final Integer pageSize,
                                  @Nullable final String pageToken)
   {
-    checkNotNull(projectName);
+    checkNotNull(projectId);
+
+    log.trace("Browse: project-id={}, filter={}, page-size={}, page-token={}",
+        projectId, filter, pageSize, pageToken);
 
     // FIXME: add filter and browse support; it is not yet clearly defined what this is
 
@@ -61,34 +68,38 @@ public class NoteEntityDao
     CriteriaQuery<NoteEntity> query = builder.createQuery(NoteEntity.class);
     Root<NoteEntity> root = query.from(NoteEntity.class);
     query.where(
-        builder.equal(root.get("projectName"), projectName)
+        builder.equal(root.get("projectId"), projectId)
     );
     return currentSession().createQuery(query).list();
   }
 
   /**
-   * Read note for given entity identifier.
+   * Read note for given entity-key.
    */
   @Nullable
-  public NoteEntity read(final long id) {
-    return get(id);
+  public NoteEntity read(final long key) {
+    log.trace("Read: {}", key);
+
+    return get(key);
   }
 
   /**
-   * Read note for given project and name.
+   * Read note for given project-id and note-id
    */
   @Nullable
-  public NoteEntity read(final String projectName, final String noteName) {
-    checkNotNull(projectName);
-    checkNotNull(noteName);
+  public NoteEntity read(final String projectId, final String noteId) {
+    checkNotNull(projectId);
+    checkNotNull(noteId);
+
+    log.trace("Read: project-id={}, note-id={}", projectId, noteId);
 
     CriteriaBuilder builder = currentSession().getCriteriaBuilder();
     CriteriaQuery<NoteEntity> query = builder.createQuery(NoteEntity.class);
     Root<NoteEntity> root = query.from(NoteEntity.class);
     query.where(
         builder.and(
-            builder.equal(root.get("projectName"), projectName),
-            builder.equal(root.get("noteName"), noteName)
+            builder.equal(root.get("projectId"), projectId),
+            builder.equal(root.get("noteId"), noteId)
         )
     );
 
@@ -100,6 +111,8 @@ public class NoteEntityDao
    */
   public NoteEntity edit(final NoteEntity entity) {
     checkNotNull(entity);
+
+    log.trace("Edit: {}", entity);
 
     // adjust update-time
     ApiNote model = entity.getData();
@@ -115,6 +128,8 @@ public class NoteEntityDao
   public NoteEntity add(final NoteEntity entity) {
     checkNotNull(entity);
 
+    log.trace("Add: {}", entity);
+
     // adjust create-time
     ApiNote model = entity.getData();
     checkNotNull(model);
@@ -128,6 +143,8 @@ public class NoteEntityDao
    */
   public void delete(final NoteEntity entity) {
     checkNotNull(entity);
+
+    log.trace("Delete: {}", entity);
 
     currentSession().delete(entity);
   }

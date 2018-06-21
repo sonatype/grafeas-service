@@ -26,18 +26,17 @@
 
     <dl class="row">
       <dt class="col-sm-2">Project</dt>
-      <dd class="col-sm-9"><a href="${basePath}/project/${projectName}">
-        <i class="fas fa-cube"></i> ${projectName}</a></dd>
+      <dd class="col-sm-9"><a href="${basePath}/project/${project.projectId}">
+        <i class="fas fa-cube"></i> ${project.projectName}</a></dd>
     </dl>
 
-    <#list occurrences?sort_by("name")>
+    <#list occurrences?sort_by("occurrenceName")>
       <div class="table-responsive">
         <table class="table table-striped table-hover">
           <caption>${plural(occurrences?size, "occurrence")}</caption>
           <thead>
           <tr>
             <th scope="col">Name</th>
-            <#--<th scope="col">Description</th>-->
           </tr>
           </thead>
           <tbody>
@@ -45,16 +44,9 @@
             <#assign data=occurrence.data/>
             <tr>
               <td>
-                <a href="${basePath}/project/${projectName}/note/${noteName}/occurrence/${occurrence.name}"><i class="fas fa-location-arrow"></i> ${occurrence.name}</a>
+                <a href="${basePath}/project/${project.projectId}/note/${note.noteId}/occurrence/${occurrence.occurrenceId}">
+                  <i class="fas fa-location-arrow"></i> ${occurrence.occurrenceName}</a>
               </td>
-              <#--<td>-->
-                <#--&lt;#&ndash; generated models have fluent setters which conflict with default simple property access &ndash;&gt;-->
-                <#--<#if data.getShortDescription()?has_content>-->
-                  <#--${data.getShortDescription()}-->
-                <#--<#else>-->
-                  <#--<@missing_data "no description"/>-->
-                <#--</#if>-->
-              <#--</td>-->
             </tr>
             </#items>
           </tbody>

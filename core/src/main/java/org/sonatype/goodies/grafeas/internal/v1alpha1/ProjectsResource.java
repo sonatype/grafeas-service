@@ -28,6 +28,7 @@ import io.dropwizard.hibernate.UnitOfWork;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static org.sonatype.goodies.dropwizard.jaxrs.WebPreconditions.checkFound;
+import static org.sonatype.goodies.dropwizard.jaxrs.WebPreconditions.checkRequest;
 
 /**
  * {@link ProjectsEndpoint} resource.
@@ -58,11 +59,11 @@ public class ProjectsResource
 
   @Override
   @UnitOfWork
-  public ApiProject read(final String projectName) {
-    checkNotNull(projectName);
-    log.debug("Find: {}", projectName);
+  public ApiProject read(final String projectId) {
+    checkNotNull(projectId);
+    log.debug("Find: {}", projectId);
 
-    ProjectEntity entity = getProjectDao().read(projectName);
+    ProjectEntity entity = getProjectDao().read(projectId);
 
     log.debug("Found: {}", entity);
     checkFound(entity != null);
@@ -76,18 +77,21 @@ public class ProjectsResource
     checkNotNull(project);
     log.debug("Create: {}", project);
 
-    ProjectEntity entity = new ProjectEntity(project.getName());
+    String projectId = ProjectEntity.extractId(project.getName());
+    checkRequest(projectId != null);
+
+    ProjectEntity entity = new ProjectEntity(projectId);
     ProjectEntity created = getProjectDao().add(entity);
     log.debug("Created: {}", created);
   }
 
   @Override
   @UnitOfWork
-  public void delete(final String projectName) {
-    checkNotNull(projectName);
-    log.debug("Delete: {}", projectName);
+  public void delete(final String projectId) {
+    checkNotNull(projectId);
+    log.debug("Delete: {}", projectId);
 
-    ProjectEntity entity = getProjectDao().read(projectName);
+    ProjectEntity entity = getProjectDao().read(projectId);
     checkFound(entity != null);
 
     getProjectDao().delete(entity);

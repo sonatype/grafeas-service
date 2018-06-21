@@ -46,17 +46,18 @@ public class NotesResource
 {
   @UnitOfWork
   @Override
-  public ApiListNotesResponse browse(final String projectName,
+  public ApiListNotesResponse browse(final String projectId,
                                      @Nullable final String filter,
                                      @Nullable final Integer pageSize,
                                      @Nullable final String pageToken)
   {
-    checkNotNull(projectName);
-    log.debug("Browse; filter: {}, page-size: {}, page-token: {}", filter, pageSize, pageToken);
+    checkNotNull(projectId);
+    log.debug("Browse; project-id: {}, filter: {}, page-size: {}, page-token: {}",
+        projectId, filter, pageSize, pageToken);
 
-    ensureProjectExists(projectName);
+    ensureProjectExists(projectId);
 
-    List<ApiNote> models = getNoteDao().browse(projectName, filter, pageSize, pageToken)
+    List<ApiNote> models = getNoteDao().browse(projectId, filter, pageSize, pageToken)
         .stream().map(this::convert).collect(Collectors.toList());
     log.debug("Found: {}", models.size());
 
@@ -65,14 +66,14 @@ public class NotesResource
 
   @UnitOfWork
   @Override
-  public ApiNote read(final String projectName, final String noteName) {
-    checkNotNull(projectName);
-    checkNotNull(noteName);
-    log.debug("Find: {}/{}", projectName, noteName);
+  public ApiNote read(final String projectId, final String noteId) {
+    checkNotNull(projectId);
+    checkNotNull(noteId);
+    log.debug("Find: {}/{}", projectId, noteId);
 
-    ensureProjectExists(projectName);
+    ensureProjectExists(projectId);
 
-    NoteEntity entity = getNoteDao().read(projectName, noteName);
+    NoteEntity entity = getNoteDao().read(projectId, noteId);
 
     log.debug("Found: {}", entity);
     checkFound(entity != null);
@@ -82,11 +83,11 @@ public class NotesResource
 
   @UnitOfWork
   @Override
-  public ApiNote edit(final String projectName, final String noteName, final ApiNote note) {
-    checkNotNull(projectName);
-    checkNotNull(noteName);
+  public ApiNote edit(final String projectId, final String noteId, final ApiNote note) {
+    checkNotNull(projectId);
+    checkNotNull(noteId);
     checkNotNull(note);
-    log.debug("Edit: {}/{} -> {}", projectName, noteName, note);
+    log.debug("Edit: {}/{} -> {}", projectId, noteId, note);
 
     // ban updates for immutable properties
     checkRequest(note.getName() == null, "Name is immutable");
@@ -94,10 +95,10 @@ public class NotesResource
     checkRequest(note.getCreateTime() == null, "Create-time is immutable");
     checkRequest(note.getUpdateTime() == null, "Update-time is immutable");
 
-    ensureProjectExists(projectName);
+    ensureProjectExists(projectId);
 
-    NoteEntity entity = getNoteDao().read(projectName, noteName);
-    checkNotNull(entity);
+    NoteEntity entity = getNoteDao().read(projectId, noteId);
+    checkFound(entity != null);
 
     entity.setData(merge(entity.getData(), note));
     entity = getNoteDao().edit(entity);
@@ -108,17 +109,19 @@ public class NotesResource
 
   @UnitOfWork
   @Override
-  public ApiNote add(final String projectName, final ApiNote note) {
-    checkNotNull(projectName);
+  public ApiNote add(final String projectId, final ApiNote note) {
+    checkNotNull(projectId);
     checkNotNull(note);
-    log.debug("Create: {} -> {}", projectName, note);
+    log.debug("Create: {} -> {}", projectId, note);
 
-    String name = note.getName();
-    checkRequest(name != null, "Name required");
+    String noteName = note.getName();
+    checkRequest(noteName != null, "Name required");
+    String noteId = NoteEntity.extractId(projectId, noteName);
+    checkRequest(noteId != null);
 
-    ensureProjectExists(projectName);
+    ensureProjectExists(projectId);
 
-    NoteEntity entity = new NoteEntity(projectName, name, note);
+    NoteEntity entity = new NoteEntity(projectId, noteId, note);
 
     // TODO: verify if operation-name is given that operation exists
 
@@ -130,14 +133,14 @@ public class NotesResource
 
   @UnitOfWork
   @Override
-  public void delete(final String projectName, final String noteName) {
-    checkNotNull(projectName);
-    checkNotNull(noteName);
-    log.debug("Delete: {}/{}", projectName, noteName);
+  public void delete(final String projectId, final String noteId) {
+    checkNotNull(projectId);
+    checkNotNull(noteId);
+    log.debug("Delete: {}/{}", projectId, noteId);
 
-    ensureProjectExists(projectName);
+    ensureProjectExists(projectId);
 
-    NoteEntity entity = getNoteDao().read(projectName, noteName);
+    NoteEntity entity = getNoteDao().read(projectId, noteId);
     checkFound(entity != null);
 
     getNoteDao().delete(entity);
@@ -145,14 +148,14 @@ public class NotesResource
 
   @UnitOfWork
   @Override
-  public ApiListNoteOccurrencesResponse readOccurrences(final String projectName, final String noteName) {
-    checkNotNull(projectName);
-    checkNotNull(noteName);
-    log.debug("Read occurrences: {}/{}", projectName, noteName);
+  public ApiListNoteOccurrencesResponse readOccurrences(final String projectId, final String noteId) {
+    checkNotNull(projectId);
+    checkNotNull(noteId);
+    log.debug("Read occurrences: {}/{}", projectId, noteId);
 
-    ensureProjectExists(projectName);
+    ensureProjectExists(projectId);
 
-    NoteEntity entity = getNoteDao().read(projectName, noteName);
+    NoteEntity entity = getNoteDao().read(projectId, noteId);
     checkFound(entity != null);
 
     List<ApiOccurrence> occurrences = entity.getOccurrences()

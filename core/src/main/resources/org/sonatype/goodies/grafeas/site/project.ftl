@@ -24,12 +24,12 @@
   <div class="col">
     <h1><i class="fas fa-cube"></i> ${page_title}</h1>
     <p class="lead text-muted">
-      ${project.name}
+      ${project.projectName}
     </p>
 
     <dl class="row">
       <dt class="col-sm-2">Notes</dt>
-      <dd class="col-sm-9"><a href="${basePath}/project/${project.name}/notes">
+      <dd class="col-sm-9"><a href="${basePath}/project/${project.projectId}/notes">
         <i class="fas fa-sticky-note"></i> ${plural(project.notes?size, "note")}</a></dd>
     </dl>
   </div>

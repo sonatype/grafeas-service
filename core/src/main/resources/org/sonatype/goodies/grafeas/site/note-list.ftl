@@ -26,11 +26,11 @@
 
     <dl class="row">
       <dt class="col-sm-2">Project</dt>
-      <dd class="col-sm-9"><a href="${basePath}/project/${projectName}">
-        <i class="fas fa-cube"></i> ${projectName}</a></dd>
+      <dd class="col-sm-9"><a href="${basePath}/project/${project.projectId}">
+        <i class="fas fa-cube"></i> ${project.projectName}</a></dd>
     </dl>
 
-    <#list notes?sort_by("name")>
+    <#list notes?sort_by("noteName")>
       <div class="table-responsive">
         <table class="table table-striped table-hover">
           <caption>${plural(notes?size, "note")}</caption>
@@ -45,7 +45,7 @@
             <#assign data=note.data/>
             <tr>
               <td>
-                <a href="${basePath}/project/${note.projectName}/note/${note.name}"><i class="fas fa-sticky-note"></i> ${note.name}</a>
+                <a href="${basePath}/project/${note.projectId}/note/${note.noteId}"><i class="fas fa-sticky-note"></i> ${note.noteName}</a>
               </td>
               <td>
                 <#-- generated models have fluent setters which conflict with default simple property access -->

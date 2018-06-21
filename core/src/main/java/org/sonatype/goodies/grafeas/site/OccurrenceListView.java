@@ -14,7 +14,9 @@ package org.sonatype.goodies.grafeas.site;
 
 import java.util.List;
 
+import org.sonatype.goodies.grafeas.internal.v1alpha1.NoteEntity;
 import org.sonatype.goodies.grafeas.internal.v1alpha1.OccurrenceEntity;
+import org.sonatype.goodies.grafeas.internal.v1alpha1.ProjectEntity;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -26,25 +28,25 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class OccurrenceListView
   extends SiteViewSupport
 {
-  private final String projectName;
+  private final ProjectEntity project;
 
-  private final String noteName;
+  private final NoteEntity note;
 
   private final List<OccurrenceEntity> occurrences;
 
-  public OccurrenceListView(final String projectName, final String noteName, final List<OccurrenceEntity> occurrences) {
+  public OccurrenceListView(final ProjectEntity project, final NoteEntity note, final List<OccurrenceEntity> occurrences) {
     super("occurrence-list.ftl");
-    this.projectName = checkNotNull(projectName);
-    this.noteName = checkNotNull(noteName);
+    this.project = checkNotNull(project);
+    this.note = checkNotNull(note);
     this.occurrences = checkNotNull(occurrences);
   }
 
-  public String getProjectName() {
-    return projectName;
+  public ProjectEntity getProject() {
+    return project;
   }
 
-  public String getNoteName() {
-    return noteName;
+  public NoteEntity getNote() {
+    return note;
   }
 
   public List<OccurrenceEntity> getOccurrences() {

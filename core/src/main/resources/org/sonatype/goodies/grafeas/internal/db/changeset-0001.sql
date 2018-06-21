@@ -9,36 +9,38 @@
 CREATE SEQUENCE projects_sequence START WITH 1 INCREMENT BY 1;
 
 CREATE TABLE projects (
-  id INTEGER PRIMARY KEY,
-  name VARCHAR NOT NULL UNIQUE
+  key INTEGER PRIMARY KEY,
+  project_id VARCHAR NOT NULL UNIQUE
 );
 
 CREATE SEQUENCE notes_sequence START WITH 1 INCREMENT BY 1;
 
 CREATE TABLE notes (
-  id INTEGER PRIMARY KEY,
-  project_name VARCHAR NOT NULL,
-  note_name VARCHAR NOT NULL,
+  key INTEGER PRIMARY KEY,
+  project_id VARCHAR NOT NULL,
+  note_id VARCHAR NOT NULL,
   data CLOB,
-  UNIQUE (project_name, note_name)
+  UNIQUE (project_id, note_id)
 );
 
 CREATE SEQUENCE occurrences_sequence START WITH 1 INCREMENT BY 1;
 
 CREATE TABLE occurrences (
-  id INTEGER PRIMARY KEY,
-  project_name VARCHAR NOT NULL,
-  occurrence_name VARCHAR NOT NULL,
-  note_id BIGINT NOT NULL,
+  key INTEGER PRIMARY KEY,
+  project_id VARCHAR NOT NULL,
+  occurrence_id VARCHAR NOT NULL,
+  note_key BIGINT NOT NULL,
   data CLOB,
-  UNIQUE (project_name, occurrence_name),
-  FOREIGN KEY (note_id) REFERENCES notes(id)
+  UNIQUE (project_id, occurrence_id),
+  FOREIGN KEY (note_key) REFERENCES notes(key)
 );
+
+--FIXME: remove operations, its not relevant in v1beta1 and v1alpha1 has issues implementing
 
 CREATE SEQUENCE operations_sequence START WITH 1 INCREMENT BY 1;
 
 CREATE TABLE operations (
-  id INTEGER PRIMARY KEY,
+  key INTEGER PRIMARY KEY,
   project_name VARCHAR NOT NULL,
   operation_name VARCHAR NOT NULL,
   data CLOB,

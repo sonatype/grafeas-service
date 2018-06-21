@@ -45,17 +45,18 @@ public class OccurrencesResource
 {
   @UnitOfWork
   @Override
-  public ApiListOccurrencesResponse browse(final String projectName,
+  public ApiListOccurrencesResponse browse(final String projectId,
                                            @Nullable final String filter,
                                            @Nullable final Integer pageSize,
                                            @Nullable final String pageToken)
   {
-    checkNotNull(projectName);
-    log.debug("Browse; filter: {}, page-size: {}, page-token: {}", filter, pageSize, pageToken);
+    checkNotNull(projectId);
+    log.debug("Browse; project-id: {}, filter: {}, page-size: {}, page-token: {}",
+        projectId, filter, pageSize, pageToken);
 
-    ensureProjectExists(projectName);
+    ensureProjectExists(projectId);
 
-    List<ApiOccurrence> models = getOccurrenceDao().browse(projectName, filter, pageSize, pageToken)
+    List<ApiOccurrence> models = getOccurrenceDao().browse(projectId, filter, pageSize, pageToken)
         .stream().map(this::convert).collect(Collectors.toList());
     log.debug("Found: {}", models.size());
 
@@ -64,14 +65,14 @@ public class OccurrencesResource
 
   @UnitOfWork
   @Override
-  public ApiOccurrence read(final String projectName, final String occurrenceName) {
-    checkNotNull(projectName);
-    checkNotNull(occurrenceName);
-    log.debug("Find: {}/{}", projectName, occurrenceName);
+  public ApiOccurrence read(final String projectId, final String occurrenceId) {
+    checkNotNull(projectId);
+    checkNotNull(occurrenceId);
+    log.debug("Find: {}/{}", projectId, occurrenceId);
 
-    ensureProjectExists(projectName);
+    ensureProjectExists(projectId);
 
-    OccurrenceEntity entity = getOccurrenceDao().read(projectName, occurrenceName);
+    OccurrenceEntity entity = getOccurrenceDao().read(projectId, occurrenceId);
 
     log.debug("Found: {}", entity);
     checkFound(entity != null);
@@ -81,11 +82,11 @@ public class OccurrencesResource
 
   @UnitOfWork
   @Override
-  public ApiOccurrence edit(final String projectName, final String occurrenceName, final ApiOccurrence occurrence) {
-    checkNotNull(projectName);
-    checkNotNull(occurrenceName);
+  public ApiOccurrence edit(final String projectId, final String occurrenceId, final ApiOccurrence occurrence) {
+    checkNotNull(projectId);
+    checkNotNull(occurrenceId);
     checkNotNull(occurrence);
-    log.debug("Edit: {}/{} -> {}", projectName, occurrenceName, occurrence);
+    log.debug("Edit: {}/{} -> {}", projectId, occurrenceId, occurrence);
 
     // ban updates for immutable properties
     checkRequest(occurrence.getName() == null, "Name is immutable");
@@ -93,10 +94,10 @@ public class OccurrencesResource
     checkRequest(occurrence.getCreateTime() == null, "Create-time is immutable");
     checkRequest(occurrence.getUpdateTime() == null, "Update-time is immutable");
 
-    ensureProjectExists(projectName);
+    ensureProjectExists(projectId);
 
-    OccurrenceEntity entity = getOccurrenceDao().read(projectName, occurrenceName);
-    checkNotNull(entity);
+    OccurrenceEntity entity = getOccurrenceDao().read(projectId, occurrenceId);
+    checkFound(entity != null);
 
     entity.setData(merge(entity.getData(), occurrence));
     entity = getOccurrenceDao().edit(entity);
@@ -107,21 +108,24 @@ public class OccurrencesResource
 
   @UnitOfWork
   @Override
-  public ApiOccurrence add(final String projectName, final ApiOccurrence occurrence) {
-    checkNotNull(projectName);
+  public ApiOccurrence add(final String projectId, final ApiOccurrence occurrence) {
+    checkNotNull(projectId);
     checkNotNull(occurrence);
-    log.debug("Create: {} -> {}", projectName, occurrence);
+    log.debug("Create: {} -> {}", projectId, occurrence);
 
-    String name = occurrence.getName();
-    checkRequest(name != null, "Name required");
+    String occurrenceName = occurrence.getName();
+    checkRequest(occurrenceName != null, "Name required");
+    String occurrenceId = OccurrenceEntity.extractId(projectId, occurrenceName);
 
-    ensureProjectExists(projectName);
+    ensureProjectExists(projectId);
 
     // look up parent note
-    NoteEntity note = getNoteDao().read(projectName, occurrence.getNoteName());
+    // FIXME: this may not be correct, if occurrences can reference notes in other projects?
+    String noteId = NoteEntity.extractId(projectId, occurrence.getNoteName());
+    NoteEntity note = getNoteDao().read(projectId, noteId);
     checkRequest(note != null, "Invalid note");
 
-    OccurrenceEntity entity = new OccurrenceEntity(projectName, name, note, occurrence);
+    OccurrenceEntity entity = new OccurrenceEntity(projectId, occurrenceId, note, occurrence);
 
     // TODO: verify if operation-name is given that operation exists
 
@@ -133,14 +137,14 @@ public class OccurrencesResource
 
   @UnitOfWork
   @Override
-  public void delete(final String projectName, final String occurrenceName) {
-    checkNotNull(projectName);
-    checkNotNull(occurrenceName);
-    log.debug("Delete: {}/{}", projectName, occurrenceName);
+  public void delete(final String projectId, final String occurrenceId) {
+    checkNotNull(projectId);
+    checkNotNull(occurrenceId);
+    log.debug("Delete: {}/{}", projectId, occurrenceId);
 
-    ensureProjectExists(projectName);
+    ensureProjectExists(projectId);
 
-    OccurrenceEntity entity = getOccurrenceDao().read(projectName, occurrenceName);
+    OccurrenceEntity entity = getOccurrenceDao().read(projectId, occurrenceId);
     checkFound(entity != null);
 
     getOccurrenceDao().delete(entity);
@@ -148,14 +152,14 @@ public class OccurrencesResource
 
   @UnitOfWork
   @Override
-  public ApiNote readNote(final String projectName, final String occurrenceName) {
-    checkNotNull(projectName);
-    checkNotNull(occurrenceName);
-    log.debug("Read note: {}/{}", projectName, occurrenceName);
+  public ApiNote readNote(final String projectId, final String occurrenceId) {
+    checkNotNull(projectId);
+    checkNotNull(occurrenceId);
+    log.debug("Read note: {}/{}", projectId, occurrenceId);
 
-    ensureProjectExists(projectName);
+    ensureProjectExists(projectId);
 
-    OccurrenceEntity entity = getOccurrenceDao().read(projectName, occurrenceName);
+    OccurrenceEntity entity = getOccurrenceDao().read(projectId, occurrenceId);
     checkFound(entity != null);
 
     return convert(entity.getNote());

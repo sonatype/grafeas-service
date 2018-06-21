@@ -35,8 +35,16 @@ public class OccurrenceView
     return occurrence;
   }
 
+  public String getProjectId() {
+    return occurrence.getProjectId();
+  }
+
   public String getProjectName() {
     return occurrence.getProjectName();
+  }
+
+  public String getNoteId() {
+    return occurrence.getNote().getNoteId();
   }
 
   public String getNoteName() {

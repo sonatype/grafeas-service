@@ -24,18 +24,18 @@
   <div class="col">
     <h1><i class="fas fa-sticky-note"></i> ${page_title}</h1>
     <p class="lead text-muted">
-      ${note.name}
+      ${note.noteName}
     </p>
 
     <dl class="row">
       <dt class="col-sm-2">Project</dt>
-      <dd class="col-sm-9"><a href="${basePath}/project/${projectName}">
+      <dd class="col-sm-9"><a href="${basePath}/project/${projectId}">
         <i class="fas fa-cube"></i> ${projectName}</a></dd>
 
       <#-- TODO: add more bits from data model -->
 
       <dt class="col-sm-2">Occurrences</dt>
-      <dd class="col-sm-9"><a href="${basePath}/project/${projectName}/note/${note.name}/occurrences">
+      <dd class="col-sm-9"><a href="${basePath}/project/${projectId}/note/${note.noteId}/occurrences">
         <i class="fas fa-location-arrow"></i> ${plural(note.occurrences?size, "occurrence")}</a></dd>
     </dl>
 </div>

@@ -24,6 +24,8 @@ import javax.persistence.criteria.Root;
 
 import io.dropwizard.hibernate.AbstractDAO;
 import org.hibernate.SessionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -37,6 +39,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class ProjectEntityDao
     extends AbstractDAO<ProjectEntity>
 {
+  private static final Logger log = LoggerFactory.getLogger(ProjectEntityDao.class);
+
   @Inject
   public ProjectEntityDao(final SessionFactory sessionFactory) {
     super(sessionFactory);
@@ -49,6 +53,8 @@ public class ProjectEntityDao
                                     @Nullable final Integer pageSize,
                                     @Nullable final String pageToken)
   {
+    log.trace("Browse: filter={}, page-size={}, page-token={}", filter, pageSize, pageToken);
+
     // FIXME: add filter and browse support; it is not yet clearly defined what this is
 
     CriteriaBuilder builder = currentSession().getCriteriaBuilder();
@@ -58,24 +64,28 @@ public class ProjectEntityDao
   }
 
   /**
-   * Read project for given entity identifier.
+   * Read project for given entity-key.
    */
   @Nullable
-  public ProjectEntity read(final long id) {
-    return get(id);
+  public ProjectEntity read(final long key) {
+    log.trace("Read: {}", key);
+
+    return get(key);
   }
 
   /**
-   * Read project for given name.
+   * Read project for given ID.
    */
   @Nullable
-  public ProjectEntity read(final String projectName) {
-    checkNotNull(projectName);
+  public ProjectEntity read(final String projectId) {
+    checkNotNull(projectId);
+
+    log.trace("Read: project-id={}", projectId);
 
     CriteriaBuilder builder = currentSession().getCriteriaBuilder();
     CriteriaQuery<ProjectEntity> query = builder.createQuery(ProjectEntity.class);
     Root<ProjectEntity> root = query.from(ProjectEntity.class);
-    query.where(builder.equal(root.get("name"), projectName));
+    query.where(builder.equal(root.get("projectId"), projectId));
 
     return uniqueResult(query);
   }
@@ -86,6 +96,8 @@ public class ProjectEntityDao
   public ProjectEntity add(final ProjectEntity entity) {
     checkNotNull(entity);
 
+    log.trace("Add: {}", entity);
+
     return persist(entity);
   }
 
@@ -94,6 +106,8 @@ public class ProjectEntityDao
    */
   public void delete(final ProjectEntity entity) {
     checkNotNull(entity);
+
+    log.trace("Delete: {}", entity);
 
     currentSession().delete(entity);
   }

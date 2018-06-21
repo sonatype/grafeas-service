@@ -22,12 +22,16 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.sonatype.goodies.dropwizard.jaxrs.ResourceSupport;
+import org.sonatype.goodies.dropwizard.jaxrs.WebPreconditions;
 import org.sonatype.goodies.grafeas.internal.v1alpha1.NoteEntityDao;
+import org.sonatype.goodies.grafeas.internal.v1alpha1.ProjectEntity;
+import org.sonatype.goodies.grafeas.internal.v1alpha1.ProjectEntityDao;
 
 import io.dropwizard.hibernate.UnitOfWork;
 import io.dropwizard.views.View;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static org.sonatype.goodies.dropwizard.jaxrs.WebPreconditions.*;
 
 /**
  * Note resource.
@@ -41,24 +45,29 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class NoteResource
     extends ResourceSupport
 {
+  private final ProjectEntityDao projectEntityDao;
+
   private final NoteEntityDao noteEntityDao;
 
   @Inject
-  public NoteResource(final NoteEntityDao noteEntityDao) {
+  public NoteResource(final ProjectEntityDao projectEntityDao, final NoteEntityDao noteEntityDao) {
+    this.projectEntityDao = checkNotNull(projectEntityDao);
     this.noteEntityDao = checkNotNull(noteEntityDao);
   }
 
   @GET
-  @Path("project/{project}/notes")
+  @Path("project/{project_id}/notes")
   @UnitOfWork
-  public View list(@PathParam("project") final String projectName) {
-    return new NoteListView(projectName, noteEntityDao.browse(projectName, null, null, null));
+  public View list(@PathParam("project_id") final String projectId) {
+    ProjectEntity project = projectEntityDao.read(projectId);
+    checkFound(project != null);
+    return new NoteListView(project, project.getNotes());
   }
 
   @GET
-  @Path("project/{project}/note/{name}")
+  @Path("project/{project_id}/note/{note_id}")
   @UnitOfWork
-  public View get(@PathParam("project") final String projectName, @PathParam("name") final String name) {
-    return new NoteView(noteEntityDao.read(projectName, name));
+  public View get(@PathParam("project_id") final String projectId, @PathParam("note_id") final String noteId) {
+    return new NoteView(noteEntityDao.read(projectId, noteId));
   }
 }

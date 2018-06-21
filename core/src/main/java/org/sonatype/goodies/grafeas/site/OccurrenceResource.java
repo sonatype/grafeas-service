@@ -25,6 +25,8 @@ import org.sonatype.goodies.dropwizard.jaxrs.ResourceSupport;
 import org.sonatype.goodies.grafeas.internal.v1alpha1.NoteEntity;
 import org.sonatype.goodies.grafeas.internal.v1alpha1.NoteEntityDao;
 import org.sonatype.goodies.grafeas.internal.v1alpha1.OccurrenceEntityDao;
+import org.sonatype.goodies.grafeas.internal.v1alpha1.ProjectEntity;
+import org.sonatype.goodies.grafeas.internal.v1alpha1.ProjectEntityDao;
 
 import io.dropwizard.hibernate.UnitOfWork;
 import io.dropwizard.views.View;
@@ -44,37 +46,46 @@ import static org.sonatype.goodies.dropwizard.jaxrs.WebPreconditions.checkFound;
 public class OccurrenceResource
     extends ResourceSupport
 {
+  private final ProjectEntityDao projectEntityDao;
+
   private final NoteEntityDao noteEntityDao;
 
   private final OccurrenceEntityDao occurrenceEntityDao;
 
   @Inject
-  public OccurrenceResource(final NoteEntityDao noteEntityDao, final OccurrenceEntityDao occurrenceEntityDao) {
+  public OccurrenceResource(final ProjectEntityDao projectEntityDao,
+                            final NoteEntityDao noteEntityDao,
+                            final OccurrenceEntityDao occurrenceEntityDao)
+  {
+    this.projectEntityDao = checkNotNull(projectEntityDao);
     this.noteEntityDao = checkNotNull(noteEntityDao);
     this.occurrenceEntityDao = checkNotNull(occurrenceEntityDao);
   }
 
   @GET
-  @Path("project/{project}/note/{note}/occurrences")
+  @Path("project/{project_id}/note/{note_id}/occurrences")
   @UnitOfWork
-  public View list(@PathParam("project") final String projectName,
-                   @PathParam("note") final String noteName)
+  public View list(@PathParam("project_id") final String projectId,
+                   @PathParam("note_id") final String noteId)
   {
-    NoteEntity note = noteEntityDao.read(projectName, noteName);
+    ProjectEntity project = projectEntityDao.read(projectId);
+    checkFound(project != null);
+
+    NoteEntity note = noteEntityDao.read(projectId, noteId);
     checkFound(note != null);
 
-    return new OccurrenceListView(projectName, noteName, note.getOccurrences());
+    return new OccurrenceListView(project, note, note.getOccurrences());
   }
 
   @GET
-  @Path("project/{project}/note/{note}/occurrence/{name}")
+  @Path("project/{project_id}/note/{note_id}/occurrence/{occurrence_id}")
   @UnitOfWork
-  public View get(@PathParam("project") final String projectName,
-                  @PathParam("note") final String noteName,
-                  @PathParam("name") final String occurrenceName)
+  public View get(@PathParam("project_id") final String projectId,
+                  @PathParam("note_id") final String noteId,
+                  @PathParam("occurrence_id") final String occurrenceId)
   {
     // FIXME: how does note relate to model here?
 
-    return new OccurrenceView(occurrenceEntityDao.read(projectName, occurrenceName));
+    return new OccurrenceView(occurrenceEntityDao.read(projectId, occurrenceId));
   }
 }

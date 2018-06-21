@@ -56,9 +56,9 @@ public class ProjectResource
   }
 
   @GET
-  @Path("project/{name}")
+  @Path("project/{project_id}")
   @UnitOfWork
-  public View get(@PathParam("name") final String name) {
-    return new ProjectView(projectDao.read(name));
+  public View get(@PathParam("project_id") final String projectId) {
+    return new ProjectView(projectDao.read(projectId));
   }
 }

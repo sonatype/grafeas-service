@@ -56,14 +56,14 @@ public interface ProjectsEndpoint
                                  @QueryParam("page_token") @Nullable String pageToken);
 
   @GET
-  @Path("{name}")
+  @Path("{project_id}")
   @Produces(APPLICATION_JSON)
   @ApiOperation(value = "Read project")
   @ApiResponses({
       @ApiResponse(code = 200, message = "Project"),
       @ApiResponse(code = 404, message = "Project not found")
   })
-  ApiProject read(@PathParam("name") @ApiParam("Project name") String projectName);
+  ApiProject read(@PathParam("project_id") @ApiParam("Project ID") String projectId);
 
   @POST
   @Consumes(APPLICATION_JSON)
@@ -74,11 +74,11 @@ public interface ProjectsEndpoint
   void add(@ApiParam("Project") ApiProject project);
 
   @DELETE
-  @Path("{name}")
+  @Path("{project_id}")
   @ApiOperation(value = "Delete project")
   @ApiResponses({
       @ApiResponse(code = 204, message = "Project deleted"),
       @ApiResponse(code = 404, message = "Project not found")
   })
-  void delete(@PathParam("name") @ApiParam("Project name") String projectName);
+  void delete(@PathParam("project_id") @ApiParam("Project ID") String projectId);
 }
