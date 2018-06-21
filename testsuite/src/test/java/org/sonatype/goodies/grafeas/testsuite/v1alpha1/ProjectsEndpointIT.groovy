@@ -54,14 +54,14 @@ class ProjectsEndpointIT
     def ep = dropwizard.endpoint(ProjectsEndpoint.class)
 
     def project1 = new ApiProject(
-        name: 'foo'
+        name: 'projects/foo'
     )
     log project1
     ep.add(project1)
 
     def project2 = ep.read('foo')
     log project2
-    assert project2.name == 'foo'
+    assert project2.name == 'projects/foo'
 
     ep.browse(null, null, null).with {
       assert it.projects.size() == 1
