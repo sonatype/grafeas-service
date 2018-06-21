@@ -51,7 +51,8 @@ public class OccurrencesResource
                                            @Nullable final String pageToken)
   {
     checkNotNull(projectId);
-    log.debug("Browse; filter: {}, page-size: {}, page-token: {}", filter, pageSize, pageToken);
+    log.debug("Browse; project-id: {}, filter: {}, page-size: {}, page-token: {}",
+        projectId, filter, pageSize, pageToken);
 
     ensureProjectExists(projectId);
 
@@ -114,15 +115,13 @@ public class OccurrencesResource
 
     String occurrenceName = occurrence.getName();
     checkRequest(occurrenceName != null, "Name required");
-    // TODO: validate occurrence-name
-    // TODO: extract occurrence-id
-    String occurrenceId = "FIXME";
+    String occurrenceId = OccurrenceEntity.extractId(projectId, occurrenceName);
 
     ensureProjectExists(projectId);
 
     // look up parent note
-    // TODO: extract note-id
-    String noteId = "FIXME";
+    // FIXME: this may not be correct, if occurrences can reference notes in other projects?
+    String noteId = NoteEntity.extractId(projectId, occurrence.getNoteName());
     NoteEntity note = getNoteDao().read(projectId, noteId);
     checkRequest(note != null, "Invalid note");
 

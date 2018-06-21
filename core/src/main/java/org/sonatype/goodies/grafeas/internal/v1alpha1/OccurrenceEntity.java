@@ -14,6 +14,7 @@ package org.sonatype.goodies.grafeas.internal.v1alpha1;
 
 import java.io.Serializable;
 
+import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -140,7 +141,31 @@ public class OccurrenceEntity
   // Helpers
   //
 
+  private static final String NAME_PREFIX = "projects/%s/occurrences/";
+
+  /**
+   * Convert occurrence-id to occurrence-name.
+   */
   public static String name(final String projectId, final String occurrenceId) {
-    return String.format("projects/%s/occurrences/%s", projectId, occurrenceId);
+    checkNotNull(projectId);
+    checkNotNull(occurrenceId);
+
+    return String.format(NAME_PREFIX + "%s", projectId, occurrenceId);
+  }
+
+  /**
+   * Extract occurrence-id from occurrence-name.
+   */
+  @Nullable
+  public static String extractId(final String projectId, final String occurrenceName) {
+    checkNotNull(projectId);
+    checkNotNull(occurrenceName);
+
+    String prefix = String.format(NAME_PREFIX, projectId);
+    if (occurrenceName.startsWith(prefix)) {
+      return occurrenceName.substring(prefix.length(), occurrenceName.length());
+    }
+
+    return null;
   }
 }

@@ -26,7 +26,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.print.attribute.standard.MediaSize.NA;
 
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiNote;
 
