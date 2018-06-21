@@ -28,6 +28,7 @@ import io.dropwizard.hibernate.UnitOfWork;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static org.sonatype.goodies.dropwizard.jaxrs.WebPreconditions.checkFound;
+import static org.sonatype.goodies.dropwizard.jaxrs.WebPreconditions.checkRequest;
 
 /**
  * {@link ProjectsEndpoint} resource.
@@ -76,10 +77,8 @@ public class ProjectsResource
     checkNotNull(project);
     log.debug("Create: {}", project);
 
-    String projectName = project.getName();
-    // TODO: validate project name
-    // TODO: extract project-id
-    String projectId = "FIXME";
+    String projectId = ProjectEntity.extractId(project.getName());
+    checkRequest(projectId != null);
 
     ProjectEntity entity = new ProjectEntity(projectId);
     ProjectEntity created = getProjectDao().add(entity);

@@ -13,9 +13,9 @@
 package org.sonatype.goodies.grafeas.internal.v1alpha1;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.List;
 
+import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -25,6 +25,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.Null;
 
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiProject;
 
@@ -98,7 +99,25 @@ public class ProjectEntity
   // Helpers
   //
 
+  private static String PREFIX = "projects/";
+
+  /**
+   * Convert project-id to project-name.
+   */
   public static String name(final String projectId) {
-    return String.format("projects/%s", projectId);
+    checkNotNull(projectId);
+    return String.format("%s%s", PREFIX, projectId);
+  }
+
+  /**
+   * Extract project-id from project-name.
+   */
+  @Nullable
+  public static String extractId(final String projectName) {
+    checkNotNull(projectName);
+    if (projectName.startsWith(PREFIX)) {
+      return projectName.substring(PREFIX.length(), projectName.length());
+    }
+    return null;
   }
 }
