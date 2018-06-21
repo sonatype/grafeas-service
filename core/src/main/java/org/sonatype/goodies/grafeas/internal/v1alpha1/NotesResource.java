@@ -52,7 +52,8 @@ public class NotesResource
                                      @Nullable final String pageToken)
   {
     checkNotNull(projectId);
-    log.debug("Browse; filter: {}, page-size: {}, page-token: {}", filter, pageSize, pageToken);
+    log.debug("Browse; project-id: {}, filter: {}, page-size: {}, page-token: {}",
+        projectId, filter, pageSize, pageToken);
 
     ensureProjectExists(projectId);
 
@@ -115,9 +116,8 @@ public class NotesResource
 
     String noteName = note.getName();
     checkRequest(noteName != null, "Name required");
-    // TODO: validate note name
-    // TODO: extract note-id
-    String noteId = "FIXME";
+    String noteId = NoteEntity.extractId(projectId, noteName);
+    checkRequest(noteId != null);
 
     ensureProjectExists(projectId);
 

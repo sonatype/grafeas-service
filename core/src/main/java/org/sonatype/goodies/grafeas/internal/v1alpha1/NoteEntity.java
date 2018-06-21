@@ -15,6 +15,7 @@ package org.sonatype.goodies.grafeas.internal.v1alpha1;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -25,6 +26,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.print.attribute.standard.MediaSize.NA;
 
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiNote;
 
@@ -135,7 +137,31 @@ public class NoteEntity
   // Helpers
   //
 
+  private static final String NAME_PREFIX = "projects/%s/notes/";
+
+  /**
+   * Convert note-id to note-name.
+   */
   public static String name(final String projectId, final String noteId) {
-    return String.format("projects/%s/notes/%s", projectId, noteId);
+    checkNotNull(projectId);
+    checkNotNull(noteId);
+
+    return String.format(NAME_PREFIX + "%s", projectId, noteId);
+  }
+
+  /**
+   * Extract note-id from note-name.
+   */
+  @Nullable
+  public static String extractId(final String projectId, final String noteName) {
+    checkNotNull(projectId);
+    checkNotNull(noteName);
+
+    String prefix = String.format(NAME_PREFIX, projectId);
+    if (noteName.startsWith(prefix)) {
+      return noteName.substring(prefix.length(), noteName.length());
+    }
+
+    return null;
   }
 }

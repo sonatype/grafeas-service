@@ -25,7 +25,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.validation.constraints.Null;
 
 import org.sonatype.goodies.grafeas.api.v1alpha1.model.ApiProject;
 
@@ -99,14 +98,15 @@ public class ProjectEntity
   // Helpers
   //
 
-  private static String PREFIX = "projects/";
+  private static final String NAME_PREFIX = "projects/";
 
   /**
    * Convert project-id to project-name.
    */
   public static String name(final String projectId) {
     checkNotNull(projectId);
-    return String.format("%s%s", PREFIX, projectId);
+
+    return String.format("%s%s", NAME_PREFIX, projectId);
   }
 
   /**
@@ -115,9 +115,11 @@ public class ProjectEntity
   @Nullable
   public static String extractId(final String projectName) {
     checkNotNull(projectName);
-    if (projectName.startsWith(PREFIX)) {
-      return projectName.substring(PREFIX.length(), projectName.length());
+
+    if (projectName.startsWith(NAME_PREFIX)) {
+      return projectName.substring(NAME_PREFIX.length(), projectName.length());
     }
+
     return null;
   }
 }
