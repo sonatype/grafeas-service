@@ -123,8 +123,6 @@ public class NotesResource
 
     NoteEntity entity = new NoteEntity(projectId, noteId, note);
 
-    // TODO: verify if operation-name is given that operation exists
-
     entity = getNoteDao().add(entity);
     log.debug("Created: {}", entity);
 

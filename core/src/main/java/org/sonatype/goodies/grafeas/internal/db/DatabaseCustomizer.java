@@ -20,7 +20,6 @@ import org.sonatype.goodies.grafeas.GrafeasApplication;
 import org.sonatype.goodies.grafeas.GrafeasConfiguration;
 import org.sonatype.goodies.grafeas.internal.v1alpha1.NoteEntity;
 import org.sonatype.goodies.grafeas.internal.v1alpha1.OccurrenceEntity;
-import org.sonatype.goodies.grafeas.internal.v1alpha1.OperationEntity;
 import org.sonatype.goodies.grafeas.internal.v1alpha1.ProjectEntity;
 
 import com.google.common.collect.ImmutableList;
@@ -62,8 +61,7 @@ public class DatabaseCustomizer
     ImmutableList<Class<?>> entities = ImmutableList.of(
         ProjectEntity.class,
         NoteEntity.class,
-        OccurrenceEntity.class,
-        OperationEntity.class
+        OccurrenceEntity.class
     );
 
     hibernate = new HibernateBundle<GrafeasConfiguration>(entities, new SessionFactoryFactory()) {

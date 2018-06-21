@@ -127,8 +127,6 @@ public class OccurrencesResource
 
     OccurrenceEntity entity = new OccurrenceEntity(projectId, occurrenceId, note, occurrence);
 
-    // TODO: verify if operation-name is given that operation exists
-
     entity = getOccurrenceDao().add(entity);
     log.debug("Created: {}", entity);
 
