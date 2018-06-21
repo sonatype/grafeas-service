@@ -24,7 +24,7 @@
   <div class="col">
     <h1><i class="fas fa-cubes"></i> ${page_title}</h1>
 
-    <#list projects?sort_by("name")>
+    <#list projects?sort_by("projectName")>
       <div class="table-responsive">
         <table class="table table-striped table-hover">
           <caption>${plural(projects?size, "project")}</caption>
@@ -37,7 +37,7 @@
             <#items as project>
             <tr>
               <td>
-                <a href="${basePath}/project/${project.name}"><i class="fas fa-cube"></i> ${project.name}</a>
+                <a href="${basePath}/project/${project.projectId}"><i class="fas fa-cube"></i> ${project.projectName}</a>
               </td>
             </tr>
             </#items>

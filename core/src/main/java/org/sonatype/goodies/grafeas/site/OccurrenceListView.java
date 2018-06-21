@@ -26,25 +26,25 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class OccurrenceListView
   extends SiteViewSupport
 {
-  private final String projectName;
+  private final String projectId;
 
-  private final String noteName;
+  private final String noteId;
 
   private final List<OccurrenceEntity> occurrences;
 
-  public OccurrenceListView(final String projectName, final String noteName, final List<OccurrenceEntity> occurrences) {
+  public OccurrenceListView(final String projectId, final String noteId, final List<OccurrenceEntity> occurrences) {
     super("occurrence-list.ftl");
-    this.projectName = checkNotNull(projectName);
-    this.noteName = checkNotNull(noteName);
+    this.projectId = checkNotNull(projectId);
+    this.noteId = checkNotNull(noteId);
     this.occurrences = checkNotNull(occurrences);
   }
 
-  public String getProjectName() {
-    return projectName;
+  public String getProjectId() {
+    return projectId;
   }
 
-  public String getNoteName() {
-    return noteName;
+  public String getNoteId() {
+    return noteId;
   }
 
   public List<OccurrenceEntity> getOccurrences() {

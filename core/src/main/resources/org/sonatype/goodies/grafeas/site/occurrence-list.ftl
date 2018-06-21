@@ -26,11 +26,11 @@
 
     <dl class="row">
       <dt class="col-sm-2">Project</dt>
-      <dd class="col-sm-9"><a href="${basePath}/project/${projectName}">
-        <i class="fas fa-cube"></i> ${projectName}</a></dd>
+      <dd class="col-sm-9"><a href="${basePath}/project/${projectId}">
+        <i class="fas fa-cube"></i> ${projectId}</a></dd>
     </dl>
 
-    <#list occurrences?sort_by("name")>
+    <#list occurrences?sort_by("occurrenceName")>
       <div class="table-responsive">
         <table class="table table-striped table-hover">
           <caption>${plural(occurrences?size, "occurrence")}</caption>
@@ -45,7 +45,7 @@
             <#assign data=occurrence.data/>
             <tr>
               <td>
-                <a href="${basePath}/project/${projectName}/note/${noteName}/occurrence/${occurrence.name}"><i class="fas fa-location-arrow"></i> ${occurrence.name}</a>
+                <a href="${basePath}/project/${projectId}/note/${noteId}/occurrence/${occurrence.occurrenceId}"><i class="fas fa-location-arrow"></i> ${occurrence.occurrenceName}</a>
               </td>
               <#--<td>-->
                 <#--&lt;#&ndash; generated models have fluent setters which conflict with default simple property access &ndash;&gt;-->

@@ -55,26 +55,26 @@ public class OccurrenceResource
   }
 
   @GET
-  @Path("project/{project}/note/{note}/occurrences")
+  @Path("project/{project_id}/note/{note_id}/occurrences")
   @UnitOfWork
-  public View list(@PathParam("project") final String projectName,
-                   @PathParam("note") final String noteName)
+  public View list(@PathParam("project_id") final String projectId,
+                   @PathParam("note_id") final String noteId)
   {
-    NoteEntity note = noteEntityDao.read(projectName, noteName);
+    NoteEntity note = noteEntityDao.read(projectId, noteId);
     checkFound(note != null);
 
-    return new OccurrenceListView(projectName, noteName, note.getOccurrences());
+    return new OccurrenceListView(projectId, noteId, note.getOccurrences());
   }
 
   @GET
-  @Path("project/{project}/note/{note}/occurrence/{name}")
+  @Path("project/{project_id}/note/{note_id}/occurrence/{occurrence_id}")
   @UnitOfWork
-  public View get(@PathParam("project") final String projectName,
-                  @PathParam("note") final String noteName,
-                  @PathParam("name") final String occurrenceName)
+  public View get(@PathParam("project_id") final String projectId,
+                  @PathParam("note_id") final String noteId,
+                  @PathParam("occurrence_id") final String occurrenceId)
   {
     // FIXME: how does note relate to model here?
 
-    return new OccurrenceView(occurrenceEntityDao.read(projectName, occurrenceName));
+    return new OccurrenceView(occurrenceEntityDao.read(projectId, occurrenceId));
   }
 }

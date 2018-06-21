@@ -26,18 +26,18 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class NoteListView
   extends SiteViewSupport
 {
-  private final String projectName;
+  private final String projectId;
 
   private final List<NoteEntity> notes;
 
-  public NoteListView(final String projectName, final List<NoteEntity> notes) {
+  public NoteListView(final String projectId, final List<NoteEntity> notes) {
     super("note-list.ftl");
-    this.projectName = checkNotNull(projectName);
+    this.projectId = checkNotNull(projectId);
     this.notes = checkNotNull(notes);
   }
 
-  public String getProjectName() {
-    return projectName;
+  public String getProjectId() {
+    return projectId;
   }
 
   public List<NoteEntity> getNotes() {

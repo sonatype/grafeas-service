@@ -69,7 +69,7 @@ public class NoteEntity
    */
   @SuppressWarnings("unused")
   @OneToMany(fetch = FetchType.LAZY)
-  @JoinColumn(name = "note_id")
+  @JoinColumn(name = "note_key")
   private List<OccurrenceEntity> occurrences;
 
   @SuppressWarnings("unused")

@@ -12,6 +12,7 @@
  */
 package org.sonatype.goodies.grafeas.site;
 
+import org.sonatype.goodies.grafeas.internal.v1alpha1.NoteEntity;
 import org.sonatype.goodies.grafeas.internal.v1alpha1.OccurrenceEntity;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -35,8 +36,16 @@ public class OccurrenceView
     return occurrence;
   }
 
+  public String getProjectId() {
+    return occurrence.getProjectId();
+  }
+
   public String getProjectName() {
     return occurrence.getProjectName();
+  }
+
+  public String getNoteId() {
+    return NoteEntity.extractId(getProjectId(), occurrence.getNote().getName());
   }
 
   public String getNoteName() {
