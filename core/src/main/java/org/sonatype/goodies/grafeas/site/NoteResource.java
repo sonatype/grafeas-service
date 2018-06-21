@@ -58,7 +58,7 @@ public class NoteResource
   @GET
   @Path("project/{project_id}/notes")
   @UnitOfWork
-  public View list(@PathParam("project_id") final String projectId) {
+  public View projectNotes(@PathParam("project_id") final String projectId) {
     ProjectEntity project = projectEntityDao.read(projectId);
     checkFound(project != null);
     return new NoteListView(project, project.getNotes());
@@ -67,7 +67,7 @@ public class NoteResource
   @GET
   @Path("project/{project_id}/note/{note_id}")
   @UnitOfWork
-  public View get(@PathParam("project_id") final String projectId, @PathParam("note_id") final String noteId) {
+  public View projectNote(@PathParam("project_id") final String projectId, @PathParam("note_id") final String noteId) {
     return new NoteView(noteEntityDao.read(projectId, noteId));
   }
 }

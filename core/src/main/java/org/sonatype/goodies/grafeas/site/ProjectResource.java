@@ -51,14 +51,14 @@ public class ProjectResource
   @GET
   @Path("projects")
   @UnitOfWork
-  public View list() {
+  public View projects() {
     return new ProjectListView(projectDao.browse(null, null, null));
   }
 
   @GET
   @Path("project/{project_id}")
   @UnitOfWork
-  public View get(@PathParam("project_id") final String projectId) {
+  public View project(@PathParam("project_id") final String projectId) {
     return new ProjectView(projectDao.read(projectId));
   }
 }

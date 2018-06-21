@@ -65,8 +65,8 @@ public class OccurrenceResource
   @GET
   @Path("project/{project_id}/note/{note_id}/occurrences")
   @UnitOfWork
-  public View list(@PathParam("project_id") final String projectId,
-                   @PathParam("note_id") final String noteId)
+  public View noteOccurrences(@PathParam("project_id") final String projectId,
+                              @PathParam("note_id") final String noteId)
   {
     ProjectEntity project = projectEntityDao.read(projectId);
     checkFound(project != null);
@@ -78,14 +78,11 @@ public class OccurrenceResource
   }
 
   @GET
-  @Path("project/{project_id}/note/{note_id}/occurrence/{occurrence_id}")
+  @Path("project/{project_id}/occurrence/{occurrence_id}")
   @UnitOfWork
-  public View get(@PathParam("project_id") final String projectId,
-                  @PathParam("note_id") final String noteId,
-                  @PathParam("occurrence_id") final String occurrenceId)
+  public View projectOccurrences(@PathParam("project_id") final String projectId,
+                                 @PathParam("occurrence_id") final String occurrenceId)
   {
-    // FIXME: how does note relate to model here?
-
     return new OccurrenceView(occurrenceEntityDao.read(projectId, occurrenceId));
   }
 }

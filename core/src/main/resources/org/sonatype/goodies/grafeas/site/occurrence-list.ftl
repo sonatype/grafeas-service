@@ -44,7 +44,7 @@
             <#assign data=occurrence.data/>
             <tr>
               <td>
-                <a href="${basePath}/project/${project.projectId}/note/${note.noteId}/occurrence/${occurrence.occurrenceId}">
+                <a href="${basePath}/project/${project.projectId}/occurrence/${occurrence.occurrenceId}">
                   <i class="fas fa-location-arrow"></i> ${occurrence.occurrenceName}</a>
               </td>
             </tr>
