@@ -24,7 +24,7 @@ import org.junit.ClassRule
 import org.junit.Test
 
 import static org.junit.Assert.fail
-import static org.sonatype.goodies.grafeas.testsuite.ResponseAssert.assertStatus
+import static org.sonatype.goodies.dropwizard.testsupport.ResponseAssert.assertStatus
 
 /**
  * {@link ProjectsEndpoint} tests.

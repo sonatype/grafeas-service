@@ -12,38 +12,23 @@
  */
 package org.sonatype.goodies.grafeas.testsuite.v1alpha1
 
-import org.sonatype.goodies.dropwizard.client.endpoint.EndpointFactory
 import org.sonatype.goodies.grafeas.GrafeasApplication
 import org.sonatype.goodies.grafeas.GrafeasConfiguration
 
-import groovy.transform.Memoized
 import io.dropwizard.testing.ConfigOverride
-import io.dropwizard.testing.junit.DropwizardAppRule
 
 /**
  * Support rule for endpoint tests.
  */
 class EndpointSupportRule
-    extends DropwizardAppRule<GrafeasConfiguration>
+    extends org.sonatype.goodies.dropwizard.testsupport.EndpointSupportRule<GrafeasApplication, GrafeasConfiguration>
 {
   EndpointSupportRule(final String configPath, final ConfigOverride... configOverrides) {
     super(GrafeasApplication.class, configPath, configOverrides)
   }
 
-  @Memoized
-  URI getBaseUrl() {
-    // trailing "/" is important
-    return URI.create("http://localhost:${localPort}/")
-  }
-
-  @Memoized
-  URI getAdminUrl() {
-    // trailing "/" is important
-    return URI.create("http://localhost:${adminPort}/")
-  }
-
-  def <T> T endpoint(final Class<T> type) {
-    def target = client().target(baseUrl).path('api')
-    return EndpointFactory.create(type, target)
+  @Override
+  def <E> E endpoint(final Class<E> type) {
+    return super.endpoint(type, "api")
   }
 }
