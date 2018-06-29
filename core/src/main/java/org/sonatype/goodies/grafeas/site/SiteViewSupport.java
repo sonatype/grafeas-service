@@ -17,8 +17,8 @@ import javax.inject.Inject;
 
 import org.sonatype.goodies.dropwizard.ApplicationVersion;
 import org.sonatype.goodies.dropwizard.util.Version;
-import org.sonatype.goodies.dropwizard.view.ViewNotification;
-import org.sonatype.goodies.dropwizard.view.ViewSupport;
+import org.sonatype.goodies.dropwizard.views.ViewNotification;
+import org.sonatype.goodies.dropwizard.views.ViewSupport;
 import org.sonatype.goodies.grafeas.GrafeasConfiguration;
 
 /**
