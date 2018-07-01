@@ -106,6 +106,24 @@
               </target>
             </configuration>
           </execution>
+
+          <execution>
+            <id>post-assembly</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <target>
+                <!-- adjust permissions of scripts for simple development launching from cli -->
+                <chmod perm="u+x">
+                  <fileset dir="${project.build.directory}/assembly/bin">
+                    <include name="*.sh"/>
+                  </fileset>
+                </chmod>
+              </target>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
 
