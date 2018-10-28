@@ -27,7 +27,7 @@ import org.sonatype.goodies.dropwizard.jaxrs.ResourceSupport;
 import io.dropwizard.views.View;
 
 /**
- * ???
+ * Site resource.
  *
  * @since ???
  */
@@ -52,7 +52,6 @@ public class SiteResource
     return new SiteViewSupport(template);
   }
 
-
   @GET
   public View welcome() {
     return new SiteViewSupport("welcome.ftl");
@@ -65,5 +64,29 @@ public class SiteResource
   @Path("index.html")
   public View index() {
     return welcome();
+  }
+
+  @GET
+  @Path("about")
+  public View about() {
+    return view("about.ftl");
+  }
+
+  @GET
+  @Path("contact")
+  public View contact() {
+    return view("contact.ftl");
+  }
+
+  @GET
+  @Path("rest")
+  public View rest() {
+    return view("rest.ftl");
+  }
+
+  @GET
+  @Path("tos")
+  public View tos() {
+    return view("tos.ftl");
   }
 }

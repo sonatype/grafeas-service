@@ -15,23 +15,39 @@ package org.sonatype.goodies.grafeas;
 import java.util.Collections;
 import java.util.Map;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-import org.sonatype.goodies.dropwizard.swagger.SwaggerConfiguration;
+import org.sonatype.goodies.grafeas.internal.GrafeasSwaggerConfiguration;
+import org.sonatype.goodies.grafeas.internal.db.DatabaseConfiguration;
 import org.sonatype.goodies.grafeas.site.SiteConfiguration;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableMap;
 import io.dropwizard.Configuration;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
- * ???
+ * Grafeas configuration.
  *
  * @since ???
  */
 public class GrafeasConfiguration
     extends Configuration
 {
+  @Valid
+  @NonNull
+  @JsonProperty("database")
+  private DatabaseConfiguration databaseConfiguration = new DatabaseConfiguration();
+
+  public DatabaseConfiguration getDatabaseConfiguration() {
+    return databaseConfiguration;
+  }
+
+  public void setDatabaseConfiguration(final DatabaseConfiguration databaseConfiguration) {
+    this.databaseConfiguration = databaseConfiguration;
+  }
+
   // SEE https://freemarker.apache.org/docs/api/freemarker/template/Configuration.html#setSetting-java.lang.String-java.lang.String-
 
   @NotNull
@@ -51,6 +67,7 @@ public class GrafeasConfiguration
     this.viewRenderersConfiguration = builder.build();
   }
 
+  @Valid
   @NotNull
   @JsonProperty("site")
   private SiteConfiguration siteConfiguration = new SiteConfiguration();
@@ -65,13 +82,13 @@ public class GrafeasConfiguration
 
   @NotNull
   @JsonProperty("swagger")
-  private SwaggerConfiguration swaggerConfiguration = new SwaggerConfiguration();
+  private GrafeasSwaggerConfiguration swaggerConfiguration = new GrafeasSwaggerConfiguration();
 
-  public SwaggerConfiguration getSwaggerConfiguration() {
+  public GrafeasSwaggerConfiguration getSwaggerConfiguration() {
     return swaggerConfiguration;
   }
 
-  public void setSwaggerConfiguration(final SwaggerConfiguration swaggerConfiguration) {
+  public void setSwaggerConfiguration(final GrafeasSwaggerConfiguration swaggerConfiguration) {
     this.swaggerConfiguration = swaggerConfiguration;
   }
 }

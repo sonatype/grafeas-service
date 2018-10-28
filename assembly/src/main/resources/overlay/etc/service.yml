@@ -17,6 +17,35 @@ server:
         currentLogFilename: "${SERVICE_LOGDIR:-log}/request.log"
         archivedLogFilenamePattern: "${SERVICE_LOGDIR:-log}/request-%d.log.gz"
 
+logging:
+  level: INFO
+
+  loggers:
+    org.sonatype.goodies.grafeas: TRACE
+    org.apache.shiro.grafeas: DEBUG
+    org.apache.shiro.dropwizard: DEBUG
+    org.glassfish.jersey.logging.LoggingFeature: DEBUG
+    org.hibernate: WARN
+
+  appenders:
+    - type: console
+      threshold: ALL
+      logFormat: "%d{'yyyy-MM-dd HH:mm:ss,SSSZ'} %-5level [%thread] %X{user:-*SYSTEM} %logger - %msg%n"
+
+    - type: file
+      threshold: ALL
+      logFormat: "%d{'yyyy-MM-dd HH:mm:ss,SSSZ'} %-5level [%thread] %X{user:-*SYSTEM} %logger - %msg%n"
+      currentLogFilename: "${SERVICE_LOGDIR:-log}/service.log"
+      archivedLogFilenamePattern: "${SERVICE_LOGDIR:-log}/service-%d.log.gz"
+
+database:
+  migrate: yes
+  dataSource:
+    driverClass: org.h2.Driver
+    url: "jdbc:h2:${SERVICE_DBDIR:-./db}/grafeas;AUTO_SERVER=TRUE"
+    user: sa
+    password: ""
+
 viewRenderers:
   freemarker:
     strict_syntax: yes
@@ -24,3 +53,6 @@ viewRenderers:
     url_escaping_charset: UTF-8
 #    template_exception_handler: rethrow
     template_exception_handler: html_debug
+
+site:
+  resourceMode: DEV

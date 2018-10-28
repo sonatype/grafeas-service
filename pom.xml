@@ -57,6 +57,32 @@
     <url>https://jenkins.zion.aws.s/job/goodies/job/grafeas-service</url>
   </ciManagement>
 
+  <repositories>
+    <repository>
+      <id>sonatype-public</id>
+      <url>https://repository.sonatype.org/content/groups/sonatype-public-grid/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+
+  <pluginRepositories>
+    <pluginRepository>
+      <id>sonatype-public</id>
+      <url>https://repository.sonatype.org/content/groups/sonatype-public-grid/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </pluginRepository>
+  </pluginRepositories>
+
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
@@ -93,6 +119,12 @@
         </plugin>
 
         <plugin>
+          <groupId>ro.isdc.wro4j</groupId>
+          <artifactId>wro4j-maven-plugin</artifactId>
+          <version>1.8.0</version>
+        </plugin>
+
+        <plugin>
           <groupId>com.mycila</groupId>
           <artifactId>license-maven-plugin</artifactId>
           <configuration>
@@ -103,6 +135,8 @@
               <exclude>*.sh</exclude>
               <exclude>*.cmd</exclude>
               <exclude>references/**</exclude>
+              <exclude>api/src/main/resources/io/grafeas/grafeas.swagger.json</exclude>
+              <exclude>api/src/main/java/javax/ws/rs/PATCH.java</exclude>
             </excludes>
           </configuration>
         </plugin>

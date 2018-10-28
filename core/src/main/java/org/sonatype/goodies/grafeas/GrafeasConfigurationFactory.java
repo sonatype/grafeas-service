@@ -17,8 +17,6 @@ import java.io.IOException;
 import javax.annotation.Nullable;
 import javax.validation.Validator;
 
-import org.sonatype.goodies.dropwizard.swagger.SwaggerConfiguration;
-
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,7 +27,7 @@ import io.dropwizard.configuration.YamlConfigurationFactory;
 import io.dropwizard.jackson.LogbackModule;
 
 /**
- * ???
+ * {@link GrafeasConfiguration} factory.
  *
  * @since ???
  */
@@ -54,11 +52,7 @@ public class GrafeasConfigurationFactory
   }
 
   private void customize(final GrafeasConfiguration config) {
-    // customize swagger configuration
-    SwaggerConfiguration swagger = config.getSwaggerConfiguration();
-    swagger.setTitle("Sonatype Grafeas REST API");
-    swagger.setVersion("v1alpha");
-    swagger.setDescription("RESTful Application Programming Interface");
+    // TODO: remove if nothing is needed here
   }
 
   public static class Factory

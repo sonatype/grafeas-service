@@ -28,3 +28,4 @@ def mkdir = { name ->
 
 mkdir 'tmp'
 mkdir 'log'
+mkdir 'db'

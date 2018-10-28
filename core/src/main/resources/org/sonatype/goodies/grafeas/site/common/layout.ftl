@@ -77,7 +77,7 @@ Generate script references to include at bottom of page for faster loading.
 </#macro>
 
 <#macro navlink name title href>
-    <a class="nav-link <#if (navbar_selected?? && navbar_selected==name)>active</#if>" href="${href}">${title}</a>
+  <a class="nav-link <#if (navbar_selected?? && navbar_selected==name)>active</#if>" href="${href}">${title}</a>
 </#macro>
 
 <#--
@@ -96,12 +96,11 @@ Generate common page header and navigation.
             <span class="navbar-toggler-icon"></span>
           </button>
 
-          <#--<div class="collapse navbar-collapse" id="navbar-toggle">-->
-            <#--<ul class="navbar-nav mr-auto">-->
-              <#--<li class="nav-item"><@navlink "search", "Search", "${basePath}/search"/></li>-->
-              <#--<li class="nav-item"><@navlink "docs", "Documentation", "${basePath}/docs"/></li>-->
-            <#--</ul>-->
-          <#--</div>-->
+          <div class="collapse navbar-collapse" id="navbar-toggle">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item"><@navlink "projects", "Projects", "${basePath}/projects"/></li>
+            </ul>
+          </div>
         </div>
       </nav>
     </header>
@@ -158,6 +157,11 @@ Generate common page footer.
           <@footer_section "Resources">
             <@footer_reference "${basePath}/rest", "REST"/>
             <@footer_reference "${basePath}/contact", "Contact"/>
+          </@footer_section>
+
+          <@footer_section "Legal">
+            <@footer_reference "${basePath}/tos", "Terms of Service"/>
+            <@footer_reference "${sonatype_privacy_policy_url}", "Privacy Policy", true/>
           </@footer_section>
         </div>
       </div>

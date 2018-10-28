@@ -28,6 +28,12 @@ if [ ! -d "$logdir" ]; then
 fi
 export SERVICE_LOGDIR="$logdir"
 
+dbdir=../db
+if [ ! -d "$dbdir" ]; then
+  mkdir -p "$dbdir"
+fi
+export SERVICE_DBDIR="$dbdir"
+
 #export SERVICE_LOG_LEVEL=DEBUG
 export SERVICE_LOG_CONSOLE_THRESHOLD=DEBUG
 
@@ -36,4 +42,4 @@ exec java \
   -Djava.awt.headless=true \
   -Djava.net.preferIPv4Stack=true \
   -jar ../lib/service.jar \
-  server ../etc/service.yml
+  "$@"

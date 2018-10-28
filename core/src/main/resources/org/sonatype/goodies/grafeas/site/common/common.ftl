@@ -14,6 +14,8 @@
 -->
 <#-- @ftlvariable name="" type="org.sonatype.goodies.grafeas.site.SiteViewSupport" -->
 <#compress>
+  <#assign sonatype_privacy_policy_url="https://www.sonatype.com/privacy-policy"/>
+
   <#include "util.ftl"/>
   <#include "layout.ftl"/>
   <#include "content.ftl"/>

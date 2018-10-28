@@ -37,6 +37,18 @@
         <version>1-SNAPSHOT</version>
       </dependency>
 
+      <dependency>
+        <groupId>com.h2database</groupId>
+        <artifactId>h2</artifactId>
+        <version>1.4.196</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.sonatype.goodies</groupId>
+        <artifactId>package-url-java</artifactId>
+        <version>1-SNAPSHOT</version>
+      </dependency>
+
       <!-- INTERNAL -->
 
       <dependency>
